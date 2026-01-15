@@ -14,7 +14,11 @@ export class FinancialController {
   }
 
   @Get('list-painels')
-  async listPainels() {}
+  async listPainels() {
+    const result = await this.financialService.listPainels();
+
+    return result;
+  }
 
   @Patch('update-painel')
   async updatePainel() {}

@@ -3,7 +3,7 @@ import { IsString, IsNumber, IsNotEmpty } from 'class-validator';
 export class PainelsDTO {
   @IsString()
   @IsNotEmpty()
-  user_id: string;
+  user_id: number;
 
   @IsString()
   @IsNotEmpty()
@@ -11,5 +11,5 @@ export class PainelsDTO {
 
   @IsNumber()
   @IsNotEmpty()
-  value: number;
+  initial_value: number;
 }

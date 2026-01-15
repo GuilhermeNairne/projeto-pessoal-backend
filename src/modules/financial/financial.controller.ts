@@ -1,6 +1,14 @@
 import { PainelsDTO } from './dtos/painels.dto';
 import { FinancialService } from './financial.service';
-import { Body, Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 
 @Controller('financial')
 export class FinancialController {
@@ -20,11 +28,22 @@ export class FinancialController {
     return result;
   }
 
-  @Patch('update-painel')
-  async updatePainel() {}
+  @Patch('update-painel/:id')
+  async updatePainel(
+    @Param('id') id: number,
+    @Body() body: Partial<PainelsDTO>,
+  ) {
+    const result = await this.financialService.updatePainel(id, body);
 
-  @Delete('delete-painel')
-  async deletePainel() {}
+    return result;
+  }
+
+  @Delete('delete-painel/:id')
+  async deletePainel(@Param('id') id: number) {
+    const result = await this.financialService.deletePainel(id);
+
+    return result;
+  }
 
   @Post('register-movement')
   async registerMovement() {}

@@ -20,7 +20,7 @@ export class FinancialService {
     }
   }
 
-  async listPainels() {
+  async listPanels() {
     try {
       const result = await this.prisma.painels.findMany();
       return result;

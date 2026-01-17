@@ -21,9 +21,9 @@ export class FinancialController {
     return result;
   }
 
-  @Get('list-painels')
-  async listPainels() {
-    const result = await this.financialService.listPainels();
+  @Get('list-panels')
+  async listPanels() {
+    const result = await this.financialService.listPanels();
 
     return result;
   }

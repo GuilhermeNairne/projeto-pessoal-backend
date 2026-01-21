@@ -253,7 +253,7 @@ export type movementsWhereInput = {
   date?: Prisma.DateTimeFilter<"movements"> | Date | string
   created_at?: Prisma.DateTimeNullableFilter<"movements"> | Date | string | null
   categories?: Prisma.XOR<Prisma.CategoriesNullableScalarRelationFilter, Prisma.categoriesWhereInput> | null
-  painels?: Prisma.XOR<Prisma.PainelsScalarRelationFilter, Prisma.painelsWhereInput>
+  painels?: Prisma.XOR<Prisma.PanelsScalarRelationFilter, Prisma.panelsWhereInput>
 }
 
 export type movementsOrderByWithRelationInput = {
@@ -266,7 +266,7 @@ export type movementsOrderByWithRelationInput = {
   date?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   categories?: Prisma.categoriesOrderByWithRelationInput
-  painels?: Prisma.painelsOrderByWithRelationInput
+  painels?: Prisma.panelsOrderByWithRelationInput
 }
 
 export type movementsWhereUniqueInput = Prisma.AtLeast<{
@@ -282,7 +282,7 @@ export type movementsWhereUniqueInput = Prisma.AtLeast<{
   date?: Prisma.DateTimeFilter<"movements"> | Date | string
   created_at?: Prisma.DateTimeNullableFilter<"movements"> | Date | string | null
   categories?: Prisma.XOR<Prisma.CategoriesNullableScalarRelationFilter, Prisma.categoriesWhereInput> | null
-  painels?: Prisma.XOR<Prisma.PainelsScalarRelationFilter, Prisma.painelsWhereInput>
+  painels?: Prisma.XOR<Prisma.PanelsScalarRelationFilter, Prisma.panelsWhereInput>
 }, "id">
 
 export type movementsOrderByWithAggregationInput = {
@@ -322,7 +322,7 @@ export type movementsCreateInput = {
   date?: Date | string
   created_at?: Date | string | null
   categories?: Prisma.categoriesCreateNestedOneWithoutMovementsInput
-  painels: Prisma.painelsCreateNestedOneWithoutMovementsInput
+  painels: Prisma.panelsCreateNestedOneWithoutMovementsInput
 }
 
 export type movementsUncheckedCreateInput = {
@@ -343,7 +343,7 @@ export type movementsUpdateInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   categories?: Prisma.categoriesUpdateOneWithoutMovementsNestedInput
-  painels?: Prisma.painelsUpdateOneRequiredWithoutMovementsNestedInput
+  painels?: Prisma.panelsUpdateOneRequiredWithoutMovementsNestedInput
 }
 
 export type movementsUncheckedUpdateInput = {
@@ -554,7 +554,7 @@ export type movementsCreateWithoutCategoriesInput = {
   movement_type: string
   date?: Date | string
   created_at?: Date | string | null
-  painels: Prisma.painelsCreateNestedOneWithoutMovementsInput
+  painels: Prisma.panelsCreateNestedOneWithoutMovementsInput
 }
 
 export type movementsUncheckedCreateWithoutCategoriesInput = {
@@ -668,7 +668,7 @@ export type movementsUpdateWithoutCategoriesInput = {
   movement_type?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  painels?: Prisma.painelsUpdateOneRequiredWithoutMovementsNestedInput
+  painels?: Prisma.panelsUpdateOneRequiredWithoutMovementsNestedInput
 }
 
 export type movementsUncheckedUpdateWithoutCategoriesInput = {
@@ -742,7 +742,7 @@ export type movementsSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   date?: boolean
   created_at?: boolean
   categories?: boolean | Prisma.movements$categoriesArgs<ExtArgs>
-  painels?: boolean | Prisma.painelsDefaultArgs<ExtArgs>
+  painels?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["movements"]>
 
 export type movementsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -755,7 +755,7 @@ export type movementsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   date?: boolean
   created_at?: boolean
   categories?: boolean | Prisma.movements$categoriesArgs<ExtArgs>
-  painels?: boolean | Prisma.painelsDefaultArgs<ExtArgs>
+  painels?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["movements"]>
 
 export type movementsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -768,7 +768,7 @@ export type movementsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   date?: boolean
   created_at?: boolean
   categories?: boolean | Prisma.movements$categoriesArgs<ExtArgs>
-  painels?: boolean | Prisma.painelsDefaultArgs<ExtArgs>
+  painels?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["movements"]>
 
 export type movementsSelectScalar = {
@@ -785,22 +785,22 @@ export type movementsSelectScalar = {
 export type movementsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "painel_id" | "category_id" | "name" | "value" | "movement_type" | "date" | "created_at", ExtArgs["result"]["movements"]>
 export type movementsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categories?: boolean | Prisma.movements$categoriesArgs<ExtArgs>
-  painels?: boolean | Prisma.painelsDefaultArgs<ExtArgs>
+  painels?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
 }
 export type movementsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categories?: boolean | Prisma.movements$categoriesArgs<ExtArgs>
-  painels?: boolean | Prisma.painelsDefaultArgs<ExtArgs>
+  painels?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
 }
 export type movementsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categories?: boolean | Prisma.movements$categoriesArgs<ExtArgs>
-  painels?: boolean | Prisma.painelsDefaultArgs<ExtArgs>
+  painels?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
 }
 
 export type $movementsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "movements"
   objects: {
     categories: Prisma.$categoriesPayload<ExtArgs> | null
-    painels: Prisma.$painelsPayload<ExtArgs>
+    painels: Prisma.$panelsPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1206,7 +1206,7 @@ readonly fields: movementsFieldRefs;
 export interface Prisma__movementsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   categories<T extends Prisma.movements$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.movements$categoriesArgs<ExtArgs>>): Prisma.Prisma__categoriesClient<runtime.Types.Result.GetResult<Prisma.$categoriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  painels<T extends Prisma.painelsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.painelsDefaultArgs<ExtArgs>>): Prisma.Prisma__painelsClient<runtime.Types.Result.GetResult<Prisma.$painelsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  painels<T extends Prisma.panelsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.panelsDefaultArgs<ExtArgs>>): Prisma.Prisma__panelsClient<runtime.Types.Result.GetResult<Prisma.$panelsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

@@ -18,6 +18,7 @@ export class UserInfoService {
       return {
         name: attrs.name,
         picture: attrs.picture,
+        userId: attrs.sub,
       };
     } catch (error) {
       console.log(error);

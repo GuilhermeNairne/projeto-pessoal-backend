@@ -386,7 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   categories: 'categories',
   movements: 'movements',
-  painels: 'painels'
+  panels: 'panels'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -402,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "categories" | "movements" | "painels"
+    modelProps: "categories" | "movements" | "panels"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -554,77 +554,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    painels: {
-      payload: Prisma.$painelsPayload<ExtArgs>
-      fields: Prisma.painelsFieldRefs
+    panels: {
+      payload: Prisma.$panelsPayload<ExtArgs>
+      fields: Prisma.panelsFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.painelsFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$painelsPayload> | null
+          args: Prisma.panelsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$panelsPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.painelsFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$painelsPayload>
+          args: Prisma.panelsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$panelsPayload>
         }
         findFirst: {
-          args: Prisma.painelsFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$painelsPayload> | null
+          args: Prisma.panelsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$panelsPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.painelsFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$painelsPayload>
+          args: Prisma.panelsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$panelsPayload>
         }
         findMany: {
-          args: Prisma.painelsFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$painelsPayload>[]
+          args: Prisma.panelsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$panelsPayload>[]
         }
         create: {
-          args: Prisma.painelsCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$painelsPayload>
+          args: Prisma.panelsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$panelsPayload>
         }
         createMany: {
-          args: Prisma.painelsCreateManyArgs<ExtArgs>
+          args: Prisma.panelsCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.painelsCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$painelsPayload>[]
+          args: Prisma.panelsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$panelsPayload>[]
         }
         delete: {
-          args: Prisma.painelsDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$painelsPayload>
+          args: Prisma.panelsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$panelsPayload>
         }
         update: {
-          args: Prisma.painelsUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$painelsPayload>
+          args: Prisma.panelsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$panelsPayload>
         }
         deleteMany: {
-          args: Prisma.painelsDeleteManyArgs<ExtArgs>
+          args: Prisma.panelsDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.painelsUpdateManyArgs<ExtArgs>
+          args: Prisma.panelsUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.painelsUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$painelsPayload>[]
+          args: Prisma.panelsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$panelsPayload>[]
         }
         upsert: {
-          args: Prisma.painelsUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$painelsPayload>
+          args: Prisma.panelsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$panelsPayload>
         }
         aggregate: {
-          args: Prisma.PainelsAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregatePainels>
+          args: Prisma.PanelsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePanels>
         }
         groupBy: {
-          args: Prisma.painelsGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PainelsGroupByOutputType>[]
+          args: Prisma.panelsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PanelsGroupByOutputType>[]
         }
         count: {
-          args: Prisma.painelsCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PainelsCountAggregateOutputType> | number
+          args: Prisma.panelsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PanelsCountAggregateOutputType> | number
         }
       }
     }
@@ -692,7 +692,7 @@ export const MovementsScalarFieldEnum = {
 export type MovementsScalarFieldEnum = (typeof MovementsScalarFieldEnum)[keyof typeof MovementsScalarFieldEnum]
 
 
-export const PainelsScalarFieldEnum = {
+export const PanelsScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
   name: 'name',
@@ -700,7 +700,7 @@ export const PainelsScalarFieldEnum = {
   created_at: 'created_at'
 } as const
 
-export type PainelsScalarFieldEnum = (typeof PainelsScalarFieldEnum)[keyof typeof PainelsScalarFieldEnum]
+export type PanelsScalarFieldEnum = (typeof PanelsScalarFieldEnum)[keyof typeof PanelsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -899,7 +899,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   categories?: Prisma.categoriesOmit
   movements?: Prisma.movementsOmit
-  painels?: Prisma.painelsOmit
+  panels?: Prisma.panelsOmit
 }
 
 /* Types for Logging */

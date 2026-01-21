@@ -10,5 +10,5 @@
  */
 export type * from './models/categories.js'
 export type * from './models/movements.js'
-export type * from './models/painels.js'
+export type * from './models/panels.js'
 export type * from './commonInputTypes.js'

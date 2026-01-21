@@ -28,7 +28,7 @@ export type categories = Prisma.categoriesModel
  */
 export type movements = Prisma.movementsModel
 /**
- * Model painels
+ * Model panels
  * 
  */
-export type painels = Prisma.painelsModel
+export type panels = Prisma.panelsModel

@@ -1,14 +1,14 @@
-import { PainelsDTO } from './dtos/painels.dto';
+import { PanelDTO } from './panel.dto';
 import { HttpException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 
 @Injectable()
-export class FinancialService {
+export class PanelService {
   constructor(private prisma: PrismaService) {}
 
-  async createPainel(body: PainelsDTO) {
+  async createPanel(body: PanelDTO) {
     try {
-      const result = await this.prisma.painels.create({ data: body });
+      const result = await this.prisma.panels.create({ data: body });
 
       return result;
     } catch (error) {
@@ -22,7 +22,7 @@ export class FinancialService {
 
   async listPanels() {
     try {
-      const result = await this.prisma.painels.findMany();
+      const result = await this.prisma.panels.findMany();
       return result;
     } catch (error) {
       console.log(error);
@@ -33,9 +33,9 @@ export class FinancialService {
     }
   }
 
-  async updatePainel(id: number, body: Partial<PainelsDTO>) {
+  async updatePanel(id: number, body: Partial<PanelDTO>) {
     try {
-      const result = await this.prisma.painels.update({
+      const result = await this.prisma.panels.update({
         where: { id: Number(id) },
         data: body,
       });
@@ -50,9 +50,9 @@ export class FinancialService {
     }
   }
 
-  async deletePainel(id: number) {
+  async deletePanel(id: number) {
     try {
-      const result = await this.prisma.painels.delete({
+      const result = await this.prisma.panels.delete({
         where: { id: Number(id) },
       });
 

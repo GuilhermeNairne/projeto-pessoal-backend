@@ -1,9 +1,9 @@
 import { IsString, IsNumber, IsNotEmpty } from 'class-validator';
 
-export class PainelsDTO {
+export class PanelDTO {
   @IsString()
   @IsNotEmpty()
-  user_id: number;
+  user_id: string;
 
   @IsString()
   @IsNotEmpty()

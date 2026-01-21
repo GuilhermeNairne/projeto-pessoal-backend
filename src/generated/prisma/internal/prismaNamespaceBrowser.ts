@@ -53,7 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   categories: 'categories',
   movements: 'movements',
-  painels: 'painels'
+  panels: 'panels'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -97,7 +97,7 @@ export const MovementsScalarFieldEnum = {
 export type MovementsScalarFieldEnum = (typeof MovementsScalarFieldEnum)[keyof typeof MovementsScalarFieldEnum]
 
 
-export const PainelsScalarFieldEnum = {
+export const PanelsScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
   name: 'name',
@@ -105,7 +105,7 @@ export const PainelsScalarFieldEnum = {
   created_at: 'created_at'
 } as const
 
-export type PainelsScalarFieldEnum = (typeof PainelsScalarFieldEnum)[keyof typeof PainelsScalarFieldEnum]
+export type PanelsScalarFieldEnum = (typeof PanelsScalarFieldEnum)[keyof typeof PanelsScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -1,7 +1,13 @@
-import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CategoryDTO {
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
   panel_id: number;
 

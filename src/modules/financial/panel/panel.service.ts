@@ -22,14 +22,43 @@ export class PanelService {
 
   async listPanels(user_id: string) {
     try {
-      const result = await this.prisma.panels.findMany({
+      const panels = await this.prisma.panels.findMany({
         where: {
           user_id,
         },
         include: {
-          categories: true,
+          categories: {
+            include: {
+              movements: {
+                where: {
+                  movement_type: 'expense',
+                },
+                select: {
+                  value: true,
+                },
+              },
+            },
+          },
+          movements: true,
         },
       });
+
+      const result = panels.map((panel) => ({
+        ...panel,
+        categories: panel.categories.map((category) => {
+          const totalSpent = category.movements.reduce(
+            (acc, mov) => acc + Number(mov.value),
+            0,
+          );
+
+          return {
+            ...category,
+            totalSpent,
+            movements: undefined,
+          };
+        }),
+      }));
+
       return result;
     } catch (error) {
       console.log(error);

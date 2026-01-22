@@ -276,7 +276,7 @@ export type panelsCreateInput = {
   name: string
   initial_value?: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string | null
-  categories?: Prisma.categoriesCreateNestedManyWithoutPainelsInput
+  categories?: Prisma.categoriesCreateNestedManyWithoutPanelInput
   movements?: Prisma.movementsCreateNestedManyWithoutPainelsInput
 }
 
@@ -286,7 +286,7 @@ export type panelsUncheckedCreateInput = {
   name: string
   initial_value?: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string | null
-  categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutPainelsInput
+  categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutPanelInput
   movements?: Prisma.movementsUncheckedCreateNestedManyWithoutPainelsInput
 }
 
@@ -295,7 +295,7 @@ export type panelsUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   initial_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  categories?: Prisma.categoriesUpdateManyWithoutPainelsNestedInput
+  categories?: Prisma.categoriesUpdateManyWithoutPanelNestedInput
   movements?: Prisma.movementsUpdateManyWithoutPainelsNestedInput
 }
 
@@ -305,7 +305,7 @@ export type panelsUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   initial_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  categories?: Prisma.categoriesUncheckedUpdateManyWithoutPainelsNestedInput
+  categories?: Prisma.categoriesUncheckedUpdateManyWithoutPanelNestedInput
   movements?: Prisma.movementsUncheckedUpdateManyWithoutPainelsNestedInput
 }
 
@@ -458,7 +458,7 @@ export type panelsCreateWithoutMovementsInput = {
   name: string
   initial_value?: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string | null
-  categories?: Prisma.categoriesCreateNestedManyWithoutPainelsInput
+  categories?: Prisma.categoriesCreateNestedManyWithoutPanelInput
 }
 
 export type panelsUncheckedCreateWithoutMovementsInput = {
@@ -467,7 +467,7 @@ export type panelsUncheckedCreateWithoutMovementsInput = {
   name: string
   initial_value?: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string | null
-  categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutPainelsInput
+  categories?: Prisma.categoriesUncheckedCreateNestedManyWithoutPanelInput
 }
 
 export type panelsCreateOrConnectWithoutMovementsInput = {
@@ -491,7 +491,7 @@ export type panelsUpdateWithoutMovementsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   initial_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  categories?: Prisma.categoriesUpdateManyWithoutPainelsNestedInput
+  categories?: Prisma.categoriesUpdateManyWithoutPanelNestedInput
 }
 
 export type panelsUncheckedUpdateWithoutMovementsInput = {
@@ -500,7 +500,7 @@ export type panelsUncheckedUpdateWithoutMovementsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   initial_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  categories?: Prisma.categoriesUncheckedUpdateManyWithoutPainelsNestedInput
+  categories?: Prisma.categoriesUncheckedUpdateManyWithoutPanelNestedInput
 }
 
 

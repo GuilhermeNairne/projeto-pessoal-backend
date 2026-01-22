@@ -21,9 +21,9 @@ export class PanelFinancialController {
     return result;
   }
 
-  @Get('list')
-  async listPanels() {
-    const result = await this.panelService.listPanels();
+  @Get('list/:user_id')
+  async listPanels(@Param('user_id') user_id: string) {
+    const result = await this.panelService.listPanels(user_id);
 
     return result;
   }

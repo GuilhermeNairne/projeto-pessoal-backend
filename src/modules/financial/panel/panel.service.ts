@@ -20,9 +20,16 @@ export class PanelService {
     }
   }
 
-  async listPanels() {
+  async listPanels(user_id: string) {
     try {
-      const result = await this.prisma.panels.findMany();
+      const result = await this.prisma.panels.findMany({
+        where: {
+          user_id,
+        },
+        include: {
+          categories: true,
+        },
+      });
       return result;
     } catch (error) {
       console.log(error);

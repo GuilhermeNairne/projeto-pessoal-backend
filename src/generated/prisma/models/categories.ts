@@ -220,7 +220,7 @@ export type categoriesWhereInput = {
   name?: Prisma.StringFilter<"categories"> | string
   color?: Prisma.StringFilter<"categories"> | string
   created_at?: Prisma.DateTimeNullableFilter<"categories"> | Date | string | null
-  painels?: Prisma.XOR<Prisma.PanelsScalarRelationFilter, Prisma.panelsWhereInput>
+  panel?: Prisma.XOR<Prisma.PanelsScalarRelationFilter, Prisma.panelsWhereInput>
   movements?: Prisma.MovementsListRelationFilter
 }
 
@@ -230,7 +230,7 @@ export type categoriesOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   color?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  painels?: Prisma.panelsOrderByWithRelationInput
+  panel?: Prisma.panelsOrderByWithRelationInput
   movements?: Prisma.movementsOrderByRelationAggregateInput
 }
 
@@ -243,7 +243,7 @@ export type categoriesWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"categories"> | string
   color?: Prisma.StringFilter<"categories"> | string
   created_at?: Prisma.DateTimeNullableFilter<"categories"> | Date | string | null
-  painels?: Prisma.XOR<Prisma.PanelsScalarRelationFilter, Prisma.panelsWhereInput>
+  panel?: Prisma.XOR<Prisma.PanelsScalarRelationFilter, Prisma.panelsWhereInput>
   movements?: Prisma.MovementsListRelationFilter
 }, "id">
 
@@ -275,7 +275,7 @@ export type categoriesCreateInput = {
   name: string
   color: string
   created_at?: Date | string | null
-  painels: Prisma.panelsCreateNestedOneWithoutCategoriesInput
+  panel: Prisma.panelsCreateNestedOneWithoutCategoriesInput
   movements?: Prisma.movementsCreateNestedManyWithoutCategoriesInput
 }
 
@@ -292,7 +292,7 @@ export type categoriesUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   color?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  painels?: Prisma.panelsUpdateOneRequiredWithoutCategoriesNestedInput
+  panel?: Prisma.panelsUpdateOneRequiredWithoutCategoriesNestedInput
   movements?: Prisma.movementsUpdateManyWithoutCategoriesNestedInput
 }
 
@@ -408,45 +408,45 @@ export type categoriesUpdateOneWithoutMovementsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.categoriesUpdateToOneWithWhereWithoutMovementsInput, Prisma.categoriesUpdateWithoutMovementsInput>, Prisma.categoriesUncheckedUpdateWithoutMovementsInput>
 }
 
-export type categoriesCreateNestedManyWithoutPainelsInput = {
-  create?: Prisma.XOR<Prisma.categoriesCreateWithoutPainelsInput, Prisma.categoriesUncheckedCreateWithoutPainelsInput> | Prisma.categoriesCreateWithoutPainelsInput[] | Prisma.categoriesUncheckedCreateWithoutPainelsInput[]
-  connectOrCreate?: Prisma.categoriesCreateOrConnectWithoutPainelsInput | Prisma.categoriesCreateOrConnectWithoutPainelsInput[]
-  createMany?: Prisma.categoriesCreateManyPainelsInputEnvelope
+export type categoriesCreateNestedManyWithoutPanelInput = {
+  create?: Prisma.XOR<Prisma.categoriesCreateWithoutPanelInput, Prisma.categoriesUncheckedCreateWithoutPanelInput> | Prisma.categoriesCreateWithoutPanelInput[] | Prisma.categoriesUncheckedCreateWithoutPanelInput[]
+  connectOrCreate?: Prisma.categoriesCreateOrConnectWithoutPanelInput | Prisma.categoriesCreateOrConnectWithoutPanelInput[]
+  createMany?: Prisma.categoriesCreateManyPanelInputEnvelope
   connect?: Prisma.categoriesWhereUniqueInput | Prisma.categoriesWhereUniqueInput[]
 }
 
-export type categoriesUncheckedCreateNestedManyWithoutPainelsInput = {
-  create?: Prisma.XOR<Prisma.categoriesCreateWithoutPainelsInput, Prisma.categoriesUncheckedCreateWithoutPainelsInput> | Prisma.categoriesCreateWithoutPainelsInput[] | Prisma.categoriesUncheckedCreateWithoutPainelsInput[]
-  connectOrCreate?: Prisma.categoriesCreateOrConnectWithoutPainelsInput | Prisma.categoriesCreateOrConnectWithoutPainelsInput[]
-  createMany?: Prisma.categoriesCreateManyPainelsInputEnvelope
+export type categoriesUncheckedCreateNestedManyWithoutPanelInput = {
+  create?: Prisma.XOR<Prisma.categoriesCreateWithoutPanelInput, Prisma.categoriesUncheckedCreateWithoutPanelInput> | Prisma.categoriesCreateWithoutPanelInput[] | Prisma.categoriesUncheckedCreateWithoutPanelInput[]
+  connectOrCreate?: Prisma.categoriesCreateOrConnectWithoutPanelInput | Prisma.categoriesCreateOrConnectWithoutPanelInput[]
+  createMany?: Prisma.categoriesCreateManyPanelInputEnvelope
   connect?: Prisma.categoriesWhereUniqueInput | Prisma.categoriesWhereUniqueInput[]
 }
 
-export type categoriesUpdateManyWithoutPainelsNestedInput = {
-  create?: Prisma.XOR<Prisma.categoriesCreateWithoutPainelsInput, Prisma.categoriesUncheckedCreateWithoutPainelsInput> | Prisma.categoriesCreateWithoutPainelsInput[] | Prisma.categoriesUncheckedCreateWithoutPainelsInput[]
-  connectOrCreate?: Prisma.categoriesCreateOrConnectWithoutPainelsInput | Prisma.categoriesCreateOrConnectWithoutPainelsInput[]
-  upsert?: Prisma.categoriesUpsertWithWhereUniqueWithoutPainelsInput | Prisma.categoriesUpsertWithWhereUniqueWithoutPainelsInput[]
-  createMany?: Prisma.categoriesCreateManyPainelsInputEnvelope
+export type categoriesUpdateManyWithoutPanelNestedInput = {
+  create?: Prisma.XOR<Prisma.categoriesCreateWithoutPanelInput, Prisma.categoriesUncheckedCreateWithoutPanelInput> | Prisma.categoriesCreateWithoutPanelInput[] | Prisma.categoriesUncheckedCreateWithoutPanelInput[]
+  connectOrCreate?: Prisma.categoriesCreateOrConnectWithoutPanelInput | Prisma.categoriesCreateOrConnectWithoutPanelInput[]
+  upsert?: Prisma.categoriesUpsertWithWhereUniqueWithoutPanelInput | Prisma.categoriesUpsertWithWhereUniqueWithoutPanelInput[]
+  createMany?: Prisma.categoriesCreateManyPanelInputEnvelope
   set?: Prisma.categoriesWhereUniqueInput | Prisma.categoriesWhereUniqueInput[]
   disconnect?: Prisma.categoriesWhereUniqueInput | Prisma.categoriesWhereUniqueInput[]
   delete?: Prisma.categoriesWhereUniqueInput | Prisma.categoriesWhereUniqueInput[]
   connect?: Prisma.categoriesWhereUniqueInput | Prisma.categoriesWhereUniqueInput[]
-  update?: Prisma.categoriesUpdateWithWhereUniqueWithoutPainelsInput | Prisma.categoriesUpdateWithWhereUniqueWithoutPainelsInput[]
-  updateMany?: Prisma.categoriesUpdateManyWithWhereWithoutPainelsInput | Prisma.categoriesUpdateManyWithWhereWithoutPainelsInput[]
+  update?: Prisma.categoriesUpdateWithWhereUniqueWithoutPanelInput | Prisma.categoriesUpdateWithWhereUniqueWithoutPanelInput[]
+  updateMany?: Prisma.categoriesUpdateManyWithWhereWithoutPanelInput | Prisma.categoriesUpdateManyWithWhereWithoutPanelInput[]
   deleteMany?: Prisma.categoriesScalarWhereInput | Prisma.categoriesScalarWhereInput[]
 }
 
-export type categoriesUncheckedUpdateManyWithoutPainelsNestedInput = {
-  create?: Prisma.XOR<Prisma.categoriesCreateWithoutPainelsInput, Prisma.categoriesUncheckedCreateWithoutPainelsInput> | Prisma.categoriesCreateWithoutPainelsInput[] | Prisma.categoriesUncheckedCreateWithoutPainelsInput[]
-  connectOrCreate?: Prisma.categoriesCreateOrConnectWithoutPainelsInput | Prisma.categoriesCreateOrConnectWithoutPainelsInput[]
-  upsert?: Prisma.categoriesUpsertWithWhereUniqueWithoutPainelsInput | Prisma.categoriesUpsertWithWhereUniqueWithoutPainelsInput[]
-  createMany?: Prisma.categoriesCreateManyPainelsInputEnvelope
+export type categoriesUncheckedUpdateManyWithoutPanelNestedInput = {
+  create?: Prisma.XOR<Prisma.categoriesCreateWithoutPanelInput, Prisma.categoriesUncheckedCreateWithoutPanelInput> | Prisma.categoriesCreateWithoutPanelInput[] | Prisma.categoriesUncheckedCreateWithoutPanelInput[]
+  connectOrCreate?: Prisma.categoriesCreateOrConnectWithoutPanelInput | Prisma.categoriesCreateOrConnectWithoutPanelInput[]
+  upsert?: Prisma.categoriesUpsertWithWhereUniqueWithoutPanelInput | Prisma.categoriesUpsertWithWhereUniqueWithoutPanelInput[]
+  createMany?: Prisma.categoriesCreateManyPanelInputEnvelope
   set?: Prisma.categoriesWhereUniqueInput | Prisma.categoriesWhereUniqueInput[]
   disconnect?: Prisma.categoriesWhereUniqueInput | Prisma.categoriesWhereUniqueInput[]
   delete?: Prisma.categoriesWhereUniqueInput | Prisma.categoriesWhereUniqueInput[]
   connect?: Prisma.categoriesWhereUniqueInput | Prisma.categoriesWhereUniqueInput[]
-  update?: Prisma.categoriesUpdateWithWhereUniqueWithoutPainelsInput | Prisma.categoriesUpdateWithWhereUniqueWithoutPainelsInput[]
-  updateMany?: Prisma.categoriesUpdateManyWithWhereWithoutPainelsInput | Prisma.categoriesUpdateManyWithWhereWithoutPainelsInput[]
+  update?: Prisma.categoriesUpdateWithWhereUniqueWithoutPanelInput | Prisma.categoriesUpdateWithWhereUniqueWithoutPanelInput[]
+  updateMany?: Prisma.categoriesUpdateManyWithWhereWithoutPanelInput | Prisma.categoriesUpdateManyWithWhereWithoutPanelInput[]
   deleteMany?: Prisma.categoriesScalarWhereInput | Prisma.categoriesScalarWhereInput[]
 }
 
@@ -454,7 +454,7 @@ export type categoriesCreateWithoutMovementsInput = {
   name: string
   color: string
   created_at?: Date | string | null
-  painels: Prisma.panelsCreateNestedOneWithoutCategoriesInput
+  panel: Prisma.panelsCreateNestedOneWithoutCategoriesInput
 }
 
 export type categoriesUncheckedCreateWithoutMovementsInput = {
@@ -485,7 +485,7 @@ export type categoriesUpdateWithoutMovementsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   color?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  painels?: Prisma.panelsUpdateOneRequiredWithoutCategoriesNestedInput
+  panel?: Prisma.panelsUpdateOneRequiredWithoutCategoriesNestedInput
 }
 
 export type categoriesUncheckedUpdateWithoutMovementsInput = {
@@ -496,14 +496,14 @@ export type categoriesUncheckedUpdateWithoutMovementsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type categoriesCreateWithoutPainelsInput = {
+export type categoriesCreateWithoutPanelInput = {
   name: string
   color: string
   created_at?: Date | string | null
   movements?: Prisma.movementsCreateNestedManyWithoutCategoriesInput
 }
 
-export type categoriesUncheckedCreateWithoutPainelsInput = {
+export type categoriesUncheckedCreateWithoutPanelInput = {
   id?: number
   name: string
   color: string
@@ -511,30 +511,30 @@ export type categoriesUncheckedCreateWithoutPainelsInput = {
   movements?: Prisma.movementsUncheckedCreateNestedManyWithoutCategoriesInput
 }
 
-export type categoriesCreateOrConnectWithoutPainelsInput = {
+export type categoriesCreateOrConnectWithoutPanelInput = {
   where: Prisma.categoriesWhereUniqueInput
-  create: Prisma.XOR<Prisma.categoriesCreateWithoutPainelsInput, Prisma.categoriesUncheckedCreateWithoutPainelsInput>
+  create: Prisma.XOR<Prisma.categoriesCreateWithoutPanelInput, Prisma.categoriesUncheckedCreateWithoutPanelInput>
 }
 
-export type categoriesCreateManyPainelsInputEnvelope = {
-  data: Prisma.categoriesCreateManyPainelsInput | Prisma.categoriesCreateManyPainelsInput[]
+export type categoriesCreateManyPanelInputEnvelope = {
+  data: Prisma.categoriesCreateManyPanelInput | Prisma.categoriesCreateManyPanelInput[]
   skipDuplicates?: boolean
 }
 
-export type categoriesUpsertWithWhereUniqueWithoutPainelsInput = {
+export type categoriesUpsertWithWhereUniqueWithoutPanelInput = {
   where: Prisma.categoriesWhereUniqueInput
-  update: Prisma.XOR<Prisma.categoriesUpdateWithoutPainelsInput, Prisma.categoriesUncheckedUpdateWithoutPainelsInput>
-  create: Prisma.XOR<Prisma.categoriesCreateWithoutPainelsInput, Prisma.categoriesUncheckedCreateWithoutPainelsInput>
+  update: Prisma.XOR<Prisma.categoriesUpdateWithoutPanelInput, Prisma.categoriesUncheckedUpdateWithoutPanelInput>
+  create: Prisma.XOR<Prisma.categoriesCreateWithoutPanelInput, Prisma.categoriesUncheckedCreateWithoutPanelInput>
 }
 
-export type categoriesUpdateWithWhereUniqueWithoutPainelsInput = {
+export type categoriesUpdateWithWhereUniqueWithoutPanelInput = {
   where: Prisma.categoriesWhereUniqueInput
-  data: Prisma.XOR<Prisma.categoriesUpdateWithoutPainelsInput, Prisma.categoriesUncheckedUpdateWithoutPainelsInput>
+  data: Prisma.XOR<Prisma.categoriesUpdateWithoutPanelInput, Prisma.categoriesUncheckedUpdateWithoutPanelInput>
 }
 
-export type categoriesUpdateManyWithWhereWithoutPainelsInput = {
+export type categoriesUpdateManyWithWhereWithoutPanelInput = {
   where: Prisma.categoriesScalarWhereInput
-  data: Prisma.XOR<Prisma.categoriesUpdateManyMutationInput, Prisma.categoriesUncheckedUpdateManyWithoutPainelsInput>
+  data: Prisma.XOR<Prisma.categoriesUpdateManyMutationInput, Prisma.categoriesUncheckedUpdateManyWithoutPanelInput>
 }
 
 export type categoriesScalarWhereInput = {
@@ -548,21 +548,21 @@ export type categoriesScalarWhereInput = {
   created_at?: Prisma.DateTimeNullableFilter<"categories"> | Date | string | null
 }
 
-export type categoriesCreateManyPainelsInput = {
+export type categoriesCreateManyPanelInput = {
   id?: number
   name: string
   color: string
   created_at?: Date | string | null
 }
 
-export type categoriesUpdateWithoutPainelsInput = {
+export type categoriesUpdateWithoutPanelInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   color?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   movements?: Prisma.movementsUpdateManyWithoutCategoriesNestedInput
 }
 
-export type categoriesUncheckedUpdateWithoutPainelsInput = {
+export type categoriesUncheckedUpdateWithoutPanelInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   color?: Prisma.StringFieldUpdateOperationsInput | string
@@ -570,7 +570,7 @@ export type categoriesUncheckedUpdateWithoutPainelsInput = {
   movements?: Prisma.movementsUncheckedUpdateManyWithoutCategoriesNestedInput
 }
 
-export type categoriesUncheckedUpdateManyWithoutPainelsInput = {
+export type categoriesUncheckedUpdateManyWithoutPanelInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   color?: Prisma.StringFieldUpdateOperationsInput | string
@@ -614,7 +614,7 @@ export type categoriesSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   name?: boolean
   color?: boolean
   created_at?: boolean
-  painels?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
+  panel?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
   movements?: boolean | Prisma.categories$movementsArgs<ExtArgs>
   _count?: boolean | Prisma.CategoriesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["categories"]>
@@ -625,7 +625,7 @@ export type categoriesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   name?: boolean
   color?: boolean
   created_at?: boolean
-  painels?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
+  panel?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["categories"]>
 
 export type categoriesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -634,7 +634,7 @@ export type categoriesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   name?: boolean
   color?: boolean
   created_at?: boolean
-  painels?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
+  panel?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["categories"]>
 
 export type categoriesSelectScalar = {
@@ -647,21 +647,21 @@ export type categoriesSelectScalar = {
 
 export type categoriesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "painel_id" | "name" | "color" | "created_at", ExtArgs["result"]["categories"]>
 export type categoriesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  painels?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
+  panel?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
   movements?: boolean | Prisma.categories$movementsArgs<ExtArgs>
   _count?: boolean | Prisma.CategoriesCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type categoriesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  painels?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
+  panel?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
 }
 export type categoriesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  painels?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
+  panel?: boolean | Prisma.panelsDefaultArgs<ExtArgs>
 }
 
 export type $categoriesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "categories"
   objects: {
-    painels: Prisma.$panelsPayload<ExtArgs>
+    panel: Prisma.$panelsPayload<ExtArgs>
     movements: Prisma.$movementsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1064,7 +1064,7 @@ readonly fields: categoriesFieldRefs;
  */
 export interface Prisma__categoriesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  painels<T extends Prisma.panelsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.panelsDefaultArgs<ExtArgs>>): Prisma.Prisma__panelsClient<runtime.Types.Result.GetResult<Prisma.$panelsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  panel<T extends Prisma.panelsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.panelsDefaultArgs<ExtArgs>>): Prisma.Prisma__panelsClient<runtime.Types.Result.GetResult<Prisma.$panelsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   movements<T extends Prisma.categories$movementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.categories$movementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$movementsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.

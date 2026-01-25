@@ -15,7 +15,7 @@ export class MovementController {
   constructor(private readonly movementService: MovementService) {}
 
   @Post('create')
-  async createMovement(body: MovementDTO) {
+  async createMovement(@Body() body: MovementDTO) {
     const result = await this.movementService.createMovement(body);
 
     return result;

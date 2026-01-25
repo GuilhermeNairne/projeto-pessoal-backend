@@ -24,7 +24,7 @@ export class MovementService {
     try {
       const result = await this.prisma.movements.findMany({
         where: {
-          painel_id: panel_id,
+          painel_id: Number(panel_id),
         },
       });
 

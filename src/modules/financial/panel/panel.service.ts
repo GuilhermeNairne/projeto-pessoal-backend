@@ -39,7 +39,15 @@ export class PanelService {
               },
             },
           },
-          movements: true,
+          movements: {
+            include: {
+              categories: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
         },
       });
 

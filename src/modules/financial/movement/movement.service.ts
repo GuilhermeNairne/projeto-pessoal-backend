@@ -42,7 +42,7 @@ export class MovementService {
     try {
       const result = await this.prisma.movements.delete({
         where: {
-          id,
+          id: Number(id),
         },
       });
 

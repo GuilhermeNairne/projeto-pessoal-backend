@@ -31,7 +31,7 @@ export class PanelService {
             include: {
               movements: {
                 where: {
-                  movement_type: 'expense',
+                  movement_type: 'OUT',
                 },
                 select: {
                   value: true,

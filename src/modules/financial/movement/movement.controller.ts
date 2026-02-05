@@ -29,8 +29,15 @@ export class MovementController {
   }
 
   @Delete('delete/:id')
-  async deleteMovement(@Param('id') id: number) {
-    const result = await this.movementService.deleteMovement(id);
+  async deleteMovement(
+    @Param('id') id: number,
+    @Body() body: { panel_id: number; movement_value: number },
+  ) {
+    const result = await this.movementService.deleteMovement(
+      id,
+      body.panel_id,
+      body.movement_value,
+    );
 
     return result;
   }

@@ -28,7 +28,7 @@ export class PanelFinancialController {
     return result;
   }
 
-  @Patch('update-panel/:id')
+  @Patch('update/:id')
   async updatePainel(@Param('id') id: number, @Body() body: Partial<PanelDTO>) {
     const result = await this.panelService.updatePanel(id, body);
 

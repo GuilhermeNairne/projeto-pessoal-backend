@@ -47,6 +47,9 @@ export class PanelService {
                 },
               },
             },
+            orderBy: {
+              date: 'desc',
+            },
           },
         },
       });

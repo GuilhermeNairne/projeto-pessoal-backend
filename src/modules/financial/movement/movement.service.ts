@@ -50,6 +50,9 @@ export class MovementService {
         where: {
           painel_id: Number(panel_id),
         },
+        orderBy: {
+          date: 'desc',
+        },
       });
 
       return result;

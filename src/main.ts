@@ -8,10 +8,11 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.enableCors({
-    origin: 'http://localhost:3001',
+    origin: [
+      'http://localhost:3001',
+      'https://projeto-pessoal-frontend.vercel.app/',
+    ],
     credentials: true,
-    methods: 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-    allowedHeaders: 'Content-Type, Authorization',
   });
 
   const port = process.env.PORT ?? 3000;

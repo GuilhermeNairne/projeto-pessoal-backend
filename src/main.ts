@@ -10,7 +10,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:3001',
-      'https://projeto-pessoal-frontend.vercel.app/',
+      'https://projeto-pessoal-frontend.vercel.app',
     ],
     credentials: true,
   });

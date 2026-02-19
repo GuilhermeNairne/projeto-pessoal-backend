@@ -32,3 +32,8 @@ export type movements = Prisma.movementsModel
  * 
  */
 export type panels = Prisma.panelsModel
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel

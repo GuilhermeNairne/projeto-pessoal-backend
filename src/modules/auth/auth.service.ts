@@ -62,7 +62,6 @@ export class AuthService {
 
   async register(values: RegisterDto) {
     try {
-      console.log(values);
       const userExists = await this.userRepository.findByEmail(values.email);
 
       if (userExists) {

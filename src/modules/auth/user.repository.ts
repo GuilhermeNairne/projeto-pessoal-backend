@@ -49,4 +49,10 @@ export class UserRepository {
       data: update,
     });
   }
+
+  async findUser(payload: any) {
+    return this.prisma.user.findUnique({
+      where: { id: payload.sub },
+    });
+  }
 }

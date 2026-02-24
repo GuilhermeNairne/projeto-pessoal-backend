@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Req,
 } from '@nestjs/common';
 
 export interface RegisterTpye {
@@ -44,5 +45,11 @@ export class AuthController {
   @Patch('/:id')
   async update(@Param('id') id: string, @Body() update: Partial<RegisterDto>) {
     return await this.authService.update(id, update);
+  }
+
+  @Post('refresh')
+  async refresh(@Req() req: any) {
+    const refreshToken = req.cookies.refreshToken;
+    return this.authService.refresh(refreshToken);
   }
 }

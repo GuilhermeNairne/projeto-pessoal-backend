@@ -141,4 +141,45 @@ export class AuthService {
       );
     }
   }
+
+  async refresh(refreshToken: string) {
+    try {
+      if (!refreshToken) {
+        throw new UnauthorizedException();
+      }
+
+      let payload: any;
+
+      payload = this.jwtService.verify(refreshToken);
+
+      const user = await this.userRepository.findUser(payload);
+
+      if (!user || user.refreshToken !== refreshToken) {
+        throw new UnauthorizedException();
+      }
+
+      const accessToken = this.jwtService.sign(
+        {},
+        {
+          subject: user.id,
+          expiresIn: '15m',
+        },
+      );
+
+      return {
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        },
+        accessToken,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        error ?? 'Erro ao fazer refresh token',
+        error.status,
+      );
+    }
+  }
 }

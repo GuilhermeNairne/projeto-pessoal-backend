@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class MovementDTO {
@@ -21,6 +22,7 @@ export class MovementDTO {
   @IsNotEmpty()
   category_id: number;
 
+  @Type(() => Date)
   @IsDate()
   date: Date;
 }

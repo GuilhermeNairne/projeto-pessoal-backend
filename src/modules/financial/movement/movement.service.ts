@@ -93,6 +93,65 @@ export class MovementService {
     }
   }
 
+  async listExpensesByMonth(panel_id: number, month: number) {
+    try {
+      const year = new Date().getFullYear();
+
+      const startDate = new Date(year, month - 1, 1);
+      const endDate = new Date(year, month, 0);
+
+      const grouped = await this.prisma.movements.groupBy({
+        by: ['category_id'],
+        where: {
+          painel_id: panel_id,
+          movement_type: 'OUT',
+          date: {
+            gte: startDate,
+            lte: endDate,
+          },
+        },
+        _sum: {
+          value: true,
+        },
+      });
+
+      const categories = await this.prisma.categories.findMany({
+        where: {
+          id: {
+            in: grouped.map((g) => g.category_id).filter(Boolean) as number[],
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+          color: true,
+        },
+      });
+
+      const result = grouped.map((g) => {
+        const category = categories.find((c) => c.id === g.category_id);
+
+        return {
+          x: category?.name ?? 'Unknown',
+          y: g._sum.value ? g._sum.value.toNumber() : 0,
+          color: category?.color ?? '#000',
+        };
+      });
+
+      const total = Number(
+        result.reduce((acc, item) => acc + item.y, 0).toFixed(3),
+      );
+
+      return {
+        total,
+        data: result,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new HttpException('Erro ao trazer gastos do mês', error.status);
+    }
+  }
+
   async deleteMovement(id: number, panel_id: number, movement_value: number) {
     try {
       const result = await this.prisma.movements.delete({

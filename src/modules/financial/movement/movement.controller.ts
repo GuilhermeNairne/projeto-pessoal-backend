@@ -32,6 +32,14 @@ export class MovementController {
     return result;
   }
 
+  @Get('expenses/:panel_id')
+  async listExpensesByMonth(
+    @Param('panel_id') panel_id: number,
+    @Query('month') month: number,
+  ) {
+    return await this.movementService.listExpensesByMonth(panel_id, month);
+  }
+
   @Delete('delete/:id')
   async deleteMovement(
     @Param('id') id: number,

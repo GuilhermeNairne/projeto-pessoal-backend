@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
-import { MovementDTO } from './movement.dto';
+import { MovementDTO, MovementsFilterDTO } from './movement.dto';
 
 @Injectable()
 export class MovementService {
@@ -44,14 +44,42 @@ export class MovementService {
     }
   }
 
-  async listMovements(panel_id: number) {
+  async listMovements(panel_id: number, filters: MovementsFilterDTO) {
     try {
+      const where: any = {
+        painel_id: Number(panel_id),
+      };
+
+      if (filters.category_id) {
+        where.category_id = Number(filters.category_id);
+      }
+
+      if (filters.movement_type) {
+        where.movement_type = filters.movement_type;
+      }
+
+      if (filters.name) {
+        where.name = {
+          contains: filters.name,
+          mode: 'insensitive',
+        };
+      }
+
+      const order: 'asc' | 'desc' =
+        filters.order_date?.toLowerCase() === 'asc' ? 'asc' : 'desc';
+
       const result = await this.prisma.movements.findMany({
-        where: {
-          painel_id: Number(panel_id),
-        },
+        where,
         orderBy: {
-          date: 'desc',
+          date: order,
+        },
+        include: {
+          categories: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
         },
       });
 

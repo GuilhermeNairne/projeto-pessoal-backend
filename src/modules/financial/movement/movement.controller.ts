@@ -1,5 +1,5 @@
-import { MovementDTO } from './movement.dto';
 import { MovementService } from './movement.service';
+import { MovementDTO, MovementsFilterDTO } from './movement.dto';
 import {
   Body,
   Controller,
@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 
 @Controller('financial-movement')
@@ -22,8 +23,11 @@ export class MovementController {
   }
 
   @Get('list/:panel_id')
-  async listMovements(@Param('panel_id') panel_id: number) {
-    const result = await this.movementService.listMovements(panel_id);
+  async listMovements(
+    @Param('panel_id') panel_id: number,
+    @Query() filters: MovementsFilterDTO,
+  ) {
+    const result = await this.movementService.listMovements(panel_id, filters);
 
     return result;
   }

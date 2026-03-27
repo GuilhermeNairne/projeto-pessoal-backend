@@ -46,6 +46,9 @@ export class MovementService {
 
   async listMovements(panel_id: number, filters: MovementsFilterDTO) {
     try {
+      const perPage = 15;
+      const page = Number(filters.page) || 1;
+
       const where: any = {
         painel_id: Number(panel_id),
       };
@@ -73,6 +76,8 @@ export class MovementService {
         orderBy: {
           date: order,
         },
+        skip: (page - 1) * perPage,
+        take: perPage,
         include: {
           categories: {
             select: {
@@ -83,7 +88,17 @@ export class MovementService {
         },
       });
 
-      return result;
+      const total = await this.prisma.movements.count({ where });
+
+      return {
+        movements: result,
+        pagination: {
+          total,
+          page,
+          perPage,
+          totalPages: Math.ceil(total / perPage),
+        },
+      };
     } catch (error) {
       console.log(error);
       throw new HttpException(

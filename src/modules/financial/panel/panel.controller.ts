@@ -1,5 +1,5 @@
-import { PanelService } from './panel.service';
 import { PanelDTO } from './panel.dto';
+import { PanelService } from './panel.service';
 import {
   Body,
   Controller,
@@ -42,12 +42,10 @@ export class PanelFinancialController {
     return result;
   }
 
-  @Post('register-movement')
-  async registerMovement() {}
+  @Get('list-juros/:id')
+  async listJuros(@Param('id') id: number) {
+    const result = await this.panelService.listJuros(id);
 
-  @Get('list-movements')
-  async listMovements() {}
-
-  @Delete('delete-movement')
-  async deleteMovement() {}
+    return result;
+  }
 }

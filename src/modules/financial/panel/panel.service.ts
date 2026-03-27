@@ -23,9 +23,7 @@ export class PanelService {
   async listPanels(user_id: string) {
     try {
       const panels = await this.prisma.panels.findMany({
-        where: {
-          user_id,
-        },
+        where: { user_id },
         include: {
           categories: {
             include: {
@@ -54,6 +52,20 @@ export class PanelService {
         },
       });
 
+      const jurosByMonth: any = await this.prisma.$queryRaw`
+  SELECT 
+    m.painel_id,
+    DATE_TRUNC('month', m.created_at) AS month,
+    SUM(m.value) AS total
+  FROM movements m
+  JOIN categories c ON c.id = m.category_id
+  JOIN panels p ON p.id = m.painel_id
+  WHERE c.name ILIKE '%juros%'
+    AND p.user_id = ${user_id}
+  GROUP BY m.painel_id, month
+  ORDER BY m.painel_id, month;
+`;
+
       const result = panels.map((panel) => ({
         ...panel,
         categories: panel.categories.map((category) => {
@@ -68,6 +80,7 @@ export class PanelService {
             movements: undefined,
           };
         }),
+        juros: jurosByMonth.filter((item) => item.painel_id === panel.id),
       }));
 
       return result;
@@ -109,6 +122,41 @@ export class PanelService {
       throw new HttpException(
         error.response ?? 'Erro ao deletar painel',
         error.status ?? 500,
+      );
+    }
+  }
+
+  async listJuros(id: number) {
+    try {
+      const category = await this.prisma.categories.findFirst({
+        where: {
+          painel_id: id,
+          name: {
+            contains: 'juros',
+            mode: 'insensitive',
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      const result = await this.prisma.$queryRaw`
+  SELECT 
+    DATE_TRUNC('month', created_at) AS month,
+    SUM(value) AS total
+  FROM movements
+  WHERE category_id = ${category?.id}
+  GROUP BY month
+  ORDER BY month;
+`;
+
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        'Erro ao listar juros dessa painel',
+        error.status,
       );
     }
   }

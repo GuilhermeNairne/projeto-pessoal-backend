@@ -49,4 +49,8 @@ export class MovementsFilterDTO {
   @IsString()
   @IsOptional()
   order_date?: 'ASC' | 'DESC';
+
+  @IsString()
+  @IsOptional()
+  page?: string;
 }

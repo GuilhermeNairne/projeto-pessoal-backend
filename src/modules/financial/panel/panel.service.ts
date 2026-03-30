@@ -55,7 +55,7 @@ export class PanelService {
       const jurosByMonth: any = await this.prisma.$queryRaw`
   SELECT 
     m.painel_id,
-    DATE_TRUNC('month', m.created_at) AS month,
+    DATE_TRUNC('month', m.date) AS month,
     SUM(m.value) AS total
   FROM movements m
   JOIN categories c ON c.id = m.category_id
@@ -66,8 +66,19 @@ export class PanelService {
   ORDER BY m.painel_id, month;
 `;
 
+      const jurosMap = jurosByMonth.reduce((acc, item) => {
+        const panelId = item.painel_id;
+        const month = item.month.toISOString();
+
+        if (!acc[panelId]) acc[panelId] = {};
+        acc[panelId][month] = Number(item.total);
+
+        return acc;
+      }, {});
+
       const result = panels.map((panel) => ({
         ...panel,
+        juros: jurosMap[panel.id] || {},
         categories: panel.categories.map((category) => {
           const totalSpent = category.movements.reduce(
             (acc, mov) => acc + Number(mov.value),
@@ -77,10 +88,8 @@ export class PanelService {
           return {
             ...category,
             totalSpent,
-            movements: undefined,
           };
         }),
-        juros: jurosByMonth.filter((item) => item.painel_id === panel.id),
       }));
 
       return result;

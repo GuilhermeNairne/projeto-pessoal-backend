@@ -68,17 +68,21 @@ export class PanelService {
 
       const jurosMap = jurosByMonth.reduce((acc, item) => {
         const panelId = item.painel_id;
-        const month = item.month.toISOString();
 
-        if (!acc[panelId]) acc[panelId] = {};
-        acc[panelId][month] = Number(item.total);
+        if (!acc[panelId]) acc[panelId] = [];
+
+        acc[panelId].push({
+          painel_id: panelId,
+          month: item.month.toISOString(),
+          total: Number(item.total),
+        });
 
         return acc;
       }, {});
 
       const result = panels.map((panel) => ({
         ...panel,
-        juros: jurosMap[panel.id] || {},
+        juros: jurosMap[panel.id] || [],
         categories: panel.categories.map((category) => {
           const totalSpent = category.movements.reduce(
             (acc, mov) => acc + Number(mov.value),

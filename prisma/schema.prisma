@@ -55,3 +55,26 @@ model User {
 
   @@map("users")
 }
+
+model categorias_tarefa {
+  id      String  @id @default(cuid())
+  nome    String
+  user_id String?
+
+  tarefas tarefas[]
+}
+
+model tarefas {
+  id          String   @id @default(cuid())
+  userId      String
+  nome        String
+  descricao   String?
+  categoriaId String?
+  tempo       Int
+  data        DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  categoria categorias_tarefa? @relation(fields: [categoriaId], references: [id])
+}

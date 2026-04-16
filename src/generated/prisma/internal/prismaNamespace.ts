@@ -955,6 +955,7 @@ export type Categorias_tarefaScalarFieldEnum = (typeof Categorias_tarefaScalarFi
 export const TarefasScalarFieldEnum = {
   userId: 'userId',
   nome: 'nome',
+  status: 'status',
   descricao: 'descricao',
   tempo: 'tempo',
   data: 'data',

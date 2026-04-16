@@ -41,6 +41,7 @@ export type TarefasSumAggregateOutputType = {
 export type TarefasMinAggregateOutputType = {
   userId: string | null
   nome: string | null
+  status: string | null
   descricao: string | null
   tempo: number | null
   data: Date | null
@@ -53,6 +54,7 @@ export type TarefasMinAggregateOutputType = {
 export type TarefasMaxAggregateOutputType = {
   userId: string | null
   nome: string | null
+  status: string | null
   descricao: string | null
   tempo: number | null
   data: Date | null
@@ -65,6 +67,7 @@ export type TarefasMaxAggregateOutputType = {
 export type TarefasCountAggregateOutputType = {
   userId: number
   nome: number
+  status: number
   descricao: number
   tempo: number
   data: number
@@ -91,6 +94,7 @@ export type TarefasSumAggregateInputType = {
 export type TarefasMinAggregateInputType = {
   userId?: true
   nome?: true
+  status?: true
   descricao?: true
   tempo?: true
   data?: true
@@ -103,6 +107,7 @@ export type TarefasMinAggregateInputType = {
 export type TarefasMaxAggregateInputType = {
   userId?: true
   nome?: true
+  status?: true
   descricao?: true
   tempo?: true
   data?: true
@@ -115,6 +120,7 @@ export type TarefasMaxAggregateInputType = {
 export type TarefasCountAggregateInputType = {
   userId?: true
   nome?: true
+  status?: true
   descricao?: true
   tempo?: true
   data?: true
@@ -214,6 +220,7 @@ export type tarefasGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type TarefasGroupByOutputType = {
   userId: string
   nome: string
+  status: string | null
   descricao: string | null
   tempo: number
   data: Date
@@ -249,6 +256,7 @@ export type tarefasWhereInput = {
   NOT?: Prisma.tarefasWhereInput | Prisma.tarefasWhereInput[]
   userId?: Prisma.StringFilter<"tarefas"> | string
   nome?: Prisma.StringFilter<"tarefas"> | string
+  status?: Prisma.StringNullableFilter<"tarefas"> | string | null
   descricao?: Prisma.StringNullableFilter<"tarefas"> | string | null
   tempo?: Prisma.IntFilter<"tarefas"> | number
   data?: Prisma.DateTimeFilter<"tarefas"> | Date | string
@@ -262,6 +270,7 @@ export type tarefasWhereInput = {
 export type tarefasOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   nome?: Prisma.SortOrder
+  status?: Prisma.SortOrderInput | Prisma.SortOrder
   descricao?: Prisma.SortOrderInput | Prisma.SortOrder
   tempo?: Prisma.SortOrder
   data?: Prisma.SortOrder
@@ -279,6 +288,7 @@ export type tarefasWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.tarefasWhereInput | Prisma.tarefasWhereInput[]
   userId?: Prisma.StringFilter<"tarefas"> | string
   nome?: Prisma.StringFilter<"tarefas"> | string
+  status?: Prisma.StringNullableFilter<"tarefas"> | string | null
   descricao?: Prisma.StringNullableFilter<"tarefas"> | string | null
   tempo?: Prisma.IntFilter<"tarefas"> | number
   data?: Prisma.DateTimeFilter<"tarefas"> | Date | string
@@ -291,6 +301,7 @@ export type tarefasWhereUniqueInput = Prisma.AtLeast<{
 export type tarefasOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   nome?: Prisma.SortOrder
+  status?: Prisma.SortOrderInput | Prisma.SortOrder
   descricao?: Prisma.SortOrderInput | Prisma.SortOrder
   tempo?: Prisma.SortOrder
   data?: Prisma.SortOrder
@@ -311,6 +322,7 @@ export type tarefasScalarWhereWithAggregatesInput = {
   NOT?: Prisma.tarefasScalarWhereWithAggregatesInput | Prisma.tarefasScalarWhereWithAggregatesInput[]
   userId?: Prisma.StringWithAggregatesFilter<"tarefas"> | string
   nome?: Prisma.StringWithAggregatesFilter<"tarefas"> | string
+  status?: Prisma.StringNullableWithAggregatesFilter<"tarefas"> | string | null
   descricao?: Prisma.StringNullableWithAggregatesFilter<"tarefas"> | string | null
   tempo?: Prisma.IntWithAggregatesFilter<"tarefas"> | number
   data?: Prisma.DateTimeWithAggregatesFilter<"tarefas"> | Date | string
@@ -323,6 +335,7 @@ export type tarefasScalarWhereWithAggregatesInput = {
 export type tarefasCreateInput = {
   userId: string
   nome: string
+  status?: string | null
   descricao?: string | null
   tempo: number
   data: Date | string
@@ -334,6 +347,7 @@ export type tarefasCreateInput = {
 export type tarefasUncheckedCreateInput = {
   userId: string
   nome: string
+  status?: string | null
   descricao?: string | null
   tempo: number
   data: Date | string
@@ -346,6 +360,7 @@ export type tarefasUncheckedCreateInput = {
 export type tarefasUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempo?: Prisma.IntFieldUpdateOperationsInput | number
   data?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -357,6 +372,7 @@ export type tarefasUpdateInput = {
 export type tarefasUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempo?: Prisma.IntFieldUpdateOperationsInput | number
   data?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -369,6 +385,7 @@ export type tarefasUncheckedUpdateInput = {
 export type tarefasCreateManyInput = {
   userId: string
   nome: string
+  status?: string | null
   descricao?: string | null
   tempo: number
   data: Date | string
@@ -381,6 +398,7 @@ export type tarefasCreateManyInput = {
 export type tarefasUpdateManyMutationInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempo?: Prisma.IntFieldUpdateOperationsInput | number
   data?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -391,6 +409,7 @@ export type tarefasUpdateManyMutationInput = {
 export type tarefasUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempo?: Prisma.IntFieldUpdateOperationsInput | number
   data?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -413,6 +432,7 @@ export type tarefasOrderByRelationAggregateInput = {
 export type tarefasCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   nome?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   descricao?: Prisma.SortOrder
   tempo?: Prisma.SortOrder
   data?: Prisma.SortOrder
@@ -431,6 +451,7 @@ export type tarefasAvgOrderByAggregateInput = {
 export type tarefasMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   nome?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   descricao?: Prisma.SortOrder
   tempo?: Prisma.SortOrder
   data?: Prisma.SortOrder
@@ -443,6 +464,7 @@ export type tarefasMaxOrderByAggregateInput = {
 export type tarefasMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   nome?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   descricao?: Prisma.SortOrder
   tempo?: Prisma.SortOrder
   data?: Prisma.SortOrder
@@ -503,6 +525,7 @@ export type tarefasUncheckedUpdateManyWithoutCategoriaNestedInput = {
 export type tarefasCreateWithoutCategoriaInput = {
   userId: string
   nome: string
+  status?: string | null
   descricao?: string | null
   tempo: number
   data: Date | string
@@ -513,6 +536,7 @@ export type tarefasCreateWithoutCategoriaInput = {
 export type tarefasUncheckedCreateWithoutCategoriaInput = {
   userId: string
   nome: string
+  status?: string | null
   descricao?: string | null
   tempo: number
   data: Date | string
@@ -553,6 +577,7 @@ export type tarefasScalarWhereInput = {
   NOT?: Prisma.tarefasScalarWhereInput | Prisma.tarefasScalarWhereInput[]
   userId?: Prisma.StringFilter<"tarefas"> | string
   nome?: Prisma.StringFilter<"tarefas"> | string
+  status?: Prisma.StringNullableFilter<"tarefas"> | string | null
   descricao?: Prisma.StringNullableFilter<"tarefas"> | string | null
   tempo?: Prisma.IntFilter<"tarefas"> | number
   data?: Prisma.DateTimeFilter<"tarefas"> | Date | string
@@ -565,6 +590,7 @@ export type tarefasScalarWhereInput = {
 export type tarefasCreateManyCategoriaInput = {
   userId: string
   nome: string
+  status?: string | null
   descricao?: string | null
   tempo: number
   data: Date | string
@@ -576,6 +602,7 @@ export type tarefasCreateManyCategoriaInput = {
 export type tarefasUpdateWithoutCategoriaInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempo?: Prisma.IntFieldUpdateOperationsInput | number
   data?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -586,6 +613,7 @@ export type tarefasUpdateWithoutCategoriaInput = {
 export type tarefasUncheckedUpdateWithoutCategoriaInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempo?: Prisma.IntFieldUpdateOperationsInput | number
   data?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -597,6 +625,7 @@ export type tarefasUncheckedUpdateWithoutCategoriaInput = {
 export type tarefasUncheckedUpdateManyWithoutCategoriaInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempo?: Prisma.IntFieldUpdateOperationsInput | number
   data?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -610,6 +639,7 @@ export type tarefasUncheckedUpdateManyWithoutCategoriaInput = {
 export type tarefasSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   userId?: boolean
   nome?: boolean
+  status?: boolean
   descricao?: boolean
   tempo?: boolean
   data?: boolean
@@ -623,6 +653,7 @@ export type tarefasSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type tarefasSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   userId?: boolean
   nome?: boolean
+  status?: boolean
   descricao?: boolean
   tempo?: boolean
   data?: boolean
@@ -636,6 +667,7 @@ export type tarefasSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type tarefasSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   userId?: boolean
   nome?: boolean
+  status?: boolean
   descricao?: boolean
   tempo?: boolean
   data?: boolean
@@ -649,6 +681,7 @@ export type tarefasSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type tarefasSelectScalar = {
   userId?: boolean
   nome?: boolean
+  status?: boolean
   descricao?: boolean
   tempo?: boolean
   data?: boolean
@@ -658,7 +691,7 @@ export type tarefasSelectScalar = {
   categoriaId?: boolean
 }
 
-export type tarefasOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "nome" | "descricao" | "tempo" | "data" | "createdAt" | "updatedAt" | "id" | "categoriaId", ExtArgs["result"]["tarefas"]>
+export type tarefasOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "nome" | "status" | "descricao" | "tempo" | "data" | "createdAt" | "updatedAt" | "id" | "categoriaId", ExtArgs["result"]["tarefas"]>
 export type tarefasInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categoria?: boolean | Prisma.tarefas$categoriaArgs<ExtArgs>
 }
@@ -677,6 +710,7 @@ export type $tarefasPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     userId: string
     nome: string
+    status: string | null
     descricao: string | null
     tempo: number
     data: Date
@@ -1110,6 +1144,7 @@ export interface Prisma__tarefasClient<T, Null = never, ExtArgs extends runtime.
 export interface tarefasFieldRefs {
   readonly userId: Prisma.FieldRef<"tarefas", 'String'>
   readonly nome: Prisma.FieldRef<"tarefas", 'String'>
+  readonly status: Prisma.FieldRef<"tarefas", 'String'>
   readonly descricao: Prisma.FieldRef<"tarefas", 'String'>
   readonly tempo: Prisma.FieldRef<"tarefas", 'Int'>
   readonly data: Prisma.FieldRef<"tarefas", 'DateTime'>

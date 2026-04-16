@@ -5,6 +5,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsNumberString,
+  IsOptional,
   IsString,
 } from 'class-validator';
 
@@ -12,6 +13,10 @@ export class TarefasDTO {
   @IsString()
   @IsNotEmpty()
   nome!: string;
+
+  @IsString()
+  @IsOptional()
+  status = 'Pendente';
 
   @IsString()
   @IsNotEmpty()

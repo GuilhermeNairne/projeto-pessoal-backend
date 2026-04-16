@@ -73,6 +73,48 @@ export class TarefasService {
     }
   }
 
+  async listCardsTarefas(query: ListTarefasType) {
+    try {
+      const { user_id, month, year } = query;
+
+      const start = new Date(Number(year), Number(month) - 1, 1);
+      const end = new Date(Number(year), Number(month), 0, 23, 59, 59);
+
+      const dateFilter = {
+        userId: user_id,
+        data: { gte: start, lte: end },
+      };
+
+      const [totalPendente, totalMes, totalMinutos] =
+        await this.prisma.$transaction([
+          this.prisma.tarefas.count({
+            where: { ...dateFilter, status: 'Pendente' },
+          }),
+
+          this.prisma.tarefas.count({
+            where: dateFilter,
+          }),
+
+          this.prisma.tarefas.aggregate({
+            where: { ...dateFilter, status: 'Concluido' },
+            _sum: { tempo: true },
+          }),
+        ]);
+
+      return {
+        totalPendente,
+        totalMes,
+        totalMinutosConcluidos: totalMinutos._sum.tempo ?? 0,
+      };
+    } catch (error: any) {
+      console.log(error);
+      throw new HttpException(
+        error.response ?? 'Erro ao listar cards de tarefas',
+        error.status ?? 500,
+      );
+    }
+  }
+
   async listCategorias() {
     try {
       const result = await this.prisma.categorias_tarefa.findMany();

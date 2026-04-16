@@ -65,6 +65,7 @@ model categorias_tarefa {
 model tarefas {
   userId      String
   nome        String
+  status      String?
   descricao   String?
   tempo       Int
   data        DateTime

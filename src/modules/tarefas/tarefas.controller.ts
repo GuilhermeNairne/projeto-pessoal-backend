@@ -11,6 +11,7 @@ import {
   Query,
 } from '@nestjs/common';
 import type { ListTarefasType } from './tarefas.type';
+import { waitForDebugger } from 'inspector';
 
 @Controller('tarefas')
 export class TarefasController {
@@ -29,6 +30,11 @@ export class TarefasController {
   @Get()
   async listTarefas(@Query() query: ListTarefasType) {
     return await this.tarefasService.listTarefas(query);
+  }
+
+  @Get('list-cards')
+  async listCardsTarefas(@Query() query: ListTarefasType) {
+    return await this.tarefasService.listCardsTarefas(query);
   }
 
   @Get('list-categorias')

@@ -9,15 +9,15 @@ import {
 export class RegisterDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @IsEmail()
   @IsNotEmpty()
-  email: string;
+  email!: string;
 
   @MinLength(6)
   @IsNotEmpty()
-  password: string;
+  password!: string;
 
   @IsOptional()
   @IsString()

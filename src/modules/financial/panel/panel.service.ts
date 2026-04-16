@@ -11,7 +11,7 @@ export class PanelService {
       const result = await this.prisma.panels.create({ data: body });
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException(
         error.response ?? 'Erro ao criar painel',
@@ -97,7 +97,7 @@ export class PanelService {
       }));
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException(
         error.response ?? 'Erro ao listar paineis',
@@ -114,7 +114,7 @@ export class PanelService {
       });
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException(
         error.response ?? 'Erro ao alterar painel',
@@ -130,7 +130,7 @@ export class PanelService {
       });
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException(
         error.response ?? 'Erro ao deletar painel',
@@ -165,7 +165,7 @@ export class PanelService {
 `;
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException(
         'Erro ao listar juros dessa painel',

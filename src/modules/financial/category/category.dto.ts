@@ -9,13 +9,13 @@ import {
 export class CategoryDTO {
   @IsNumber()
   @IsNotEmpty()
-  panel_id: number;
+  panel_id!: number;
 
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @IsString()
   @IsNotEmpty()
-  color: string;
+  color!: string;
 }

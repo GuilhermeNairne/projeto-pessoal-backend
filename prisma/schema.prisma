@@ -42,39 +42,34 @@ model panels {
 }
 
 model User {
-  id             String  @id @default(uuid())
+  id             String   @id @default(uuid())
   name           String
-  email          String  @unique
+  email          String   @unique
   password       String
   profilePicture String?
-
-  refreshToken String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  refreshToken   String?
 
   @@map("users")
 }
 
 model categorias_tarefa {
-  id      String  @id @default(cuid())
   nome    String
   user_id String?
-
+  id      Int       @id @default(autoincrement())
   tarefas tarefas[]
 }
 
 model tarefas {
-  id          String   @id @default(cuid())
   userId      String
   nome        String
   descricao   String?
-  categoriaId String?
   tempo       Int
   data        DateTime
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  categoria categorias_tarefa? @relation(fields: [categoriaId], references: [id])
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  id          Int                @id @default(autoincrement())
+  categoriaId Int?
+  categoria   categorias_tarefa? @relation(fields: [categoriaId], references: [id])
 }

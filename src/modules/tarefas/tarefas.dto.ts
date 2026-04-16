@@ -1,0 +1,46 @@
+import { Type } from 'class-transformer';
+import {
+  IsArray,
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  IsNumberString,
+  IsString,
+} from 'class-validator';
+
+export class TarefasDTO {
+  @IsString()
+  @IsNotEmpty()
+  nome!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  descricao!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  userId!: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @Type(() => Number)
+  categoriaId!: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  tempo!: number;
+
+  @Type(() => Date)
+  @IsDate()
+  data!: Date;
+}
+
+export class CategoriasTarefaDTO {
+  @IsString()
+  @IsNotEmpty()
+  nome!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  user_id!: string;
+}

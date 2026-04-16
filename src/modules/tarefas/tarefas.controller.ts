@@ -8,7 +8,9 @@ import {
   Patch,
   Delete,
   Controller,
+  Query,
 } from '@nestjs/common';
+import type { ListTarefasType } from './tarefas.type';
 
 @Controller('tarefas')
 export class TarefasController {
@@ -25,8 +27,8 @@ export class TarefasController {
   }
 
   @Get()
-  async listTarefas() {
-    return await this.tarefasService.listTarefas();
+  async listTarefas(@Query() query: ListTarefasType) {
+    return await this.tarefasService.listTarefas(query);
   }
 
   @Get('list-categorias')

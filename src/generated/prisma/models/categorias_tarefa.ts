@@ -36,18 +36,21 @@ export type Categorias_tarefaSumAggregateOutputType = {
 
 export type Categorias_tarefaMinAggregateOutputType = {
   nome: string | null
+  cor: string | null
   user_id: string | null
   id: number | null
 }
 
 export type Categorias_tarefaMaxAggregateOutputType = {
   nome: string | null
+  cor: string | null
   user_id: string | null
   id: number | null
 }
 
 export type Categorias_tarefaCountAggregateOutputType = {
   nome: number
+  cor: number
   user_id: number
   id: number
   _all: number
@@ -64,18 +67,21 @@ export type Categorias_tarefaSumAggregateInputType = {
 
 export type Categorias_tarefaMinAggregateInputType = {
   nome?: true
+  cor?: true
   user_id?: true
   id?: true
 }
 
 export type Categorias_tarefaMaxAggregateInputType = {
   nome?: true
+  cor?: true
   user_id?: true
   id?: true
 }
 
 export type Categorias_tarefaCountAggregateInputType = {
   nome?: true
+  cor?: true
   user_id?: true
   id?: true
   _all?: true
@@ -169,6 +175,7 @@ export type categorias_tarefaGroupByArgs<ExtArgs extends runtime.Types.Extension
 
 export type Categorias_tarefaGroupByOutputType = {
   nome: string
+  cor: string
   user_id: string | null
   id: number
   _count: Categorias_tarefaCountAggregateOutputType | null
@@ -198,6 +205,7 @@ export type categorias_tarefaWhereInput = {
   OR?: Prisma.categorias_tarefaWhereInput[]
   NOT?: Prisma.categorias_tarefaWhereInput | Prisma.categorias_tarefaWhereInput[]
   nome?: Prisma.StringFilter<"categorias_tarefa"> | string
+  cor?: Prisma.StringFilter<"categorias_tarefa"> | string
   user_id?: Prisma.StringNullableFilter<"categorias_tarefa"> | string | null
   id?: Prisma.IntFilter<"categorias_tarefa"> | number
   tarefas?: Prisma.TarefasListRelationFilter
@@ -205,6 +213,7 @@ export type categorias_tarefaWhereInput = {
 
 export type categorias_tarefaOrderByWithRelationInput = {
   nome?: Prisma.SortOrder
+  cor?: Prisma.SortOrder
   user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   tarefas?: Prisma.tarefasOrderByRelationAggregateInput
@@ -216,12 +225,14 @@ export type categorias_tarefaWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.categorias_tarefaWhereInput[]
   NOT?: Prisma.categorias_tarefaWhereInput | Prisma.categorias_tarefaWhereInput[]
   nome?: Prisma.StringFilter<"categorias_tarefa"> | string
+  cor?: Prisma.StringFilter<"categorias_tarefa"> | string
   user_id?: Prisma.StringNullableFilter<"categorias_tarefa"> | string | null
   tarefas?: Prisma.TarefasListRelationFilter
 }, "id">
 
 export type categorias_tarefaOrderByWithAggregationInput = {
   nome?: Prisma.SortOrder
+  cor?: Prisma.SortOrder
   user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   _count?: Prisma.categorias_tarefaCountOrderByAggregateInput
@@ -236,18 +247,21 @@ export type categorias_tarefaScalarWhereWithAggregatesInput = {
   OR?: Prisma.categorias_tarefaScalarWhereWithAggregatesInput[]
   NOT?: Prisma.categorias_tarefaScalarWhereWithAggregatesInput | Prisma.categorias_tarefaScalarWhereWithAggregatesInput[]
   nome?: Prisma.StringWithAggregatesFilter<"categorias_tarefa"> | string
+  cor?: Prisma.StringWithAggregatesFilter<"categorias_tarefa"> | string
   user_id?: Prisma.StringNullableWithAggregatesFilter<"categorias_tarefa"> | string | null
   id?: Prisma.IntWithAggregatesFilter<"categorias_tarefa"> | number
 }
 
 export type categorias_tarefaCreateInput = {
   nome: string
+  cor: string
   user_id?: string | null
   tarefas?: Prisma.tarefasCreateNestedManyWithoutCategoriaInput
 }
 
 export type categorias_tarefaUncheckedCreateInput = {
   nome: string
+  cor: string
   user_id?: string | null
   id?: number
   tarefas?: Prisma.tarefasUncheckedCreateNestedManyWithoutCategoriaInput
@@ -255,12 +269,14 @@ export type categorias_tarefaUncheckedCreateInput = {
 
 export type categorias_tarefaUpdateInput = {
   nome?: Prisma.StringFieldUpdateOperationsInput | string
+  cor?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tarefas?: Prisma.tarefasUpdateManyWithoutCategoriaNestedInput
 }
 
 export type categorias_tarefaUncheckedUpdateInput = {
   nome?: Prisma.StringFieldUpdateOperationsInput | string
+  cor?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.IntFieldUpdateOperationsInput | number
   tarefas?: Prisma.tarefasUncheckedUpdateManyWithoutCategoriaNestedInput
@@ -268,23 +284,27 @@ export type categorias_tarefaUncheckedUpdateInput = {
 
 export type categorias_tarefaCreateManyInput = {
   nome: string
+  cor: string
   user_id?: string | null
   id?: number
 }
 
 export type categorias_tarefaUpdateManyMutationInput = {
   nome?: Prisma.StringFieldUpdateOperationsInput | string
+  cor?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type categorias_tarefaUncheckedUpdateManyInput = {
   nome?: Prisma.StringFieldUpdateOperationsInput | string
+  cor?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type categorias_tarefaCountOrderByAggregateInput = {
   nome?: Prisma.SortOrder
+  cor?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   id?: Prisma.SortOrder
 }
@@ -295,12 +315,14 @@ export type categorias_tarefaAvgOrderByAggregateInput = {
 
 export type categorias_tarefaMaxOrderByAggregateInput = {
   nome?: Prisma.SortOrder
+  cor?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   id?: Prisma.SortOrder
 }
 
 export type categorias_tarefaMinOrderByAggregateInput = {
   nome?: Prisma.SortOrder
+  cor?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   id?: Prisma.SortOrder
 }
@@ -332,11 +354,13 @@ export type categorias_tarefaUpdateOneWithoutTarefasNestedInput = {
 
 export type categorias_tarefaCreateWithoutTarefasInput = {
   nome: string
+  cor: string
   user_id?: string | null
 }
 
 export type categorias_tarefaUncheckedCreateWithoutTarefasInput = {
   nome: string
+  cor: string
   user_id?: string | null
   id?: number
 }
@@ -359,11 +383,13 @@ export type categorias_tarefaUpdateToOneWithWhereWithoutTarefasInput = {
 
 export type categorias_tarefaUpdateWithoutTarefasInput = {
   nome?: Prisma.StringFieldUpdateOperationsInput | string
+  cor?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type categorias_tarefaUncheckedUpdateWithoutTarefasInput = {
   nome?: Prisma.StringFieldUpdateOperationsInput | string
+  cor?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -401,6 +427,7 @@ export type Categorias_tarefaCountOutputTypeCountTarefasArgs<ExtArgs extends run
 
 export type categorias_tarefaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   nome?: boolean
+  cor?: boolean
   user_id?: boolean
   id?: boolean
   tarefas?: boolean | Prisma.categorias_tarefa$tarefasArgs<ExtArgs>
@@ -409,23 +436,26 @@ export type categorias_tarefaSelect<ExtArgs extends runtime.Types.Extensions.Int
 
 export type categorias_tarefaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   nome?: boolean
+  cor?: boolean
   user_id?: boolean
   id?: boolean
 }, ExtArgs["result"]["categorias_tarefa"]>
 
 export type categorias_tarefaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   nome?: boolean
+  cor?: boolean
   user_id?: boolean
   id?: boolean
 }, ExtArgs["result"]["categorias_tarefa"]>
 
 export type categorias_tarefaSelectScalar = {
   nome?: boolean
+  cor?: boolean
   user_id?: boolean
   id?: boolean
 }
 
-export type categorias_tarefaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"nome" | "user_id" | "id", ExtArgs["result"]["categorias_tarefa"]>
+export type categorias_tarefaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"nome" | "cor" | "user_id" | "id", ExtArgs["result"]["categorias_tarefa"]>
 export type categorias_tarefaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tarefas?: boolean | Prisma.categorias_tarefa$tarefasArgs<ExtArgs>
   _count?: boolean | Prisma.Categorias_tarefaCountOutputTypeDefaultArgs<ExtArgs>
@@ -440,6 +470,7 @@ export type $categorias_tarefaPayload<ExtArgs extends runtime.Types.Extensions.I
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     nome: string
+    cor: string
     user_id: string | null
     id: number
   }, ExtArgs["result"]["categorias_tarefa"]>
@@ -867,6 +898,7 @@ export interface Prisma__categorias_tarefaClient<T, Null = never, ExtArgs extend
  */
 export interface categorias_tarefaFieldRefs {
   readonly nome: Prisma.FieldRef<"categorias_tarefa", 'String'>
+  readonly cor: Prisma.FieldRef<"categorias_tarefa", 'String'>
   readonly user_id: Prisma.FieldRef<"categorias_tarefa", 'String'>
   readonly id: Prisma.FieldRef<"categorias_tarefa", 'Int'>
 }

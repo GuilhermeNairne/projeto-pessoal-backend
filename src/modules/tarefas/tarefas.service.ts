@@ -1,6 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { CategoriasTarefaDTO, TarefasDTO } from './tarefas.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { ListTarefasType } from './tarefas.type';
 
 @Injectable()
 export class TarefasService {
@@ -34,9 +35,33 @@ export class TarefasService {
     }
   }
 
-  async listTarefas() {
+  async listTarefas(query: ListTarefasType) {
     try {
-      const result = await this.prisma.tarefas.findMany();
+      const { user_id, month, year } = query;
+
+      const start = new Date(Number(year), Number(month) - 1, 1);
+      const end = new Date(Number(year), Number(month), 0, 23, 59, 59);
+
+      const result = await this.prisma.tarefas.findMany({
+        where: {
+          userId: user_id,
+          data: {
+            gte: start,
+            lte: end,
+          },
+        },
+        include: {
+          categoria: {
+            select: {
+              nome: true,
+              cor: true,
+            },
+          },
+        },
+      });
+
+      if (result.length === 0)
+        throw new HttpException('Nenhum resultado encontrado', 404);
 
       return result;
     } catch (error: any) {

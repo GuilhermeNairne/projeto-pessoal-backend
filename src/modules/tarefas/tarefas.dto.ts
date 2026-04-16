@@ -42,5 +42,9 @@ export class CategoriasTarefaDTO {
 
   @IsString()
   @IsNotEmpty()
+  cor!: string;
+
+  @IsString()
+  @IsNotEmpty()
   user_id!: string;
 }

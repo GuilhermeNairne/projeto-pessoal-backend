@@ -115,7 +115,7 @@ export class TarefasService {
     }
   }
 
-  async listTarefaPorDia(primeiroDia: string, ultimoDia: string) {
+  async listTarefaSemana(primeiroDia: string, ultimoDia: string) {
     try {
       const [day1, month1, year1] = primeiroDia.split('/');
       const [day2, month2, year2] = ultimoDia.split('/');
@@ -132,7 +132,51 @@ export class TarefasService {
         },
       });
 
-      return result;
+      const grouped = result.reduce(
+        (acc, tarefa) => {
+          const key = tarefa.data.getUTCDate();
+
+          if (!acc[key]) {
+            acc[key] = {
+              tarefas: [],
+              tempoRestante: 0,
+              totalTarefas: 0,
+            };
+          }
+
+          acc[key].tarefas.push(tarefa);
+          acc[key].tempoRestante += tarefa.tempo;
+          acc[key].totalTarefas += 1;
+          acc[key].tempoRestante +=
+            tarefa.status === 'Pendente' ? tarefa.tempo : 0;
+
+          return acc;
+        },
+        {} as Record<
+          number,
+          {
+            tarefas: typeof result;
+            tempoRestante: number;
+            totalTarefas: number;
+          }
+        >,
+      );
+
+      const groupedFormatado = Object.fromEntries(
+        Object.entries(grouped).map(([key, value]) => {
+          const horas = Math.floor(value.tempoRestante / 60);
+          const minutos = value.tempoRestante % 60;
+          return [
+            key,
+            {
+              ...value,
+              tempoRestante: `${String(horas).padStart(2, '0')}h${String(minutos).padStart(2, '0')}m`,
+            },
+          ];
+        }),
+      );
+
+      return groupedFormatado;
     } catch (error: any) {
       console.log(error);
       throw new HttpException(

@@ -27,12 +27,12 @@ export class TarefasController {
     return await this.tarefasService.listTarefas(query);
   }
 
-  @Get('/por-dia')
-  async listTarefaPorDia(
+  @Get('/semana')
+  async listTarefaSemana(
     @Query('primeiroDia') primeiroDia: string,
     @Query('ultimoDia') ultimoDia: string,
   ) {
-    return await this.tarefasService.listTarefaPorDia(primeiroDia, ultimoDia);
+    return await this.tarefasService.listTarefaSemana(primeiroDia, ultimoDia);
   }
 
   @Delete('/:id')

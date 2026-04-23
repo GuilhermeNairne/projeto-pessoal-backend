@@ -22,24 +22,17 @@ export class TarefasController {
     return await this.tarefasService.createTarefa(body);
   }
 
-  @Post('create-categoria')
-  async createCategoria(@Body() body: CategoriasTarefaDTO) {
-    return await this.tarefasService.createCategoria(body);
-  }
-
   @Get()
   async listTarefas(@Query() query: ListTarefasType) {
     return await this.tarefasService.listTarefas(query);
   }
 
-  @Get('list-cards')
-  async listCardsTarefas(@Query() query: ListTarefasType) {
-    return await this.tarefasService.listCardsTarefas(query);
-  }
-
-  @Get('list-categorias')
-  async listCategorias() {
-    return await this.tarefasService.listCategorias();
+  @Get('/por-dia')
+  async listTarefaPorDia(
+    @Query('primeiroDia') primeiroDia: string,
+    @Query('ultimoDia') ultimoDia: string,
+  ) {
+    return await this.tarefasService.listTarefaPorDia(primeiroDia, ultimoDia);
   }
 
   @Delete('/:id')
@@ -47,14 +40,29 @@ export class TarefasController {
     return await this.tarefasService.deleteTarefa(id);
   }
 
-  @Delete('/delete-categoria/:id')
-  async deleteCategoria(@Param('id') id: number) {
-    return await this.tarefasService.deleteCategoria(id);
+  @Get('list-cards')
+  async listCardsTarefas(@Query() query: ListTarefasType) {
+    return await this.tarefasService.listCardsTarefas(query);
   }
 
   @Patch('/:id')
   async patchTarefa(@Param('id') id: number, body: Partial<TarefasDTO>) {
     return await this.tarefasService.patchTarefa(id, body);
+  }
+
+  @Post('create-categoria')
+  async createCategoria(@Body() body: CategoriasTarefaDTO) {
+    return await this.tarefasService.createCategoria(body);
+  }
+
+  @Get('list-categorias')
+  async listCategorias() {
+    return await this.tarefasService.listCategorias();
+  }
+
+  @Delete('/delete-categoria/:id')
+  async deleteCategoria(@Param('id') id: number) {
+    return await this.tarefasService.deleteCategoria(id);
   }
 
   @Patch('/patch-categoria/:id')

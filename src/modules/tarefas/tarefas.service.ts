@@ -115,6 +115,33 @@ export class TarefasService {
     }
   }
 
+  async listTarefaPorDia(primeiroDia: string, ultimoDia: string) {
+    try {
+      const [day1, month1, year1] = primeiroDia.split('/');
+      const [day2, month2, year2] = ultimoDia.split('/');
+
+      const dataInicio = new Date(`${year1}-${month1}-${day1}T00:00:00.000Z`);
+      const dataFim = new Date(`${year2}-${month2}-${day2}T23:59:59.999Z`);
+
+      const result = await this.prisma.tarefas.findMany({
+        where: {
+          data: {
+            gte: dataInicio,
+            lte: dataFim,
+          },
+        },
+      });
+
+      return result;
+    } catch (error: any) {
+      console.log(error);
+      throw new HttpException(
+        error.response ?? 'Erro ao listar tarefa',
+        error.status ?? 500,
+      );
+    }
+  }
+
   async listCategorias() {
     try {
       const result = await this.prisma.categorias_tarefa.findMany();

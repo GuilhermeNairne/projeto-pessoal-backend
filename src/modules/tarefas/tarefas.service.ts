@@ -141,14 +141,15 @@ export class TarefasService {
               tarefas: [],
               tempoRestante: 0,
               totalTarefas: 0,
+              totalConcluidas: 0,
             };
           }
 
           acc[key].tarefas.push(tarefa);
-          acc[key].tempoRestante += tarefa.tempo;
-          acc[key].totalTarefas += 1;
           acc[key].tempoRestante +=
             tarefa.status === 'Pendente' ? tarefa.tempo : 0;
+          acc[key].totalTarefas += 1;
+          acc[key].totalConcluidas += tarefa.status === 'Concluida' ? 1 : 0;
 
           return acc;
         },
@@ -158,6 +159,7 @@ export class TarefasService {
             tarefas: typeof result;
             tempoRestante: number;
             totalTarefas: number;
+            totalConcluidas: number;
           }
         >,
       );
@@ -186,9 +188,13 @@ export class TarefasService {
     }
   }
 
-  async listCategorias() {
+  async listCategorias(user_id: string) {
     try {
-      const result = await this.prisma.categorias_tarefa.findMany();
+      const result = await this.prisma.categorias_tarefa.findMany({
+        where: {
+          user_id,
+        },
+      });
 
       return result;
     } catch (error: any) {

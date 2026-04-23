@@ -55,9 +55,9 @@ export class TarefasController {
     return await this.tarefasService.createCategoria(body);
   }
 
-  @Get('list-categorias')
-  async listCategorias() {
-    return await this.tarefasService.listCategorias();
+  @Get('list-categorias/:user_id')
+  async listCategorias(@Param('user_id') user_id: string) {
+    return await this.tarefasService.listCategorias(user_id);
   }
 
   @Delete('/delete-categoria/:id')

@@ -11,7 +11,6 @@ import {
   Query,
 } from '@nestjs/common';
 import type { ListTarefasType } from './tarefas.type';
-import { waitForDebugger } from 'inspector';
 
 @Controller('tarefas')
 export class TarefasController {
@@ -46,7 +45,10 @@ export class TarefasController {
   }
 
   @Patch('/:id')
-  async patchTarefa(@Param('id') id: number, body: Partial<TarefasDTO>) {
+  async patchTarefa(
+    @Param('id') id: number,
+    @Body() body: Partial<TarefasDTO>,
+  ) {
     return await this.tarefasService.patchTarefa(id, body);
   }
 

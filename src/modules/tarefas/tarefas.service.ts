@@ -21,6 +21,23 @@ export class TarefasService {
     }
   }
 
+  async patchTarefa(id: number, body: Partial<TarefasDTO>) {
+    try {
+      const result = await this.prisma.tarefas.update({
+        where: { id },
+        data: body,
+      });
+
+      return result;
+    } catch (error: any) {
+      console.log(error);
+      throw new HttpException(
+        error.response ?? 'Erro ao atualizar tarefa',
+        error.status ?? 500,
+      );
+    }
+  }
+
   async createCategoria(body: CategoriasTarefaDTO) {
     try {
       const result = await this.prisma.categorias_tarefa.create({ data: body });
@@ -232,23 +249,6 @@ export class TarefasService {
       console.log(error);
       throw new HttpException(
         error.response ?? 'Erro ao deletar tarefa',
-        error.status ?? 500,
-      );
-    }
-  }
-
-  async patchTarefa(id: number, body: Partial<TarefasDTO>) {
-    try {
-      const result = await this.prisma.tarefas.update({
-        where: { id },
-        data: body,
-      });
-
-      return result;
-    } catch (error: any) {
-      console.log(error);
-      throw new HttpException(
-        error.response ?? 'Erro ao atualizar tarefa',
         error.status ?? 500,
       );
     }

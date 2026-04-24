@@ -113,7 +113,7 @@ export class TarefasService {
           }),
 
           this.prisma.tarefas.aggregate({
-            where: { ...dateFilter, status: 'Concluido' },
+            where: { ...dateFilter, status: 'Concluida' },
             _sum: { tempo: true },
           }),
         ]);
@@ -211,9 +211,24 @@ export class TarefasService {
         where: {
           user_id,
         },
+        include: {
+          _count: {
+            select: {
+              tarefas: {
+                where: {
+                  status: 'Pendente',
+                },
+              },
+            },
+          },
+        },
       });
 
-      return result;
+      return result.map((categoria) => ({
+        ...categoria,
+        tarefasPendentes: categoria._count.tarefas,
+        _count: undefined,
+      }));
     } catch (error: any) {
       throw new HttpException(
         error.response ?? 'Erro ao listar categorias',

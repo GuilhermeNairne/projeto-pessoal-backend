@@ -70,7 +70,7 @@ export class TarefasController {
   @Patch('/patch-categoria/:id')
   async patchCategoria(
     @Param('id') id: number,
-    body: Partial<CategoriasTarefaDTO>,
+    @Body() body: Partial<CategoriasTarefaDTO>,
   ) {
     return await this.tarefasService.patchCategoria(id, body);
   }

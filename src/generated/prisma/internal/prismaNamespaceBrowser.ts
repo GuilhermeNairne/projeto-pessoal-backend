@@ -54,7 +54,9 @@ export const ModelName = {
   categories: 'categories',
   movements: 'movements',
   panels: 'panels',
-  User: 'User'
+  User: 'User',
+  categorias_tarefa: 'categorias_tarefa',
+  tarefas: 'tarefas'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -115,12 +117,38 @@ export const UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   profilePicture: 'profilePicture',
-  refreshToken: 'refreshToken',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  refreshToken: 'refreshToken'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const Categorias_tarefaScalarFieldEnum = {
+  nome: 'nome',
+  cor: 'cor',
+  user_id: 'user_id',
+  id: 'id'
+} as const
+
+export type Categorias_tarefaScalarFieldEnum = (typeof Categorias_tarefaScalarFieldEnum)[keyof typeof Categorias_tarefaScalarFieldEnum]
+
+
+export const TarefasScalarFieldEnum = {
+  userId: 'userId',
+  nome: 'nome',
+  status: 'status',
+  descricao: 'descricao',
+  tempo: 'tempo',
+  data: 'data',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  id: 'id',
+  categoriaId: 'categoriaId'
+} as const
+
+export type TarefasScalarFieldEnum = (typeof TarefasScalarFieldEnum)[keyof typeof TarefasScalarFieldEnum]
 
 
 export const SortOrder = {

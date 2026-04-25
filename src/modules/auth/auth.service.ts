@@ -54,7 +54,7 @@ export class AuthService {
         accessToken,
         refreshToken,
       };
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException(error ?? 'Erro ao realizar login', error.status);
     }
@@ -100,7 +100,7 @@ export class AuthService {
         accessToken,
         refreshToken,
       };
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException(error ?? 'Erro ao fazer cadastro', error.status);
     }
@@ -111,7 +111,7 @@ export class AuthService {
       const response = await this.userRepository.listUsers();
 
       return response;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException(error ?? 'Erro ao listar usuários', error.status);
     }
@@ -122,7 +122,7 @@ export class AuthService {
       const response = await this.userRepository.DeleteUser(id);
 
       return response;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException(error ?? 'Erro ao deletar usuário', error.status);
     }
@@ -133,7 +133,7 @@ export class AuthService {
       const response = await this.userRepository.updateUser(id, update);
 
       return response;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException(
         error ?? 'Erro ao atualizar usuário',
@@ -174,7 +174,7 @@ export class AuthService {
         },
         accessToken,
       };
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException(
         error ?? 'Erro ao fazer refresh token',

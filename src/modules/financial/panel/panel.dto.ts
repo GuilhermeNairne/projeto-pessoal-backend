@@ -3,13 +3,13 @@ import { IsString, IsNumber, IsNotEmpty } from 'class-validator';
 export class PanelDTO {
   @IsString()
   @IsNotEmpty()
-  user_id: string;
+  user_id!: string;
 
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @IsNumber()
   @IsNotEmpty()
-  initial_value: number;
+  initial_value!: number;
 }

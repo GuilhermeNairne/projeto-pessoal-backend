@@ -35,7 +35,7 @@ export class MovementService {
       });
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException(
         error ?? 'Erro ao criar movimento',
@@ -99,7 +99,7 @@ export class MovementService {
           totalPages: Math.ceil(total / perPage),
         },
       };
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException(
         error ?? 'Erro ao listar movimentações',
@@ -161,7 +161,7 @@ export class MovementService {
         total,
         data: result,
       };
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException('Erro ao trazer gastos do mês', error.status);
     }
@@ -196,7 +196,7 @@ export class MovementService {
       });
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException(
         error ?? 'Erro ao deletar movimento',
@@ -215,7 +215,7 @@ export class MovementService {
       });
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       throw new HttpException(
         error ?? 'Erro ao atualizar movimento',

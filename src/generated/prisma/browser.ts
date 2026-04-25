@@ -37,3 +37,13 @@ export type panels = Prisma.panelsModel
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model categorias_tarefa
+ * 
+ */
+export type categorias_tarefa = Prisma.categorias_tarefaModel
+/**
+ * Model tarefas
+ * 
+ */
+export type tarefas = Prisma.tarefasModel

@@ -1,0 +1,288 @@
+import { HttpException, Injectable } from '@nestjs/common';
+import { CategoriasTarefaDTO, TarefasDTO } from './tarefas.dto';
+import { PrismaService } from '../prisma/prisma.service';
+import { ListTarefasType } from './tarefas.type';
+
+@Injectable()
+export class TarefasService {
+  constructor(private prisma: PrismaService) {}
+
+  async createTarefa(body: TarefasDTO) {
+    try {
+      const result = await this.prisma.tarefas.create({ data: body });
+
+      return result;
+    } catch (error: any) {
+      console.log(error);
+      throw new HttpException(
+        error.response ?? 'Erro ao criar tarefa',
+        error.status ?? 500,
+      );
+    }
+  }
+
+  async patchTarefa(id: number, body: Partial<TarefasDTO>) {
+    try {
+      const result = await this.prisma.tarefas.update({
+        where: { id },
+        data: body,
+      });
+
+      return result;
+    } catch (error: any) {
+      console.log(error);
+      throw new HttpException(
+        error.response ?? 'Erro ao atualizar tarefa',
+        error.status ?? 500,
+      );
+    }
+  }
+
+  async createCategoria(body: CategoriasTarefaDTO) {
+    try {
+      const result = await this.prisma.categorias_tarefa.create({ data: body });
+
+      return result;
+    } catch (error: any) {
+      console.log(error);
+      throw new HttpException(
+        error.response ?? 'Erro ao criar categoria da tarefa',
+        error.status ?? 500,
+      );
+    }
+  }
+
+  async listTarefas(query: ListTarefasType) {
+    try {
+      const { user_id, month, year } = query;
+
+      const start = new Date(Number(year), Number(month) - 1, 1);
+      const end = new Date(Number(year), Number(month), 0, 23, 59, 59);
+
+      const result = await this.prisma.tarefas.findMany({
+        where: {
+          userId: user_id,
+          data: {
+            gte: start,
+            lte: end,
+          },
+        },
+        include: {
+          categoria: {
+            select: {
+              nome: true,
+              cor: true,
+            },
+          },
+        },
+      });
+
+      if (result.length === 0)
+        throw new HttpException('Nenhum resultado encontrado', 404);
+
+      return result;
+    } catch (error: any) {
+      console.log(error);
+      throw new HttpException(
+        error.response ?? 'Erro ao listar tarefa',
+        error.status ?? 500,
+      );
+    }
+  }
+
+  async listCardsTarefas(query: ListTarefasType) {
+    try {
+      const { user_id, month, year } = query;
+
+      const start = new Date(Number(year), Number(month) - 1, 1);
+      const end = new Date(Number(year), Number(month), 0, 23, 59, 59);
+
+      const dateFilter = {
+        userId: user_id,
+        data: { gte: start, lte: end },
+      };
+
+      const [totalPendente, totalMes, totalMinutos] =
+        await this.prisma.$transaction([
+          this.prisma.tarefas.count({
+            where: { ...dateFilter, status: 'Pendente' },
+          }),
+
+          this.prisma.tarefas.count({
+            where: dateFilter,
+          }),
+
+          this.prisma.tarefas.aggregate({
+            where: { ...dateFilter, status: 'Concluida' },
+            _sum: { tempo: true },
+          }),
+        ]);
+
+      return {
+        totalPendente,
+        totalMes,
+        totalMinutosConcluidos: totalMinutos._sum.tempo ?? 0,
+      };
+    } catch (error: any) {
+      console.log(error);
+      throw new HttpException(
+        error.response ?? 'Erro ao listar cards de tarefas',
+        error.status ?? 500,
+      );
+    }
+  }
+
+  async listTarefaSemana(primeiroDia: string, ultimoDia: string) {
+    try {
+      const [day1, month1, year1] = primeiroDia.split('/');
+      const [day2, month2, year2] = ultimoDia.split('/');
+
+      const dataInicio = new Date(`${year1}-${month1}-${day1}T00:00:00.000Z`);
+      const dataFim = new Date(`${year2}-${month2}-${day2}T23:59:59.999Z`);
+
+      const result = await this.prisma.tarefas.findMany({
+        where: {
+          data: {
+            gte: dataInicio,
+            lte: dataFim,
+          },
+        },
+      });
+
+      const grouped = result.reduce(
+        (acc, tarefa) => {
+          const key = tarefa.data.getUTCDate();
+
+          if (!acc[key]) {
+            acc[key] = {
+              tarefas: [],
+              tempoRestante: 0,
+              totalTarefas: 0,
+              totalConcluidas: 0,
+            };
+          }
+
+          acc[key].tarefas.push(tarefa);
+          acc[key].tempoRestante +=
+            tarefa.status === 'Pendente' ? tarefa.tempo : 0;
+          acc[key].totalTarefas += 1;
+          acc[key].totalConcluidas += tarefa.status === 'Concluida' ? 1 : 0;
+
+          return acc;
+        },
+        {} as Record<
+          number,
+          {
+            tarefas: typeof result;
+            tempoRestante: number;
+            totalTarefas: number;
+            totalConcluidas: number;
+          }
+        >,
+      );
+
+      const groupedFormatado = Object.fromEntries(
+        Object.entries(grouped).map(([key, value]) => {
+          const horas = Math.floor(value.tempoRestante / 60);
+          const minutos = value.tempoRestante % 60;
+          return [
+            key,
+            {
+              ...value,
+              tempoRestante: `${String(horas).padStart(2, '0')}h${String(minutos).padStart(2, '0')}m`,
+            },
+          ];
+        }),
+      );
+
+      return groupedFormatado;
+    } catch (error: any) {
+      console.log(error);
+      throw new HttpException(
+        error.response ?? 'Erro ao listar tarefa',
+        error.status ?? 500,
+      );
+    }
+  }
+
+  async listCategorias(user_id: string) {
+    try {
+      const result = await this.prisma.categorias_tarefa.findMany({
+        where: {
+          user_id,
+        },
+        include: {
+          _count: {
+            select: {
+              tarefas: {
+                where: {
+                  status: 'Pendente',
+                },
+              },
+            },
+          },
+        },
+      });
+
+      return result.map((categoria) => ({
+        ...categoria,
+        tarefasPendentes: categoria._count.tarefas,
+        _count: undefined,
+      }));
+    } catch (error: any) {
+      throw new HttpException(
+        error.response ?? 'Erro ao listar categorias',
+        error.status ?? 500,
+      );
+    }
+  }
+
+  async deleteCategoria(id: number) {
+    try {
+      const result = await this.prisma.categorias_tarefa.delete({
+        where: { id },
+      });
+
+      return result;
+    } catch (error: any) {
+      console.log(error);
+      throw new HttpException(
+        error.response ?? 'Erro ao deletar categoria',
+        error.status ?? 500,
+      );
+    }
+  }
+
+  async deleteTarefa(id: number) {
+    try {
+      const result = await this.prisma.tarefas.delete({
+        where: { id },
+      });
+
+      return result;
+    } catch (error: any) {
+      console.log(error);
+      throw new HttpException(
+        error.response ?? 'Erro ao deletar tarefa',
+        error.status ?? 500,
+      );
+    }
+  }
+
+  async patchCategoria(id: number, body: Partial<CategoriasTarefaDTO>) {
+    try {
+      const result = await this.prisma.categorias_tarefa.update({
+        where: { id },
+        data: body,
+      });
+
+      return result;
+    } catch (error: any) {
+      console.log(error);
+      throw new HttpException(
+        error.response ?? 'Erro ao atualizar categoria',
+        error.status ?? 500,
+      );
+    }
+  }
+}

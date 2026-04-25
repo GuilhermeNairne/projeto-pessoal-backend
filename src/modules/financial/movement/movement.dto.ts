@@ -10,27 +10,27 @@ import {
 export class MovementDTO {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @IsNumber()
   @IsNotEmpty()
-  value: number;
+  value!: number;
 
   @IsString()
   @IsNotEmpty()
-  movement_type: string;
+  movement_type!: string;
 
   @IsNumber()
   @IsNotEmpty()
-  painel_id: number;
+  painel_id!: number;
 
   @IsNumber()
   @IsNotEmpty()
-  category_id: number;
+  category_id!: number;
 
   @Type(() => Date)
   @IsDate()
-  date: Date;
+  date!: Date;
 }
 
 export class MovementsFilterDTO {

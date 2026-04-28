@@ -237,6 +237,40 @@ export class TarefasService {
     }
   }
 
+  async graficoCategoreias(user_id: string) {
+    try {
+      const result = await this.prisma.categorias_tarefa.findMany({
+        where: {
+          user_id: user_id,
+        },
+        select: {
+          nome: true,
+          cor: true,
+          _count: {
+            select: {
+              tarefas: {
+                where: {
+                  status: 'Concluida',
+                },
+              },
+            },
+          },
+        },
+      });
+
+      return result.map((categoria) => ({
+        nome: categoria.nome,
+        total: categoria._count.tarefas,
+        cor: categoria.cor,
+      }));
+    } catch (error: any) {
+      throw new HttpException(
+        error.response ?? 'Erro ao retornar gráfico de categoria!',
+        error.status ?? 500,
+      );
+    }
+  }
+
   async deleteCategoria(id: number) {
     try {
       const result = await this.prisma.categorias_tarefa.delete({

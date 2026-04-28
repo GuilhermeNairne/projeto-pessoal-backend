@@ -62,6 +62,11 @@ export class TarefasController {
     return await this.tarefasService.listCategorias(user_id);
   }
 
+  @Get('grafico-categorias/:user_id')
+  async graficoCategorias(@Param('user_id') user_id: string) {
+    return await this.tarefasService.graficoCategoreias(user_id);
+  }
+
   @Delete('/delete-categoria/:id')
   async deleteCategoria(@Param('id') id: number) {
     return await this.tarefasService.deleteCategoria(id);

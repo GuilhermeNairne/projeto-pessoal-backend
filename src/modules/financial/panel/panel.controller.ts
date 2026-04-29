@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 
 @Controller('financial-panel')
@@ -47,5 +48,14 @@ export class PanelFinancialController {
     const result = await this.panelService.listJuros(id);
 
     return result;
+  }
+
+  @Get('expenses-graphics/:id')
+  async expensesGraphics(
+    @Param('id') id: number,
+    @Query('month') month: number,
+    @Query('year') year: number,
+  ) {
+    return this.panelService.expensesGraphics(id, month, year);
   }
 }

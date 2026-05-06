@@ -25,7 +25,10 @@ export class TarefasService {
     try {
       const result = await this.prisma.tarefas.update({
         where: { id },
-        data: body,
+        data: {
+          ...body,
+          categoriaId: Number(body.categoriaId),
+        },
       });
 
       return result;

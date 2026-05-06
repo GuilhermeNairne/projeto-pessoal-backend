@@ -47,7 +47,14 @@ export class MovementService {
   async listMovements(panel_id: number, filters: MovementsFilterDTO) {
     try {
       const perPage = 15;
-      const page = Number(filters.page) || 1;
+
+      const hasActiveFilters = !!(
+        filters.category_id ||
+        filters.movement_type ||
+        filters.name
+      );
+
+      const page = hasActiveFilters ? 1 : Number(filters.page) || 1;
 
       const where: any = {
         painel_id: Number(panel_id),

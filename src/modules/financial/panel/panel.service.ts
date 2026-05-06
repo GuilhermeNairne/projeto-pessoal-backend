@@ -52,37 +52,8 @@ export class PanelService {
         },
       });
 
-      const jurosByMonth: any = await this.prisma.$queryRaw`
-  SELECT 
-    m.painel_id,
-    DATE_TRUNC('month', m.date) AS month,
-    SUM(m.value) AS total
-  FROM movements m
-  JOIN categories c ON c.id = m.category_id
-  JOIN panels p ON p.id = m.painel_id
-  WHERE c.name ILIKE '%juros%'
-    AND p.user_id = ${user_id}
-  GROUP BY m.painel_id, month
-  ORDER BY m.painel_id, month;
-`;
-
-      const jurosMap = jurosByMonth.reduce((acc, item) => {
-        const panelId = item.painel_id;
-
-        if (!acc[panelId]) acc[panelId] = [];
-
-        acc[panelId].push({
-          painel_id: panelId,
-          month: item.month.toISOString(),
-          total: Number(item.total),
-        });
-
-        return acc;
-      }, {});
-
       const result = panels.map((panel) => ({
         ...panel,
-        juros: jurosMap[panel.id] || [],
         categories: panel.categories.map((category) => {
           const totalSpent = category.movements.reduce(
             (acc, mov) => acc + Number(mov.value),
@@ -171,6 +142,58 @@ export class PanelService {
         'Erro ao listar juros dessa painel',
         error.status,
       );
+    }
+  }
+
+  async expensesGraphics(id: number, month: number, year: number) {
+    try {
+      const startDate = new Date(year, month - 1, 1);
+      const endDate = new Date(year, month, 1);
+
+      const panel = await this.prisma.panels.findUnique({
+        where: { id },
+        include: {
+          categories: {
+            include: {
+              movements: {
+                where: {
+                  movement_type: 'OUT',
+                  date: {
+                    gte: startDate,
+                    lt: endDate,
+                  },
+                },
+                select: {
+                  value: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      if (!panel) return null;
+
+      const categories = panel.categories
+        .map((category) => ({
+          x: category.name,
+          y: Number(
+            category.movements
+              .reduce((acc, mov) => acc + Number(mov.value), 0)
+              .toFixed(2),
+          ),
+          color: category.color,
+        }))
+        .filter((category) => category.y > 0);
+
+      const total_expenses = Number(
+        categories.reduce((acc, category) => acc + category.y, 0).toFixed(2),
+      );
+
+      return { categories, total_expenses };
+    } catch (error: any) {
+      console.log(error);
+      throw new HttpException('Erro ao listar gráfico de gastos', error.status);
     }
   }
 }

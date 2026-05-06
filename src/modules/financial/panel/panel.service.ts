@@ -147,24 +147,50 @@ export class PanelService {
 
   async expensesGraphics(id: number, month: number, year: number) {
     try {
-      const result = await this.prisma.movements.aggregate({
-        where: {
-          painel_id: id,
-          movement_type: 'OUT',
-          date: {
-            gte: new Date(year, month - 1, 1),
-            lt: new Date(year, month, 1),
+      const startDate = new Date(year, month - 1, 1);
+      const endDate = new Date(year, month, 1);
+
+      const panel = await this.prisma.panels.findUnique({
+        where: { id },
+        include: {
+          categories: {
+            include: {
+              movements: {
+                where: {
+                  movement_type: 'OUT',
+                  date: {
+                    gte: startDate,
+                    lt: endDate,
+                  },
+                },
+                select: {
+                  value: true,
+                },
+              },
+            },
           },
-        },
-        _sum: {
-          value: true,
         },
       });
 
-      return {
-        painel_id: id,
-        total_expenses: result && result._sum ? result?._sum.value : 0,
-      };
+      if (!panel) return null;
+
+      const categories = panel.categories
+        .map((category) => ({
+          x: category.name,
+          y: Number(
+            category.movements
+              .reduce((acc, mov) => acc + Number(mov.value), 0)
+              .toFixed(2),
+          ),
+          color: category.color,
+        }))
+        .filter((category) => category.y > 0);
+
+      const total_expenses = Number(
+        categories.reduce((acc, category) => acc + category.y, 0).toFixed(2),
+      );
+
+      return { categories, total_expenses };
     } catch (error: any) {
       console.log(error);
       throw new HttpException('Erro ao listar gráfico de gastos', error.status);

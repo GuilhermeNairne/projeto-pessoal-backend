@@ -110,7 +110,7 @@ export class PanelService {
     }
   }
 
-  async listJuros(id: number) {
+  async feesByMonth(id: number) {
     try {
       const category = await this.prisma.categories.findFirst({
         where: {

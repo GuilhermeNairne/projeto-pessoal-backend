@@ -43,9 +43,9 @@ export class PanelFinancialController {
     return result;
   }
 
-  @Get('list-juros/:id')
-  async listJuros(@Param('id') id: number) {
-    const result = await this.panelService.listJuros(id);
+  @Get('fees/:id')
+  async feesByMonth(@Param('id') id: number) {
+    const result = await this.panelService.feesByMonth(id);
 
     return result;
   }

@@ -112,7 +112,7 @@ export class PanelService {
 
   async feesByMonth(id: number) {
     try {
-      const category = await this.prisma.categories.findFirst({
+      const categories = await this.prisma.categories.findMany({
         where: {
           painel_id: id,
           name: {
@@ -120,17 +120,17 @@ export class PanelService {
             mode: 'insensitive',
           },
         },
-        select: {
-          id: true,
-        },
+        select: { id: true },
       });
+
+      const categoryIds = categories.map((c) => c.id);
 
       const result = await this.prisma.$queryRaw`
   SELECT 
-    DATE_TRUNC('month', created_at) AS month,
+    DATE_TRUNC('month', date AT TIME ZONE 'America/Sao_Paulo') AS month,
     SUM(value) AS total
   FROM movements
-  WHERE category_id = ${category?.id}
+  WHERE category_id = ANY(${categoryIds}::int[])
   GROUP BY month
   ORDER BY month;
 `;

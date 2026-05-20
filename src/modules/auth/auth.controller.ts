@@ -1,4 +1,5 @@
-import { RegisterDto } from './auth.dto';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
 import {
   Body,
@@ -9,7 +10,10 @@ import {
   Patch,
   Post,
   Req,
+  Res,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 
 export interface RegisterTpye {
   name: string;
@@ -23,8 +27,36 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() values: { email: string; password: string }) {
-    return await this.authService.login(values);
+  async login(@Body() @Body() body: LoginDto, @Res({ passthrough: true }) res) {
+    const { user, accessToken, refreshToken } =
+      await this.authService.login(body);
+
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 15 * 60 * 1000,
+    });
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      path: '/auth/refresh',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return { user };
+  }
+
+  @Post('logout')
+  @UseGuards(JwtAuthGuard)
+  async logout(@Req() req, @Res({ passthrough: true }) res) {
+    const userId = req.user.id;
+    await this.authService.logout(userId);
+
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken', { path: '/auth/refresh' });
   }
 
   @Post('register')
@@ -33,6 +65,7 @@ export class AuthController {
   }
 
   @Get('list')
+  @UseGuards(JwtAuthGuard)
   async list() {
     return await this.authService.list();
   }
@@ -48,8 +81,17 @@ export class AuthController {
   }
 
   @Post('refresh')
-  async refresh(@Req() req: any) {
-    const refreshToken = req.cookies.refreshToken;
-    return this.authService.refresh(refreshToken);
+  async refresh(@Req() req, @Res({ passthrough: true }) res) {
+    const refreshToken = req.cookies['refreshToken'];
+    const { user, accessToken } = await this.authService.refresh(refreshToken);
+
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 15 * 60 * 1000,
+    });
+
+    return { user };
   }
 }

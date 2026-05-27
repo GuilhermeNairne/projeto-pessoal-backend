@@ -71,16 +71,19 @@ export class AuthController {
   }
 
   @Delete('/:id')
+  @UseGuards(JwtAuthGuard)
   async delete(@Param('id') id: string) {
     return this.authService.delete(id);
   }
 
   @Patch('/:id')
+  @UseGuards(JwtAuthGuard)
   async update(@Param('id') id: string, @Body() update: Partial<RegisterDto>) {
     return await this.authService.update(id, update);
   }
 
   @Post('refresh')
+  @UseGuards(JwtAuthGuard)
   async refresh(@Req() req, @Res({ passthrough: true }) res) {
     const refreshToken = req.cookies['refreshToken'];
     const { user, accessToken } = await this.authService.refresh(refreshToken);

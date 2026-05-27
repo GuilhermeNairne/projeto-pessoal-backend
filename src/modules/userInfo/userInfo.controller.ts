@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UserInfoService } from './userInfo.service';
 import {
   Body,
@@ -6,9 +7,11 @@ import {
   Req,
   Res,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 
 @Controller('user-info')
+@UseGuards(JwtAuthGuard)
 export class UserInfoController {
   constructor(private readonly userInfoService: UserInfoService) {}
 

@@ -58,9 +58,12 @@ export class TarefasService {
   async listTarefas(query: ListTarefasType) {
     try {
       const { user_id, month, year } = query;
-
-      const start = new Date(Number(year), Number(month) - 1, 1);
-      const end = new Date(Number(year), Number(month), 0, 23, 59, 59);
+      const start = new Date(
+        Date.UTC(Number(year), Number(month) - 1, 1, 0, 0, 0),
+      );
+      const end = new Date(
+        Date.UTC(Number(year), Number(month), 0, 23, 59, 59),
+      );
 
       const result = await this.prisma.tarefas.findMany({
         where: {
@@ -141,6 +144,7 @@ export class TarefasService {
       const [day2, month2, year2] = ultimoDia.split('/');
 
       const dataInicio = new Date(`${year1}-${month1}-${day1}T00:00:00.000Z`);
+
       const dataFim = new Date(`${year2}-${month2}-${day2}T23:59:59.999Z`);
 
       const result = await this.prisma.tarefas.findMany({

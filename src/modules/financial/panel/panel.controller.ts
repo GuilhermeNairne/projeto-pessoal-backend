@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { PanelDTO } from './panel.dto';
 import { PanelService } from './panel.service';
 import {
@@ -9,9 +10,11 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 
 @Controller('financial-panel')
+@UseGuards(JwtAuthGuard)
 export class PanelFinancialController {
   constructor(private readonly panelService: PanelService) {}
 

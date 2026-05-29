@@ -1,11 +1,12 @@
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { RegisterDto } from './auth.dto';
+import { RegisterDto } from './dto/auth.dto';
 import { UserRepository } from './user.repository';
 import {
   ConflictException,
   HttpException,
   Injectable,
+  InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
 
@@ -56,7 +57,52 @@ export class AuthService {
       };
     } catch (error: any) {
       console.log(error);
-      throw new HttpException(error ?? 'Erro ao realizar login', error.status);
+      if (error instanceof HttpException) throw error;
+      throw new InternalServerErrorException('Erro ao realizar login');
+    }
+  }
+
+  async logout(userId: string) {
+    await this.userRepository.updateRefreshToken(userId, null);
+  }
+
+  async refresh(refreshToken: string) {
+    try {
+      if (!refreshToken) {
+        throw new UnauthorizedException();
+      }
+
+      let payload: any;
+
+      payload = this.jwtService.verify(refreshToken);
+
+      const user = await this.userRepository.findUser(payload);
+
+      const tokenMatch = await bcrypt.compare(refreshToken, user?.refreshToken);
+      if (!tokenMatch) throw new UnauthorizedException();
+
+      const accessToken = this.jwtService.sign(
+        {},
+        {
+          subject: user?.id,
+          expiresIn: '15m',
+        },
+      );
+
+      return {
+        user: {
+          id: user?.id,
+          name: user?.name,
+          email: user?.email,
+        },
+        accessToken,
+      };
+    } catch (error: any) {
+      console.log(error);
+      throw new HttpException(
+        error ?? 'Erro ao fazer refresh token',
+        error.status,
+      );
     }
   }
 
@@ -137,47 +183,6 @@ export class AuthService {
       console.log(error);
       throw new HttpException(
         error ?? 'Erro ao atualizar usuário',
-        error.status,
-      );
-    }
-  }
-
-  async refresh(refreshToken: string) {
-    try {
-      if (!refreshToken) {
-        throw new UnauthorizedException();
-      }
-
-      let payload: any;
-
-      payload = this.jwtService.verify(refreshToken);
-
-      const user = await this.userRepository.findUser(payload);
-
-      if (!user || user.refreshToken !== refreshToken) {
-        throw new UnauthorizedException();
-      }
-
-      const accessToken = this.jwtService.sign(
-        {},
-        {
-          subject: user.id,
-          expiresIn: '15m',
-        },
-      );
-
-      return {
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-        },
-        accessToken,
-      };
-    } catch (error: any) {
-      console.log(error);
-      throw new HttpException(
-        error ?? 'Erro ao fazer refresh token',
         error.status,
       );
     }

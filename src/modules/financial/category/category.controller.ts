@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { CategoryDTO } from './category.dto';
 import { CategoryService } from './category.service';
 import {
@@ -10,9 +11,11 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 
 @Controller('financial-category')
+@UseGuards(JwtAuthGuard)
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 

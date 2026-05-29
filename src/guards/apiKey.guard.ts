@@ -24,7 +24,7 @@ export class ApiKeyGuard implements CanActivate {
     const key = this.extractKey(request);
 
     if (!key) {
-      throw new UnauthorizedException('API key is missing.');
+      throw new UnauthorizedException('API key não informada!');
     }
 
     const validKeys = (process.env.API_KEY ?? '')
@@ -33,11 +33,11 @@ export class ApiKeyGuard implements CanActivate {
       .filter(Boolean);
 
     if (validKeys.length === 0) {
-      throw new UnauthorizedException('API key validation is not configured.');
+      throw new UnauthorizedException('API key não configurada!');
     }
 
     if (!validKeys.includes(key)) {
-      throw new UnauthorizedException('Invalid API key.');
+      throw new UnauthorizedException('API KEY inválida!');
     }
 
     return true;

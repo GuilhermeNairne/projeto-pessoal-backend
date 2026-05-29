@@ -9,9 +9,12 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 
 @Controller('financial-movement')
+@UseGuards(JwtAuthGuard)
 export class MovementController {
   constructor(private readonly movementService: MovementService) {}
 

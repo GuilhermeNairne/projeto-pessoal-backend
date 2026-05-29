@@ -9,10 +9,13 @@ import {
   Delete,
   Controller,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import type { ListTarefasType } from './tarefas.type';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('tarefas')
+@UseGuards(JwtAuthGuard)
 export class TarefasController {
   constructor(private readonly tarefasService: TarefasService) {}
 

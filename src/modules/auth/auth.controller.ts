@@ -64,6 +64,12 @@ export class AuthController {
     return await this.authService.register(values);
   }
 
+  @Get('me')
+  @UseGuards(JwtAuthGuard)
+  me(@Req() req) {
+    return { user: req.user };
+  }
+
   @Get('list')
   @UseGuards(JwtAuthGuard)
   async list() {
@@ -83,7 +89,6 @@ export class AuthController {
   }
 
   @Post('refresh')
-  @UseGuards(JwtAuthGuard)
   async refresh(@Req() req, @Res({ passthrough: true }) res) {
     const refreshToken = req.cookies['refreshToken'];
     const { user, accessToken } = await this.authService.refresh(refreshToken);
@@ -91,7 +96,7 @@ export class AuthController {
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
+      sameSite: 'none',
       maxAge: 60 * 60 * 1000,
     });
 

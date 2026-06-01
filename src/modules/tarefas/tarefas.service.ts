@@ -100,13 +100,19 @@ export class TarefasService {
     try {
       const { user_id, month, year } = query;
 
-      const start = new Date(Number(year), Number(month) - 1, 1);
-      const end = new Date(Number(year), Number(month), 0, 23, 59, 59);
+      const start = new Date(
+        Date.UTC(Number(year), Number(month) - 1, 1, 0, 0, 0),
+      );
+      const end = new Date(
+        Date.UTC(Number(year), Number(month), 0, 23, 59, 59),
+      );
 
       const dateFilter = {
         userId: user_id,
         data: { gte: start, lte: end },
       };
+
+      console.log({ dateFilter });
 
       const [totalPendente, totalMes, totalMinutos] =
         await this.prisma.$transaction([

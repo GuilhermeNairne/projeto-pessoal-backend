@@ -34,7 +34,7 @@ export class AuthService {
 
       const accessToken = this.jwtService.sign(
         { sub: user.id },
-        { expiresIn: '15m' },
+        { expiresIn: '1h' },
       );
 
       const refreshToken = this.jwtService.sign(
@@ -85,7 +85,7 @@ export class AuthService {
         {},
         {
           subject: user?.id,
-          expiresIn: '15m',
+          expiresIn: '1h',
         },
       );
 
@@ -125,7 +125,7 @@ export class AuthService {
 
       const accessToken = this.jwtService.sign(
         { sub: user.id },
-        { expiresIn: '15m' },
+        { expiresIn: '1h' },
       );
       const refreshToken = this.jwtService.sign(
         { sub: user.id },

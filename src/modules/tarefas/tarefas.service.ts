@@ -112,8 +112,6 @@ export class TarefasService {
         data: { gte: start, lte: end },
       };
 
-      console.log({ dateFilter });
-
       const [totalPendente, totalMes, totalMinutos] =
         await this.prisma.$transaction([
           this.prisma.tarefas.count({

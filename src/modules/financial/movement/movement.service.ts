@@ -191,7 +191,10 @@ export class MovementService {
         },
       });
 
-      const new_value = Number(panel?.initial_value) + Number(movement_value);
+      const new_value =
+        result.movement_type === 'IN'
+          ? Number(panel?.initial_value) - Number(movement_value)
+          : Number(panel?.initial_value) + Number(movement_value);
 
       await this.prisma.panels.update({
         where: {

@@ -24,27 +24,32 @@ export interface RegisterTpye {
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
+
+  private readonly accessTokenCookieOptions = {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none' as const,
+    partitioned: true,
+    maxAge: 60 * 60 * 1000,
+  };
+
+  private readonly refreshTokenCookieOptions = {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none' as const,
+    partitioned: true,
+    path: '/auth/refresh',
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  };
 
   @Post('login')
-  async login(@Body() @Body() body: LoginDto, @Res({ passthrough: true }) res) {
+  async login(@Body() body: LoginDto, @Res({ passthrough: true }) res) {
     const { user, accessToken, refreshToken } =
       await this.authService.login(body);
 
-    res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      maxAge: 60 * 60 * 1000,
-    });
-
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      path: '/auth/refresh',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    res.cookie('accessToken', accessToken, this.accessTokenCookieOptions);
+    res.cookie('refreshToken', refreshToken, this.refreshTokenCookieOptions);
 
     return { user };
   }
@@ -55,8 +60,8 @@ export class AuthController {
     const userId = req.user.id;
     await this.authService.logout(userId);
 
-    res.clearCookie('accessToken');
-    res.clearCookie('refreshToken', { path: '/auth/refresh' });
+    res.clearCookie('accessToken', this.accessTokenCookieOptions);
+    res.clearCookie('refreshToken', this.refreshTokenCookieOptions);
   }
 
   @Post('register')
@@ -93,12 +98,7 @@ export class AuthController {
     const refreshToken = req.cookies['refreshToken'];
     const { user, accessToken } = await this.authService.refresh(refreshToken);
 
-    res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      maxAge: 60 * 60 * 1000,
-    });
+    res.cookie('accessToken', accessToken, this.accessTokenCookieOptions);
 
     return { user };
   }

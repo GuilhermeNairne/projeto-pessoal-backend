@@ -44,6 +44,10 @@ export class NotificationService {
 
   async update(id: number, body: Partial<NotificationDTO>) {
     try {
+      if (body.date) {
+        body.date = new Date(body.date);
+      }
+
       return await this.prisma.notifications.update({
         where: { id },
         data: body,
@@ -73,10 +77,22 @@ export class NotificationService {
     try {
       const today = new Date();
       const startOfDay = new Date(
-        Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()),
+        Date.UTC(
+          today.getUTCFullYear(),
+          today.getUTCMonth(),
+          today.getUTCDate(),
+        ),
       );
       const endOfDay = new Date(
-        Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), 23, 59, 59, 999),
+        Date.UTC(
+          today.getUTCFullYear(),
+          today.getUTCMonth(),
+          today.getUTCDate(),
+          23,
+          59,
+          59,
+          999,
+        ),
       );
 
       const notifications = await this.prisma.notifications.findMany({
@@ -109,10 +125,19 @@ export class NotificationService {
           `<h2>${notification.title}</h2><p>${notification.description}</p>`,
         );
 
-        await this.prisma.notifications.update({
-          where: { id: notification.id },
-          data: { isCurrent: false },
-        });
+        if (notification.isCurrent) {
+          const nextDate = new Date(notification.date);
+          nextDate.setMonth(nextDate.getMonth() + 1);
+          await this.prisma.notifications.update({
+            where: { id: notification.id },
+            data: { date: nextDate },
+          });
+        } else {
+          await this.prisma.notifications.update({
+            where: { id: notification.id },
+            data: { isCurrent: false },
+          });
+        }
 
         sent++;
       }

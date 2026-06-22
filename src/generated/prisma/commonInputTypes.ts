@@ -216,6 +216,36 @@ export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedStringNullableFilter<$PrismaModel>
 }
 
+export type BoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
+}
+
+export type EnumNotificationMethodFilter<$PrismaModel = never> = {
+  equals?: $Enums.NotificationMethod | Prisma.EnumNotificationMethodFieldRefInput<$PrismaModel>
+  in?: $Enums.NotificationMethod[] | Prisma.ListEnumNotificationMethodFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NotificationMethod[] | Prisma.ListEnumNotificationMethodFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNotificationMethodFilter<$PrismaModel> | $Enums.NotificationMethod
+}
+
+export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedBoolFilter<$PrismaModel>
+  _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
+export type EnumNotificationMethodWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.NotificationMethod | Prisma.EnumNotificationMethodFieldRefInput<$PrismaModel>
+  in?: $Enums.NotificationMethod[] | Prisma.ListEnumNotificationMethodFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NotificationMethod[] | Prisma.ListEnumNotificationMethodFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNotificationMethodWithAggregatesFilter<$PrismaModel> | $Enums.NotificationMethod
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumNotificationMethodFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumNotificationMethodFilter<$PrismaModel>
+}
+
 export type NestedIntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
@@ -429,6 +459,36 @@ export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedStringNullableFilter<$PrismaModel>
   _max?: Prisma.NestedStringNullableFilter<$PrismaModel>
+}
+
+export type NestedBoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
+}
+
+export type NestedEnumNotificationMethodFilter<$PrismaModel = never> = {
+  equals?: $Enums.NotificationMethod | Prisma.EnumNotificationMethodFieldRefInput<$PrismaModel>
+  in?: $Enums.NotificationMethod[] | Prisma.ListEnumNotificationMethodFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NotificationMethod[] | Prisma.ListEnumNotificationMethodFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNotificationMethodFilter<$PrismaModel> | $Enums.NotificationMethod
+}
+
+export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedBoolFilter<$PrismaModel>
+  _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
+export type NestedEnumNotificationMethodWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.NotificationMethod | Prisma.EnumNotificationMethodFieldRefInput<$PrismaModel>
+  in?: $Enums.NotificationMethod[] | Prisma.ListEnumNotificationMethodFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NotificationMethod[] | Prisma.ListEnumNotificationMethodFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNotificationMethodWithAggregatesFilter<$PrismaModel> | $Enums.NotificationMethod
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumNotificationMethodFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumNotificationMethodFilter<$PrismaModel>
 }
 
 

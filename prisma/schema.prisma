@@ -75,3 +75,21 @@ model tarefas {
   categoriaId Int?
   categoria   categorias_tarefa? @relation(fields: [categoriaId], references: [id])
 }
+
+enum NotificationMethod {
+  EMAIL
+  WHATSAPP
+  BOTH
+}
+
+model notifications {
+  id          Int                @id @default(autoincrement())
+  userId      String
+  title       String
+  description String
+  date        DateTime
+  isCurrent   Boolean            @default(true)
+  method      NotificationMethod
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+}

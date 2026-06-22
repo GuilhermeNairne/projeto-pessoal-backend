@@ -9,7 +9,10 @@
 * 🟢 You can import this file directly.
 */
 
+export const NotificationMethod = {
+  EMAIL: 'EMAIL',
+  WHATSAPP: 'WHATSAPP',
+  BOTH: 'BOTH'
+} as const
 
-
-// This file is empty because there are no enums in the schema.
-export {}
+export type NotificationMethod = (typeof NotificationMethod)[keyof typeof NotificationMethod]

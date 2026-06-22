@@ -47,3 +47,8 @@ export type categorias_tarefa = Prisma.categorias_tarefaModel
  * 
  */
 export type tarefas = Prisma.tarefasModel
+/**
+ * Model notifications
+ * 
+ */
+export type notifications = Prisma.notificationsModel

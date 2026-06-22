@@ -8,6 +8,8 @@ import { PrismaModule } from './modules/prisma/prisma.module';
 import { TarefasModule } from './modules/tarefas/tarefas.module';
 import { UserInfoModule } from './modules/userInfo/userInfo.module';
 import { FinancialModule } from './modules/financial/financial.module';
+import { MailModule } from './modules/mail/mail.module';
+import { NotificationModule } from './modules/notification/notification.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { FinancialModule } from './modules/financial/financial.module';
     UserInfoModule,
     AuthModule,
     TarefasModule,
+    MailModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [

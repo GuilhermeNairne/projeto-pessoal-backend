@@ -73,27 +73,53 @@ export class NotificationService {
     }
   }
 
+  async sendTestEmail(to: string) {
+    try {
+      await this.mailService.sendMail(
+        to,
+        'Teste - Notificação',
+        '<h2>Email de teste</h2><p>Se você recebeu este email, o envio está funcionando corretamente.</p>',
+      );
+      return { success: true, message: `Email de teste enviado para ${to}` };
+    } catch (error: any) {
+      console.log(error);
+      throw new HttpException(
+        error.response ?? 'Erro ao enviar email de teste',
+        error.status ?? 500,
+      );
+    }
+  }
+
+  async debugNotifications() {
+    const today = new Date();
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59, 999);
+
+    const all = await this.prisma.notifications.findMany({
+      where: { isCurrent: true },
+    });
+
+    return {
+      serverNow: today.toISOString(),
+      queryRange: {
+        startOfDay: startOfDay.toISOString(),
+        endOfDay: endOfDay.toISOString(),
+      },
+      allCurrentNotifications: all.map((n) => ({
+        id: n.id,
+        title: n.title,
+        date: n.date.toISOString(),
+        method: n.method,
+        isCurrent: n.isCurrent,
+      })),
+    };
+  }
+
   async sendDueNotifications() {
     try {
       const today = new Date();
-      const startOfDay = new Date(
-        Date.UTC(
-          today.getUTCFullYear(),
-          today.getUTCMonth(),
-          today.getUTCDate(),
-        ),
-      );
-      const endOfDay = new Date(
-        Date.UTC(
-          today.getUTCFullYear(),
-          today.getUTCMonth(),
-          today.getUTCDate(),
-          23,
-          59,
-          59,
-          999,
-        ),
-      );
+      const startOfDay = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+      const endOfDay = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), 23, 59, 59, 999));
 
       const notifications = await this.prisma.notifications.findMany({
         where: {

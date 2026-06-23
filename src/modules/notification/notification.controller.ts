@@ -27,6 +27,16 @@ export class NotificationController {
     return await this.notificationService.sendDueNotifications();
   }
 
+  @Post('send-test/:email')
+  async sendTestEmail(@Param('email') email: string) {
+    return await this.notificationService.sendTestEmail(email);
+  }
+
+  @Get('debug')
+  async debugNotifications() {
+    return await this.notificationService.debugNotifications();
+  }
+
   @Get(':userId')
   async findAll(@Param('userId') userId: string) {
     return await this.notificationService.findAll(userId);

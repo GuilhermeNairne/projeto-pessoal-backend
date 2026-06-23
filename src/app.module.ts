@@ -10,9 +10,11 @@ import { UserInfoModule } from './modules/userInfo/userInfo.module';
 import { FinancialModule } from './modules/financial/financial.module';
 import { MailModule } from './modules/mail/mail.module';
 import { NotificationModule } from './modules/notification/notification.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     FinancialModule,
     PrismaModule,
     UserInfoModule,

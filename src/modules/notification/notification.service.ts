@@ -1,14 +1,24 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, Logger } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { NotificationDTO } from './notification.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class NotificationService {
+  private readonly logger = new Logger(NotificationService.name);
+
   constructor(
     private prisma: PrismaService,
     private mailService: MailService,
   ) {}
+
+  @Cron('0 8 * * *')
+  async handleDailyNotifications() {
+    this.logger.log('Executando envio diário de notificações...');
+    const result = await this.sendDueNotifications();
+    this.logger.log(result.message);
+  }
 
   async create(body: NotificationDTO) {
     try {

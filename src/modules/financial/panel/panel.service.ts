@@ -126,13 +126,14 @@ export class PanelService {
       const categoryIds = categories.map((c) => c.id);
 
       const result = await this.prisma.$queryRaw`
-  SELECT 
-    DATE_TRUNC('month', date AT TIME ZONE 'America/Sao_Paulo') AS month,
+  SELECT
+    EXTRACT(YEAR FROM "date")::int AS year,
+    EXTRACT(MONTH FROM "date")::int AS month,
     SUM(value) AS total
   FROM movements
   WHERE category_id = ANY(${categoryIds}::int[])
-  GROUP BY month
-  ORDER BY month;
+  GROUP BY year, month
+  ORDER BY year, month;
 `;
 
       return result;

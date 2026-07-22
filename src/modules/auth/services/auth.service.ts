@@ -1,7 +1,3 @@
-import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
-import { RegisterDto } from './dto/auth.dto';
-import { UserRepository } from './user.repository';
 import {
   ConflictException,
   HttpException,
@@ -9,10 +5,16 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { RegisterDto } from '../dto/auth.dto';
+import { MailService } from '../../mail/mail.service';
+import { UserRepository } from '../repositories/user.repository';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private mailService: MailService,
     private readonly jwtService: JwtService,
     private readonly userRepository: UserRepository,
   ) {}
@@ -185,6 +187,18 @@ export class AuthService {
         error ?? 'Erro ao atualizar usuário',
         error.status,
       );
+    }
+  }
+
+  async sendEmailPasswordRecovery(code: number, email: string) {
+    try {
+      await this.mailService.sendMail(
+        email,
+        'Código para recuperação de senha',
+        `<p>Use o código para continuar o processo de troca de senha</p> <H2><b>${code}</b></H2>`,
+      );
+    } catch (error: any) {
+      throw new HttpException('Erro ao validar e-mail', error.status ?? 500);
     }
   }
 }

@@ -1,6 +1,8 @@
-import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/auth.dto';
-import { AuthService } from './auth.service';
+import { LoginDto } from '../dto/login.dto';
+import { RegisterDto } from '../dto/auth.dto';
+import { AuthService } from '../services/auth.service';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
+import { RecoveryPasswordUseCase } from '../useCases/recoveryPassword.useCase';
 import {
   Body,
   Controller,
@@ -13,7 +15,6 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 
 export interface RegisterTpye {
   name: string;
@@ -24,7 +25,10 @@ export interface RegisterTpye {
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
+  constructor(
+    private readonly authService: AuthService,
+    private readonly recoveryPasswordUseCase: RecoveryPasswordUseCase,
+  ) {}
 
   private readonly accessTokenCookieOptions = {
     httpOnly: true,
@@ -101,5 +105,10 @@ export class AuthController {
     res.cookie('accessToken', accessToken, this.accessTokenCookieOptions);
 
     return { user };
+  }
+
+  @Post('send-email-password-recovery')
+  async sendEmailPasswordRecovery(@Body('email') email: string) {
+    await this.recoveryPasswordUseCase.execute(email);
   }
 }

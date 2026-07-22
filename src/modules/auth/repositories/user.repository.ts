@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { RegisterDto } from './dto/auth.dto';
+import { RegisterDto } from '../dto/auth.dto';
+import { PrismaService } from 'src/modules/prisma/prisma.service';
 
 @Injectable()
 export class UserRepository {
@@ -10,6 +10,16 @@ export class UserRepository {
     return this.prisma.user.update({
       where: { id: userId },
       data: { refreshToken },
+    });
+  }
+
+  async setPasswordCodeRecovery(
+    email: string,
+    passwordCodeRecovery: number | null,
+  ) {
+    return this.prisma.user.update({
+      where: { email },
+      data: { passwordCodeRecovery },
     });
   }
 

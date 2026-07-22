@@ -50,6 +50,7 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   refreshToken   String?
+  passwordCodeRecovery Int?
 
   @@map("users")
 }

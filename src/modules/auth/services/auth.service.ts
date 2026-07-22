@@ -201,4 +201,22 @@ export class AuthService {
       throw new HttpException('Erro ao validar e-mail', error.status ?? 500);
     }
   }
+
+  async validateCode(email: string, code: string) {
+    try {
+      const user = await this.userRepository.findByEmail(email);
+
+      if (!user) {
+        throw new HttpException('Usuário não encontrado', 404);
+      }
+
+      if (user.passwordCodeRecovery !== parseInt(code)) {
+        throw new HttpException('Código inválido', 400);
+      }
+
+      return { message: 'Código válido' };
+    } catch (error: any) {
+      throw new HttpException('Erro ao validar código', error.status ?? 500);
+    }
+  }
 }

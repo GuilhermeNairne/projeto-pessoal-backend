@@ -111,4 +111,10 @@ export class AuthController {
   async sendEmailPasswordRecovery(@Body('email') email: string) {
     await this.recoveryPasswordUseCase.execute(email);
   }
+
+  @Post('validate-code')
+  async validateCode(@Body('email') email: string, @Body('code') code: string) {
+    const result = await this.authService.validateCode(email, code);
+    return result;
+  }
 }

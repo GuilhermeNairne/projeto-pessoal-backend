@@ -210,13 +210,59 @@ export class AuthService {
         throw new HttpException('Usuário não encontrado', 404);
       }
 
-      if (user.passwordCodeRecovery !== parseInt(code)) {
+      if (
+        !user.passwordCodeRecovery ||
+        !(await bcrypt.compare(code, user.passwordCodeRecovery))
+      ) {
         throw new HttpException('Código inválido', 400);
       }
 
-      return { message: 'Código válido' };
+      await this.userRepository.setPasswordCodeRecovery(email, null);
+
+      const resetPasswordToken = this.jwtService.sign(
+        { sub: user.id, purpose: 'reset-password' },
+        { expiresIn: '10m' },
+      );
+
+      return { message: 'Código válido', resetPasswordToken };
     } catch (error: any) {
       throw new HttpException('Erro ao validar código', error.status ?? 500);
+    }
+  }
+
+  async resetPassword(resetPasswordToken: string, newPassword: string) {
+    try {
+      if (!resetPasswordToken) {
+        throw new UnauthorizedException();
+      }
+
+      let payload: any;
+
+      try {
+        payload = this.jwtService.verify(resetPasswordToken);
+      } catch {
+        throw new UnauthorizedException();
+      }
+
+      if (payload.purpose !== 'reset-password') {
+        throw new UnauthorizedException();
+      }
+
+      const user = await this.userRepository.findUserById(payload.sub);
+
+      if (!user) {
+        throw new HttpException('Usuário não encontrado', 404);
+      }
+
+      const passwordHash = await bcrypt.hash(newPassword, 10);
+
+      await this.userRepository.updateUser(user.id, { password: passwordHash });
+
+      return { message: 'Senha atualizada com sucesso' };
+    } catch (error: any) {
+      console.log(error);
+      if (error instanceof HttpException) throw error;
+      throw new HttpException('Erro ao atualizar senha', error.status ?? 500);
     }
   }
 }

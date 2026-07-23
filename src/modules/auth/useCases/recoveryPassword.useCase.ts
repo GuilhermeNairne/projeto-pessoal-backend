@@ -2,6 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { UserRepository } from '../repositories/user.repository';
 import { randomInt } from 'crypto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class RecoveryPasswordUseCase {
@@ -18,7 +19,9 @@ export class RecoveryPasswordUseCase {
 
       const code = randomInt(100000, 1000000).toString();
 
-      await this.userRepository.setPasswordCodeRecovery(email, Number(code));
+      const codeHash = await bcrypt.hash(code, 10);
+
+      await this.userRepository.setPasswordCodeRecovery(email, codeHash);
 
       await this.authService.sendEmailPasswordRecovery(Number(code), email);
     } catch (error: any) {

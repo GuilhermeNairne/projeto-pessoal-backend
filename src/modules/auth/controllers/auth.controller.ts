@@ -47,6 +47,15 @@ export class AuthController {
     maxAge: 7 * 24 * 60 * 60 * 1000,
   };
 
+  private readonly resetPasswordTokenCookieOptions = {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none' as const,
+    partitioned: true,
+    path: '/auth/reset-password',
+    maxAge: 10 * 60 * 1000,
+  };
+
   @Post('login')
   async login(@Body() body: LoginDto, @Res({ passthrough: true }) res) {
     const { user, accessToken, refreshToken } =
@@ -113,8 +122,37 @@ export class AuthController {
   }
 
   @Post('validate-code')
-  async validateCode(@Body('email') email: string, @Body('code') code: string) {
-    const result = await this.authService.validateCode(email, code);
+  async validateCode(
+    @Body('email') email: string,
+    @Body('code') code: string,
+    @Res({ passthrough: true }) res,
+  ) {
+    const { resetPasswordToken, ...result } =
+      await this.authService.validateCode(email, code);
+
+    res.cookie(
+      'resetPasswordToken',
+      resetPasswordToken,
+      this.resetPasswordTokenCookieOptions,
+    );
+
+    return result;
+  }
+
+  @Post('reset-password')
+  async resetPassword(
+    @Req() req,
+    @Body('newPassword') newPassword: string,
+    @Res({ passthrough: true }) res,
+  ) {
+    const resetPasswordToken = req.cookies['resetPasswordToken'];
+    const result = await this.authService.resetPassword(
+      resetPasswordToken,
+      newPassword,
+    );
+
+    res.clearCookie('resetPasswordToken', this.resetPasswordTokenCookieOptions);
+
     return result;
   }
 }

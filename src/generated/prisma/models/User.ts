@@ -20,18 +20,8 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
-  _avg: UserAvgAggregateOutputType | null
-  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
-}
-
-export type UserAvgAggregateOutputType = {
-  passwordCodeRecovery: number | null
-}
-
-export type UserSumAggregateOutputType = {
-  passwordCodeRecovery: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -43,7 +33,7 @@ export type UserMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   refreshToken: string | null
-  passwordCodeRecovery: number | null
+  passwordCodeRecovery: string | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -55,7 +45,7 @@ export type UserMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   refreshToken: string | null
-  passwordCodeRecovery: number | null
+  passwordCodeRecovery: string | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -71,14 +61,6 @@ export type UserCountAggregateOutputType = {
   _all: number
 }
 
-
-export type UserAvgAggregateInputType = {
-  passwordCodeRecovery?: true
-}
-
-export type UserSumAggregateInputType = {
-  passwordCodeRecovery?: true
-}
 
 export type UserMinAggregateInputType = {
   id?: true
@@ -155,18 +137,6 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: UserAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: UserSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -197,8 +167,6 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
-  _avg?: UserAvgAggregateInputType
-  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
@@ -212,10 +180,8 @@ export type UserGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   refreshToken: string | null
-  passwordCodeRecovery: number | null
+  passwordCodeRecovery: string | null
   _count: UserCountAggregateOutputType | null
-  _avg: UserAvgAggregateOutputType | null
-  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -247,7 +213,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   refreshToken?: Prisma.StringNullableFilter<"User"> | string | null
-  passwordCodeRecovery?: Prisma.IntNullableFilter<"User"> | number | null
+  passwordCodeRecovery?: Prisma.StringNullableFilter<"User"> | string | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -274,7 +240,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   refreshToken?: Prisma.StringNullableFilter<"User"> | string | null
-  passwordCodeRecovery?: Prisma.IntNullableFilter<"User"> | number | null
+  passwordCodeRecovery?: Prisma.StringNullableFilter<"User"> | string | null
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -288,10 +254,8 @@ export type UserOrderByWithAggregationInput = {
   refreshToken?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordCodeRecovery?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
-  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
-  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -306,7 +270,7 @@ export type UserScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   refreshToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  passwordCodeRecovery?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
+  passwordCodeRecovery?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
 
 export type UserCreateInput = {
@@ -318,7 +282,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   refreshToken?: string | null
-  passwordCodeRecovery?: number | null
+  passwordCodeRecovery?: string | null
 }
 
 export type UserUncheckedCreateInput = {
@@ -330,7 +294,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   refreshToken?: string | null
-  passwordCodeRecovery?: number | null
+  passwordCodeRecovery?: string | null
 }
 
 export type UserUpdateInput = {
@@ -342,7 +306,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  passwordCodeRecovery?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  passwordCodeRecovery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateInput = {
@@ -354,7 +318,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  passwordCodeRecovery?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  passwordCodeRecovery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserCreateManyInput = {
@@ -366,7 +330,7 @@ export type UserCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   refreshToken?: string | null
-  passwordCodeRecovery?: number | null
+  passwordCodeRecovery?: string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -378,7 +342,7 @@ export type UserUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  passwordCodeRecovery?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  passwordCodeRecovery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -390,7 +354,7 @@ export type UserUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  passwordCodeRecovery?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  passwordCodeRecovery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -402,10 +366,6 @@ export type UserCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   refreshToken?: Prisma.SortOrder
-  passwordCodeRecovery?: Prisma.SortOrder
-}
-
-export type UserAvgOrderByAggregateInput = {
   passwordCodeRecovery?: Prisma.SortOrder
 }
 
@@ -430,10 +390,6 @@ export type UserMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   refreshToken?: Prisma.SortOrder
-  passwordCodeRecovery?: Prisma.SortOrder
-}
-
-export type UserSumOrderByAggregateInput = {
   passwordCodeRecovery?: Prisma.SortOrder
 }
 
@@ -501,7 +457,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdAt: Date
     updatedAt: Date
     refreshToken: string | null
-    passwordCodeRecovery: number | null
+    passwordCodeRecovery: string | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -933,7 +889,7 @@ export interface UserFieldRefs {
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly refreshToken: Prisma.FieldRef<"User", 'String'>
-  readonly passwordCodeRecovery: Prisma.FieldRef<"User", 'Int'>
+  readonly passwordCodeRecovery: Prisma.FieldRef<"User", 'String'>
 }
     
 

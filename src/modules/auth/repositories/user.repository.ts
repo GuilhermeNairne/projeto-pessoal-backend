@@ -15,7 +15,7 @@ export class UserRepository {
 
   async setPasswordCodeRecovery(
     email: string,
-    passwordCodeRecovery: number | null,
+    passwordCodeRecovery: string | null,
   ) {
     return this.prisma.user.update({
       where: { email },

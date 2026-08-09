@@ -120,7 +120,8 @@ export const UserScalarFieldEnum = {
   profilePicture: 'profilePicture',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  refreshToken: 'refreshToken'
+  refreshToken: 'refreshToken',
+  passwordCodeRecovery: 'passwordCodeRecovery'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]

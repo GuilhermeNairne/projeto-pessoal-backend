@@ -1,6 +1,8 @@
-import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/auth.dto';
-import { AuthService } from './auth.service';
+import { LoginDto } from '../dto/login.dto';
+import { RegisterDto } from '../dto/auth.dto';
+import { AuthService } from '../services/auth.service';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
+import { RecoveryPasswordUseCase } from '../useCases/recoveryPassword.useCase';
 import {
   Body,
   Controller,
@@ -13,7 +15,6 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 
 export interface RegisterTpye {
   name: string;
@@ -24,7 +25,10 @@ export interface RegisterTpye {
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
+  constructor(
+    private readonly authService: AuthService,
+    private readonly recoveryPasswordUseCase: RecoveryPasswordUseCase,
+  ) {}
 
   private readonly accessTokenCookieOptions = {
     httpOnly: true,
@@ -41,6 +45,15 @@ export class AuthController {
     partitioned: true,
     path: '/auth/refresh',
     maxAge: 7 * 24 * 60 * 60 * 1000,
+  };
+
+  private readonly resetPasswordTokenCookieOptions = {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none' as const,
+    partitioned: true,
+    path: '/auth/reset-password',
+    maxAge: 10 * 60 * 1000,
   };
 
   @Post('login')
@@ -101,5 +114,45 @@ export class AuthController {
     res.cookie('accessToken', accessToken, this.accessTokenCookieOptions);
 
     return { user };
+  }
+
+  @Post('send-email-password-recovery')
+  async sendEmailPasswordRecovery(@Body('email') email: string) {
+    await this.recoveryPasswordUseCase.execute(email);
+  }
+
+  @Post('validate-code')
+  async validateCode(
+    @Body('email') email: string,
+    @Body('code') code: string,
+    @Res({ passthrough: true }) res,
+  ) {
+    const { resetPasswordToken, ...result } =
+      await this.authService.validateCode(email, code);
+
+    res.cookie(
+      'resetPasswordToken',
+      resetPasswordToken,
+      this.resetPasswordTokenCookieOptions,
+    );
+
+    return result;
+  }
+
+  @Post('reset-password')
+  async resetPassword(
+    @Req() req,
+    @Body('newPassword') newPassword: string,
+    @Res({ passthrough: true }) res,
+  ) {
+    const resetPasswordToken = req.cookies['resetPasswordToken'];
+    const result = await this.authService.resetPassword(
+      resetPasswordToken,
+      newPassword,
+    );
+
+    res.clearCookie('resetPasswordToken', this.resetPasswordTokenCookieOptions);
+
+    return result;
   }
 }

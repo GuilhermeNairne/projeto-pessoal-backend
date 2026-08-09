@@ -1,7 +1,3 @@
-import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
-import { RegisterDto } from './dto/auth.dto';
-import { UserRepository } from './user.repository';
 import {
   ConflictException,
   HttpException,
@@ -9,10 +5,16 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { RegisterDto } from '../dto/auth.dto';
+import { MailService } from '../../mail/mail.service';
+import { UserRepository } from '../repositories/user.repository';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private mailService: MailService,
     private readonly jwtService: JwtService,
     private readonly userRepository: UserRepository,
   ) {}
@@ -185,6 +187,82 @@ export class AuthService {
         error ?? 'Erro ao atualizar usuário',
         error.status,
       );
+    }
+  }
+
+  async sendEmailPasswordRecovery(code: number, email: string) {
+    try {
+      await this.mailService.sendMail(
+        email,
+        'Código para recuperação de senha',
+        `<p>Use o código para continuar o processo de troca de senha</p> <H2><b>${code}</b></H2>`,
+      );
+    } catch (error: any) {
+      throw new HttpException('Erro ao validar e-mail', error.status ?? 500);
+    }
+  }
+
+  async validateCode(email: string, code: string) {
+    try {
+      const user = await this.userRepository.findByEmail(email);
+
+      if (!user) {
+        throw new HttpException('Usuário não encontrado', 404);
+      }
+
+      if (
+        !user.passwordCodeRecovery ||
+        !(await bcrypt.compare(code, user.passwordCodeRecovery))
+      ) {
+        throw new HttpException('Código inválido', 400);
+      }
+
+      await this.userRepository.setPasswordCodeRecovery(email, null);
+
+      const resetPasswordToken = this.jwtService.sign(
+        { sub: user.id, purpose: 'reset-password' },
+        { expiresIn: '10m' },
+      );
+
+      return { message: 'Código válido', resetPasswordToken };
+    } catch (error: any) {
+      throw new HttpException('Erro ao validar código', error.status ?? 500);
+    }
+  }
+
+  async resetPassword(resetPasswordToken: string, newPassword: string) {
+    try {
+      if (!resetPasswordToken) {
+        throw new UnauthorizedException();
+      }
+
+      let payload: any;
+
+      try {
+        payload = this.jwtService.verify(resetPasswordToken);
+      } catch {
+        throw new UnauthorizedException();
+      }
+
+      if (payload.purpose !== 'reset-password') {
+        throw new UnauthorizedException();
+      }
+
+      const user = await this.userRepository.findUserById(payload.sub);
+
+      if (!user) {
+        throw new HttpException('Usuário não encontrado', 404);
+      }
+
+      const passwordHash = await bcrypt.hash(newPassword, 10);
+
+      await this.userRepository.updateUser(user.id, { password: passwordHash });
+
+      return { message: 'Senha atualizada com sucesso' };
+    } catch (error: any) {
+      console.log(error);
+      if (error instanceof HttpException) throw error;
+      throw new HttpException('Erro ao atualizar senha', error.status ?? 500);
     }
   }
 }

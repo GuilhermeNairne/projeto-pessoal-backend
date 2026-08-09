@@ -10,10 +10,12 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { AuthService } from "../services/auth.service";
 import { JwtAuthGuard } from "../guards/jwt-auth.guard";
 import { AuthController } from "./auth.controller";
+import { RecoveryPasswordUseCase } from "../useCases/recoveryPassword.useCase";
 
 describe("AuthController", () => {
   let controller: AuthController;
   let authService: jest.Mocked<AuthService>;
+  let recoveryPasswordUseCase: jest.Mocked<RecoveryPasswordUseCase>;
 
   const buildRes = () => ({
     cookie: jest.fn(),
@@ -34,6 +36,14 @@ describe("AuthController", () => {
             delete: jest.fn(),
             update: jest.fn(),
             refresh: jest.fn(),
+            validateCode: jest.fn(),
+            resetPassword: jest.fn(),
+          },
+        },
+        {
+          provide: RecoveryPasswordUseCase,
+          useValue: {
+            execute: jest.fn(),
           },
         },
       ],
@@ -45,6 +55,7 @@ describe("AuthController", () => {
 
     controller = module.get(AuthController);
     authService = module.get(AuthService);
+    recoveryPasswordUseCase = module.get(RecoveryPasswordUseCase);
   });
 
   afterEach(() => {
@@ -174,6 +185,71 @@ describe("AuthController", () => {
       expect(result).toEqual({
         user: { id: "1", name: "John", email: "john@example.com" },
       });
+    });
+  });
+
+  describe("sendEmailPasswordRecovery", () => {
+    it("delegates to the use case with the given e-mail", async () => {
+      recoveryPasswordUseCase.execute.mockResolvedValue(undefined as any);
+
+      await controller.sendEmailPasswordRecovery("john@example.com");
+
+      expect(recoveryPasswordUseCase.execute).toHaveBeenCalledWith(
+        "john@example.com",
+      );
+    });
+  });
+
+  describe("validateCode", () => {
+    it("sets the reset password token cookie and returns the remaining result", async () => {
+      const res = buildRes();
+      authService.validateCode.mockResolvedValue({
+        message: "Código válido",
+        resetPasswordToken: "reset-password-token",
+      } as any);
+
+      const result = await controller.validateCode(
+        "john@example.com",
+        "123456",
+        res,
+      );
+
+      expect(authService.validateCode).toHaveBeenCalledWith(
+        "john@example.com",
+        "123456",
+      );
+      expect(res.cookie).toHaveBeenCalledWith(
+        "resetPasswordToken",
+        "reset-password-token",
+        expect.any(Object),
+      );
+      expect(result).toEqual({ message: "Código válido" });
+    });
+  });
+
+  describe("resetPassword", () => {
+    it("reads the reset password token from cookies, clears it and returns the service result", async () => {
+      const res = buildRes();
+      const req = { cookies: { resetPasswordToken: "reset-password-token" } };
+      authService.resetPassword.mockResolvedValue({
+        message: "Senha atualizada com sucesso",
+      } as any);
+
+      const result = await controller.resetPassword(
+        req,
+        "new-password",
+        res,
+      );
+
+      expect(authService.resetPassword).toHaveBeenCalledWith(
+        "reset-password-token",
+        "new-password",
+      );
+      expect(res.clearCookie).toHaveBeenCalledWith(
+        "resetPasswordToken",
+        expect.any(Object),
+      );
+      expect(result).toEqual({ message: "Senha atualizada com sucesso" });
     });
   });
 });

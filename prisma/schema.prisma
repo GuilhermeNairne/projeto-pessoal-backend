@@ -51,8 +51,14 @@ model User {
   updatedAt      DateTime @updatedAt
   refreshToken   String?
   passwordCodeRecovery String?
+  roles          Role[]   @default([])
 
   @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 model categorias_tarefa {

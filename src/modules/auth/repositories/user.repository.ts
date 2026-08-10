@@ -42,6 +42,7 @@ export class UserRepository {
         name: true,
         email: true,
         profilePicture: true,
+        roles: true,
         createdAt: true,
       },
     });

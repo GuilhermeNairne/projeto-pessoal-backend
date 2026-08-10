@@ -1,10 +1,13 @@
 import {
+  IsArray,
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
+import { Role } from 'src/generated/prisma/client';
 
 export class RegisterDto {
   @IsString()
@@ -22,4 +25,9 @@ export class RegisterDto {
   @IsOptional()
   @IsString()
   profile_picture?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsEnum(Role, { each: true })
+  roles?: Role[];
 }

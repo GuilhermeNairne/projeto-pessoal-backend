@@ -53,6 +53,7 @@ export class AuthService {
           id: user.id,
           name: user.name,
           email: user.email,
+          roles: user.roles,
         },
         accessToken,
         refreshToken,
@@ -96,6 +97,7 @@ export class AuthService {
           id: user?.id,
           name: user?.name,
           email: user?.email,
+          roles: user?.roles,
         },
         accessToken,
       };
@@ -123,6 +125,7 @@ export class AuthService {
         email: values.email,
         password: passwordHash,
         profile_picture: values.profile_picture,
+        roles: values.roles,
       });
 
       const accessToken = this.jwtService.sign(
@@ -144,6 +147,7 @@ export class AuthService {
           name: user.name,
           email: user.email,
           profilePicture: user.profilePicture,
+          roles: user.roles,
         },
         accessToken,
         refreshToken,

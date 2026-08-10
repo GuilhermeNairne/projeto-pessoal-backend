@@ -51,14 +51,16 @@ model User {
   updatedAt      DateTime @updatedAt
   refreshToken   String?
   passwordCodeRecovery String?
-  roles          Role[]   @default([])
+  roles          roles[]
 
   @@map("users")
 }
 
-enum Role {
-  USER
-  ADMIN
+model roles {
+  id         Int       @id @default(autoincrement())
+  name       String    @unique
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  users      User[]
 }
 
 model categorias_tarefa {

@@ -125,7 +125,6 @@ export class AuthService {
         email: values.email,
         password: passwordHash,
         profile_picture: values.profile_picture,
-        roles: values.roles,
       });
 
       const accessToken = this.jwtService.sign(

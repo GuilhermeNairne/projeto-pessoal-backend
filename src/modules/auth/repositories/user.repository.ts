@@ -26,12 +26,14 @@ export class UserRepository {
   async findByEmail(email: string) {
     return this.prisma.user.findUnique({
       where: { email },
+      include: { roles: true },
     });
   }
 
   async registerUser(values: RegisterDto) {
     return this.prisma.user.create({
       data: values,
+      include: { roles: true },
     });
   }
 
@@ -42,7 +44,7 @@ export class UserRepository {
         name: true,
         email: true,
         profilePicture: true,
-        roles: true,
+        roles: { select: { id: true, name: true } },
         createdAt: true,
       },
     });
@@ -64,12 +66,14 @@ export class UserRepository {
   async findUserById(userId: string) {
     return this.prisma.user.findUnique({
       where: { id: userId },
+      include: { roles: true },
     });
   }
 
   async findUser(payload: any) {
     return this.prisma.user.findUnique({
       where: { id: payload.sub },
+      include: { roles: true },
     });
   }
 }

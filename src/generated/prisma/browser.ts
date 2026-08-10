@@ -38,6 +38,11 @@ export type panels = Prisma.panelsModel
  */
 export type User = Prisma.UserModel
 /**
+ * Model roles
+ * 
+ */
+export type roles = Prisma.rolesModel
+/**
  * Model categorias_tarefa
  * 
  */

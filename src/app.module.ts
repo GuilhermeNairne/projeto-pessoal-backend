@@ -11,6 +11,7 @@ import { FinancialModule } from './modules/financial/financial.module';
 import { MailModule } from './modules/mail/mail.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     TarefasModule,
     MailModule,
     NotificationModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [

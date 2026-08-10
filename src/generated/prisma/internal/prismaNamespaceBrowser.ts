@@ -55,6 +55,7 @@ export const ModelName = {
   movements: 'movements',
   panels: 'panels',
   User: 'User',
+  roles: 'roles',
   categorias_tarefa: 'categorias_tarefa',
   tarefas: 'tarefas',
   notifications: 'notifications'
@@ -125,6 +126,15 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const RolesScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  created_at: 'created_at'
+} as const
+
+export type RolesScalarFieldEnum = (typeof RolesScalarFieldEnum)[keyof typeof RolesScalarFieldEnum]
 
 
 export const Categorias_tarefaScalarFieldEnum = {

@@ -53,6 +53,7 @@ export class AuthService {
           id: user.id,
           name: user.name,
           email: user.email,
+          roles: user.roles,
         },
         accessToken,
         refreshToken,
@@ -96,6 +97,7 @@ export class AuthService {
           id: user?.id,
           name: user?.name,
           email: user?.email,
+          roles: user?.roles,
         },
         accessToken,
       };
@@ -144,6 +146,7 @@ export class AuthService {
           name: user.name,
           email: user.email,
           profilePicture: user.profilePicture,
+          roles: user.roles,
         },
         accessToken,
         refreshToken,

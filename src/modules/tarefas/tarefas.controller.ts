@@ -13,9 +13,12 @@ import {
 } from '@nestjs/common';
 import type { ListTarefasType } from './tarefas.type';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { RolesGuard } from '../auth/guards/roles.guard';
 
 @Controller('tarefas')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('ADMIN', 'Tarefas')
 export class TarefasController {
   constructor(private readonly tarefasService: TarefasService) {}
 

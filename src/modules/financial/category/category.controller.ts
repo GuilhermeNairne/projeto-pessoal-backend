@@ -13,9 +13,12 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
+import { RolesGuard } from 'src/modules/auth/guards/roles.guard';
+import { Roles } from 'src/modules/auth/decorators/roles.decorator';
 
 @Controller('financial-category')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('ADMIN', 'Financeiro')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 

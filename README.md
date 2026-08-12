@@ -45,5 +45,5 @@ Ambos os tokens são gravados em **HTTP-only cookies**, impedindo acesso via Jav
 
 **Guilherme Men Linhares Nairne**
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-guilherme--men--nairne-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/guilherme-men-nairne-332aa7181)
-[![Gmail](https://img.shields.io/badge/Gmail-guilhermemen2003@gmail.com-red?style=flat&logo=gmail)](mailto:guilhermemen2003@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-guilherme--men--nairne-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/guilherme-men-linhares-nairne-332aa7181/)
+[![Gmail](https://img.shields.io/badge/Gmail-guilherme.men.nairne@gmail.com-red?style=flat&logo=gmail)](mailto:guilherme.men.nairne@gmail.com)

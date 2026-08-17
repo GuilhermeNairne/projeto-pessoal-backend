@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { ApiKeyGuard } from './guards/apiKey.guard';
@@ -16,6 +17,13 @@ import { AdminModule } from './modules/admin/admin.module';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
+    ThrottlerModule.forRoot([
+      {
+        name: 'default',
+        ttl: 60_000,
+        limit: 100,
+      },
+    ]),
     FinancialModule,
     PrismaModule,
     UserInfoModule,
@@ -31,6 +39,10 @@ import { AdminModule } from './modules/admin/admin.module';
     {
       provide: APP_GUARD,
       useClass: ApiKeyGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
   ],
 })

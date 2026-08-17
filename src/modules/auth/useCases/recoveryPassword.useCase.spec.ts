@@ -77,6 +77,7 @@ describe("RecoveryPasswordUseCase", () => {
     expect(userRepository.setPasswordCodeRecovery).toHaveBeenCalledWith(
       mockUser.email,
       "hashed-code",
+      expect.any(Date),
     );
     expect(authService.sendEmailPasswordRecovery).toHaveBeenCalledWith(
       123456,

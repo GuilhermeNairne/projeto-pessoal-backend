@@ -215,8 +215,13 @@ export class AuthService {
 
       if (
         !user.passwordCodeRecovery ||
-        !(await bcrypt.compare(code, user.passwordCodeRecovery))
+        !user.passwordCodeRecoveryExpiresAt ||
+        user.passwordCodeRecoveryExpiresAt < new Date()
       ) {
+        throw new HttpException('Código inválido ou expirado', 400);
+      }
+
+      if (!(await bcrypt.compare(code, user.passwordCodeRecovery))) {
         throw new HttpException('Código inválido', 400);
       }
 

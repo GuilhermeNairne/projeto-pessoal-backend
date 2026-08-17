@@ -41,6 +41,7 @@ describe("AuthService", () => {
     profilePicture: "pic.png",
     createdAt: new Date(),
     passwordCodeRecovery: "hashed-code",
+    passwordCodeRecoveryExpiresAt: new Date(Date.now() + 15 * 60_000),
   };
 
   beforeEach(async () => {
@@ -316,6 +317,7 @@ describe("AuthService", () => {
         mockUser.email,
         null,
       );
+      expect(userRepository.setPasswordCodeRecovery).toHaveBeenCalledTimes(1);
       expect(jwtService.sign).toHaveBeenCalledWith(
         { sub: mockUser.id, purpose: "reset-password" },
         { expiresIn: "10m" },
@@ -339,6 +341,18 @@ describe("AuthService", () => {
       userRepository.findByEmail.mockResolvedValue({
         ...mockUser,
         passwordCodeRecovery: null,
+      } as any);
+
+      await expect(
+        service.validateCode(mockUser.email, "123456"),
+      ).rejects.toBeInstanceOf(HttpException);
+      expect(bcryptCompare).not.toHaveBeenCalled();
+    });
+
+    it("throws when the stored code has expired", async () => {
+      userRepository.findByEmail.mockResolvedValue({
+        ...mockUser,
+        passwordCodeRecoveryExpiresAt: new Date(Date.now() - 60_000),
       } as any);
 
       await expect(

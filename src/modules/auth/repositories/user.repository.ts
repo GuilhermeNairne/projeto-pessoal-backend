@@ -16,10 +16,11 @@ export class UserRepository {
   async setPasswordCodeRecovery(
     email: string,
     passwordCodeRecovery: string | null,
+    passwordCodeRecoveryExpiresAt: Date | null = null,
   ) {
     return this.prisma.user.update({
       where: { email },
-      data: { passwordCodeRecovery },
+      data: { passwordCodeRecovery, passwordCodeRecoveryExpiresAt },
     });
   }
 

@@ -1,14 +1,31 @@
 import { PanelDTO } from './panel.dto';
-import { HttpException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  HttpException,
+  Injectable,
+} from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 
 @Injectable()
 export class PanelService {
   constructor(private prisma: PrismaService) {}
 
-  async createPanel(body: PanelDTO) {
+  async assertPanelOwnership(id: number, user_id: string) {
+    const panel = await this.prisma.panels.findUnique({
+      where: { id: Number(id) },
+      select: { user_id: true },
+    });
+
+    if (!panel || panel.user_id !== user_id) {
+      throw new ForbiddenException('Acesso negado a este painel');
+    }
+  }
+
+  async createPanel(body: PanelDTO, user_id: string) {
     try {
-      const result = await this.prisma.panels.create({ data: body });
+      const result = await this.prisma.panels.create({
+        data: { ...body, user_id },
+      });
 
       return result;
     } catch (error: any) {
@@ -77,15 +94,20 @@ export class PanelService {
     }
   }
 
-  async updatePanel(id: number, body: Partial<PanelDTO>) {
+  async updatePanel(id: number, body: Partial<PanelDTO>, user_id: string) {
     try {
+      await this.assertPanelOwnership(id, user_id);
+
+      const { user_id: _ignored, ...data } = body;
+
       const result = await this.prisma.panels.update({
         where: { id: Number(id) },
-        data: body,
+        data,
       });
 
       return result;
     } catch (error: any) {
+      if (error instanceof HttpException) throw error;
       console.log(error);
       throw new HttpException(
         error.response ?? 'Erro ao alterar painel',
@@ -94,14 +116,17 @@ export class PanelService {
     }
   }
 
-  async deletePanel(id: number) {
+  async deletePanel(id: number, user_id: string) {
     try {
+      await this.assertPanelOwnership(id, user_id);
+
       const result = await this.prisma.panels.delete({
         where: { id: Number(id) },
       });
 
       return result;
     } catch (error: any) {
+      if (error instanceof HttpException) throw error;
       console.log(error);
       throw new HttpException(
         error.response ?? 'Erro ao deletar painel',
@@ -110,8 +135,10 @@ export class PanelService {
     }
   }
 
-  async feesByMonth(id: number) {
+  async feesByMonth(id: number, user_id: string) {
     try {
+      await this.assertPanelOwnership(id, user_id);
+
       const categories = await this.prisma.categories.findMany({
         where: {
           painel_id: id,
@@ -138,6 +165,7 @@ export class PanelService {
 
       return result;
     } catch (error: any) {
+      if (error instanceof HttpException) throw error;
       console.log(error);
       throw new HttpException(
         'Erro ao listar juros dessa painel',
@@ -146,8 +174,15 @@ export class PanelService {
     }
   }
 
-  async expensesGraphics(id: number, month: number, year: number) {
+  async expensesGraphics(
+    id: number,
+    month: number,
+    year: number,
+    user_id: string,
+  ) {
     try {
+      await this.assertPanelOwnership(id, user_id);
+
       const startDate = new Date(year, month - 1, 1);
       const endDate = new Date(year, month, 1);
 
@@ -193,6 +228,7 @@ export class PanelService {
 
       return { categories, total_expenses };
     } catch (error: any) {
+      if (error instanceof HttpException) throw error;
       console.log(error);
       throw new HttpException('Erro ao listar gráfico de gastos', error.status);
     }

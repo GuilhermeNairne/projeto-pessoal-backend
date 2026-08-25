@@ -11,6 +11,7 @@ import {
   Patch,
   Post,
   Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { RolesGuard } from 'src/modules/auth/guards/roles.guard';
@@ -23,8 +24,11 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post('create')
-  async creteCategory(@Body() body: CategoryDTO) {
-    const result = await this.categoryService.createCategory(body);
+  async creteCategory(@Body() body: CategoryDTO, @Req() req) {
+    const result = await this.categoryService.createCategory(
+      body,
+      req.user.id,
+    );
 
     return result;
   }
@@ -33,13 +37,14 @@ export class CategoryController {
   async listCategories(
     @Query('painel_id', new ParseArrayPipe({ items: Number, separator: ',' }))
     painelIds: number[],
+    @Req() req,
   ) {
-    return this.categoryService.listCategories(painelIds);
+    return this.categoryService.listCategories(painelIds, req.user.id);
   }
 
   @Delete('delete/:id')
-  async deleteCategory(@Param('id') id: number) {
-    const result = await this.categoryService.deleteCategory(id);
+  async deleteCategory(@Param('id') id: number, @Req() req) {
+    const result = await this.categoryService.deleteCategory(id, req.user.id);
 
     return result;
   }
@@ -48,8 +53,13 @@ export class CategoryController {
   async updateCategory(
     @Param('id') id: number,
     @Body() body: Partial<CategoryDTO>,
+    @Req() req,
   ) {
-    const result = await this.categoryService.editCategory(id, body);
+    const result = await this.categoryService.editCategory(
+      id,
+      body,
+      req.user.id,
+    );
 
     return result;
   }

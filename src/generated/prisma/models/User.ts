@@ -34,6 +34,7 @@ export type UserMinAggregateOutputType = {
   updatedAt: Date | null
   refreshToken: string | null
   passwordCodeRecovery: string | null
+  passwordCodeRecoveryExpiresAt: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -46,6 +47,7 @@ export type UserMaxAggregateOutputType = {
   updatedAt: Date | null
   refreshToken: string | null
   passwordCodeRecovery: string | null
+  passwordCodeRecoveryExpiresAt: Date | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -58,6 +60,7 @@ export type UserCountAggregateOutputType = {
   updatedAt: number
   refreshToken: number
   passwordCodeRecovery: number
+  passwordCodeRecoveryExpiresAt: number
   _all: number
 }
 
@@ -72,6 +75,7 @@ export type UserMinAggregateInputType = {
   updatedAt?: true
   refreshToken?: true
   passwordCodeRecovery?: true
+  passwordCodeRecoveryExpiresAt?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -84,6 +88,7 @@ export type UserMaxAggregateInputType = {
   updatedAt?: true
   refreshToken?: true
   passwordCodeRecovery?: true
+  passwordCodeRecoveryExpiresAt?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -96,6 +101,7 @@ export type UserCountAggregateInputType = {
   updatedAt?: true
   refreshToken?: true
   passwordCodeRecovery?: true
+  passwordCodeRecoveryExpiresAt?: true
   _all?: true
 }
 
@@ -181,6 +187,7 @@ export type UserGroupByOutputType = {
   updatedAt: Date
   refreshToken: string | null
   passwordCodeRecovery: string | null
+  passwordCodeRecoveryExpiresAt: Date | null
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
@@ -214,6 +221,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   refreshToken?: Prisma.StringNullableFilter<"User"> | string | null
   passwordCodeRecovery?: Prisma.StringNullableFilter<"User"> | string | null
+  passwordCodeRecoveryExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   roles?: Prisma.RolesListRelationFilter
 }
 
@@ -227,6 +235,7 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   refreshToken?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordCodeRecovery?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordCodeRecoveryExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   roles?: Prisma.rolesOrderByRelationAggregateInput
 }
 
@@ -243,6 +252,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   refreshToken?: Prisma.StringNullableFilter<"User"> | string | null
   passwordCodeRecovery?: Prisma.StringNullableFilter<"User"> | string | null
+  passwordCodeRecoveryExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   roles?: Prisma.RolesListRelationFilter
 }, "id" | "email">
 
@@ -256,6 +266,7 @@ export type UserOrderByWithAggregationInput = {
   updatedAt?: Prisma.SortOrder
   refreshToken?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordCodeRecovery?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordCodeRecoveryExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -274,6 +285,7 @@ export type UserScalarWhereWithAggregatesInput = {
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   refreshToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   passwordCodeRecovery?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  passwordCodeRecoveryExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
 }
 
 export type UserCreateInput = {
@@ -286,6 +298,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   refreshToken?: string | null
   passwordCodeRecovery?: string | null
+  passwordCodeRecoveryExpiresAt?: Date | string | null
   roles?: Prisma.rolesCreateNestedManyWithoutUsersInput
 }
 
@@ -299,6 +312,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   refreshToken?: string | null
   passwordCodeRecovery?: string | null
+  passwordCodeRecoveryExpiresAt?: Date | string | null
   roles?: Prisma.rolesUncheckedCreateNestedManyWithoutUsersInput
 }
 
@@ -312,6 +326,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordCodeRecovery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordCodeRecoveryExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   roles?: Prisma.rolesUpdateManyWithoutUsersNestedInput
 }
 
@@ -325,6 +340,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordCodeRecovery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordCodeRecoveryExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   roles?: Prisma.rolesUncheckedUpdateManyWithoutUsersNestedInput
 }
 
@@ -338,6 +354,7 @@ export type UserCreateManyInput = {
   updatedAt?: Date | string
   refreshToken?: string | null
   passwordCodeRecovery?: string | null
+  passwordCodeRecoveryExpiresAt?: Date | string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -350,6 +367,7 @@ export type UserUpdateManyMutationInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordCodeRecovery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordCodeRecoveryExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -362,6 +380,7 @@ export type UserUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordCodeRecovery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordCodeRecoveryExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -374,6 +393,7 @@ export type UserCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   refreshToken?: Prisma.SortOrder
   passwordCodeRecovery?: Prisma.SortOrder
+  passwordCodeRecoveryExpiresAt?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -386,6 +406,7 @@ export type UserMaxOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   refreshToken?: Prisma.SortOrder
   passwordCodeRecovery?: Prisma.SortOrder
+  passwordCodeRecoveryExpiresAt?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -398,6 +419,7 @@ export type UserMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   refreshToken?: Prisma.SortOrder
   passwordCodeRecovery?: Prisma.SortOrder
+  passwordCodeRecoveryExpiresAt?: Prisma.SortOrder
 }
 
 export type UserListRelationFilter = {
@@ -458,6 +480,7 @@ export type UserCreateWithoutRolesInput = {
   updatedAt?: Date | string
   refreshToken?: string | null
   passwordCodeRecovery?: string | null
+  passwordCodeRecoveryExpiresAt?: Date | string | null
 }
 
 export type UserUncheckedCreateWithoutRolesInput = {
@@ -470,6 +493,7 @@ export type UserUncheckedCreateWithoutRolesInput = {
   updatedAt?: Date | string
   refreshToken?: string | null
   passwordCodeRecovery?: string | null
+  passwordCodeRecoveryExpiresAt?: Date | string | null
 }
 
 export type UserCreateOrConnectWithoutRolesInput = {
@@ -506,6 +530,7 @@ export type UserScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   refreshToken?: Prisma.StringNullableFilter<"User"> | string | null
   passwordCodeRecovery?: Prisma.StringNullableFilter<"User"> | string | null
+  passwordCodeRecoveryExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
 }
 
 export type UserUpdateWithoutRolesInput = {
@@ -518,6 +543,7 @@ export type UserUpdateWithoutRolesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordCodeRecovery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordCodeRecoveryExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUncheckedUpdateWithoutRolesInput = {
@@ -530,6 +556,7 @@ export type UserUncheckedUpdateWithoutRolesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordCodeRecovery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordCodeRecoveryExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUncheckedUpdateManyWithoutRolesInput = {
@@ -542,6 +569,7 @@ export type UserUncheckedUpdateManyWithoutRolesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordCodeRecovery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordCodeRecoveryExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -585,6 +613,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   refreshToken?: boolean
   passwordCodeRecovery?: boolean
+  passwordCodeRecoveryExpiresAt?: boolean
   roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -599,6 +628,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   updatedAt?: boolean
   refreshToken?: boolean
   passwordCodeRecovery?: boolean
+  passwordCodeRecoveryExpiresAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -611,6 +641,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   updatedAt?: boolean
   refreshToken?: boolean
   passwordCodeRecovery?: boolean
+  passwordCodeRecoveryExpiresAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -623,9 +654,10 @@ export type UserSelectScalar = {
   updatedAt?: boolean
   refreshToken?: boolean
   passwordCodeRecovery?: boolean
+  passwordCodeRecoveryExpiresAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "profilePicture" | "createdAt" | "updatedAt" | "refreshToken" | "passwordCodeRecovery", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "profilePicture" | "createdAt" | "updatedAt" | "refreshToken" | "passwordCodeRecovery" | "passwordCodeRecoveryExpiresAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -648,6 +680,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     updatedAt: Date
     refreshToken: string | null
     passwordCodeRecovery: string | null
+    passwordCodeRecoveryExpiresAt: Date | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1081,6 +1114,7 @@ export interface UserFieldRefs {
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly refreshToken: Prisma.FieldRef<"User", 'String'>
   readonly passwordCodeRecovery: Prisma.FieldRef<"User", 'String'>
+  readonly passwordCodeRecoveryExpiresAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     
 

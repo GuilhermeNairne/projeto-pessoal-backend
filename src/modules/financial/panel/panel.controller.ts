@@ -10,6 +10,7 @@ import {
   Patch,
   Post,
   Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 
@@ -19,36 +20,40 @@ export class PanelFinancialController {
   constructor(private readonly panelService: PanelService) {}
 
   @Post('create')
-  async createPainel(@Body() body: PanelDTO) {
-    const result = await this.panelService.createPanel(body);
+  async createPainel(@Body() body: PanelDTO, @Req() req) {
+    const result = await this.panelService.createPanel(body, req.user.id);
 
     return result;
   }
 
-  @Get('list/:user_id')
-  async listPanels(@Param('user_id') user_id: string) {
-    const result = await this.panelService.listPanels(user_id);
+  @Get('list')
+  async listPanels(@Req() req) {
+    const result = await this.panelService.listPanels(req.user.id);
 
     return result;
   }
 
   @Patch('update/:id')
-  async updatePainel(@Param('id') id: number, @Body() body: Partial<PanelDTO>) {
-    const result = await this.panelService.updatePanel(id, body);
+  async updatePainel(
+    @Param('id') id: number,
+    @Body() body: Partial<PanelDTO>,
+    @Req() req,
+  ) {
+    const result = await this.panelService.updatePanel(id, body, req.user.id);
 
     return result;
   }
 
   @Delete('delete/:id')
-  async deletePainel(@Param('id') id: number) {
-    const result = await this.panelService.deletePanel(id);
+  async deletePainel(@Param('id') id: number, @Req() req) {
+    const result = await this.panelService.deletePanel(id, req.user.id);
 
     return result;
   }
 
   @Get('fees/:id')
-  async feesByMonth(@Param('id') id: number) {
-    const result = await this.panelService.feesByMonth(id);
+  async feesByMonth(@Param('id') id: number, @Req() req) {
+    const result = await this.panelService.feesByMonth(id, req.user.id);
 
     return result;
   }
@@ -58,7 +63,8 @@ export class PanelFinancialController {
     @Param('id') id: number,
     @Query('month') month: number,
     @Query('year') year: number,
+    @Req() req,
   ) {
-    return this.panelService.expensesGraphics(id, month, year);
+    return this.panelService.expensesGraphics(id, month, year, req.user.id);
   }
 }

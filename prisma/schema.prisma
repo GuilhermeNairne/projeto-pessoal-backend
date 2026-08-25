@@ -51,6 +51,7 @@ model User {
   updatedAt      DateTime @updatedAt
   refreshToken   String?
   passwordCodeRecovery String?
+  passwordCodeRecoveryExpiresAt DateTime?
   roles          roles[]
 
   @@map("users")

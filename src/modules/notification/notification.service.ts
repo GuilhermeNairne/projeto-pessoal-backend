@@ -4,6 +4,20 @@ import { NotificationDTO } from './notification.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { MailService } from '../mail/mail.service';
 
+function escapeHtml(value: string): string {
+  return value.replace(
+    /[&<>"']/g,
+    (char) =>
+      ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+      })[char]!,
+  );
+}
+
 @Injectable()
 export class NotificationService {
   private readonly logger = new Logger(NotificationService.name);
@@ -158,7 +172,7 @@ export class NotificationService {
         await this.mailService.sendMail(
           user.email,
           notification.title,
-          `<h2>${notification.title}</h2><p>${notification.description}</p>`,
+          `<h2>${escapeHtml(notification.title)}</h2><p>${escapeHtml(notification.description)}</p>`,
         );
 
         if (notification.isCurrent) {

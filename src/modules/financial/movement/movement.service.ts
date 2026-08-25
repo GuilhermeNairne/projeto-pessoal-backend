@@ -1,4 +1,8 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  HttpException,
+  Injectable,
+} from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { MovementDTO, MovementsFilterDTO } from './movement.dto';
 
@@ -6,8 +10,34 @@ import { MovementDTO, MovementsFilterDTO } from './movement.dto';
 export class MovementService {
   constructor(private prisma: PrismaService) {}
 
-  async createMovement(body: MovementDTO) {
+  private async assertPanelOwnership(panel_id: number, user_id: string) {
+    const panel = await this.prisma.panels.findUnique({
+      where: { id: Number(panel_id) },
+      select: { user_id: true },
+    });
+
+    if (!panel || panel.user_id !== user_id) {
+      throw new ForbiddenException('Acesso negado a este painel');
+    }
+  }
+
+  private async assertMovementOwnership(id: number, user_id: string) {
+    const movement = await this.prisma.movements.findUnique({
+      where: { id: Number(id) },
+      select: { painel_id: true },
+    });
+
+    if (!movement) {
+      throw new ForbiddenException('Movimento não encontrado');
+    }
+
+    await this.assertPanelOwnership(movement.painel_id, user_id);
+  }
+
+  async createMovement(body: MovementDTO, user_id: string) {
     try {
+      await this.assertPanelOwnership(body.painel_id, user_id);
+
       const result = await this.prisma.movements.create({ data: body });
 
       const panel = await this.prisma.panels.findUnique({
@@ -36,6 +66,7 @@ export class MovementService {
 
       return result;
     } catch (error: any) {
+      if (error instanceof HttpException) throw error;
       console.log(error);
       throw new HttpException(
         error ?? 'Erro ao criar movimento',
@@ -44,8 +75,14 @@ export class MovementService {
     }
   }
 
-  async listMovements(panel_id: number, filters: MovementsFilterDTO) {
+  async listMovements(
+    panel_id: number,
+    filters: MovementsFilterDTO,
+    user_id: string,
+  ) {
     try {
+      await this.assertPanelOwnership(panel_id, user_id);
+
       const perPage = 15;
 
       const hasActiveFilters = !!(
@@ -107,6 +144,7 @@ export class MovementService {
         },
       };
     } catch (error: any) {
+      if (error instanceof HttpException) throw error;
       console.log(error);
       throw new HttpException(
         error ?? 'Erro ao listar movimentações',
@@ -115,8 +153,10 @@ export class MovementService {
     }
   }
 
-  async listExpensesByMonth(panel_id: number, month: number) {
+  async listExpensesByMonth(panel_id: number, month: number, user_id: string) {
     try {
+      await this.assertPanelOwnership(panel_id, user_id);
+
       const year = new Date().getFullYear();
 
       const startDate = new Date(year, month - 1, 1);
@@ -169,13 +209,16 @@ export class MovementService {
         data: result,
       };
     } catch (error: any) {
+      if (error instanceof HttpException) throw error;
       console.log(error);
       throw new HttpException('Erro ao trazer gastos do mês', error.status);
     }
   }
 
-  async deleteMovement(id: number, panel_id: number, movement_value: number) {
+  async deleteMovement(id: number, user_id: string) {
     try {
+      await this.assertMovementOwnership(id, user_id);
+
       const result = await this.prisma.movements.delete({
         where: {
           id: Number(id),
@@ -184,7 +227,7 @@ export class MovementService {
 
       const panel = await this.prisma.panels.findUnique({
         where: {
-          id: Number(panel_id),
+          id: result.painel_id,
         },
         select: {
           initial_value: true,
@@ -193,12 +236,12 @@ export class MovementService {
 
       const new_value =
         result.movement_type === 'IN'
-          ? Number(panel?.initial_value) - Number(movement_value)
-          : Number(panel?.initial_value) + Number(movement_value);
+          ? Number(panel?.initial_value) - Number(result.value)
+          : Number(panel?.initial_value) + Number(result.value);
 
       await this.prisma.panels.update({
         where: {
-          id: panel_id,
+          id: result.painel_id,
         },
         data: {
           initial_value: new_value,
@@ -207,6 +250,7 @@ export class MovementService {
 
       return result;
     } catch (error: any) {
+      if (error instanceof HttpException) throw error;
       console.log(error);
       throw new HttpException(
         error ?? 'Erro ao deletar movimento',
@@ -215,8 +259,18 @@ export class MovementService {
     }
   }
 
-  async updateMovement(id: number, body: Partial<MovementDTO>) {
+  async updateMovement(
+    id: number,
+    body: Partial<MovementDTO>,
+    user_id: string,
+  ) {
     try {
+      await this.assertMovementOwnership(id, user_id);
+
+      if (body.painel_id) {
+        await this.assertPanelOwnership(body.painel_id, user_id);
+      }
+
       const result = await this.prisma.movements.update({
         where: {
           id: Number(id),
@@ -226,6 +280,7 @@ export class MovementService {
 
       return result;
     } catch (error: any) {
+      if (error instanceof HttpException) throw error;
       console.log(error);
       throw new HttpException(
         error ?? 'Erro ao atualizar movimento',

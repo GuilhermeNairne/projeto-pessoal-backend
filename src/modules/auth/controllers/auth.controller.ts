@@ -15,6 +15,7 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 
 export interface RegisterTpye {
   name: string;
@@ -57,6 +58,7 @@ export class AuthController {
   };
 
   @Post('login')
+  @Throttle({ default: { limit: 5, ttl: 15 * 60_000 } })
   async login(@Body() body: LoginDto, @Res({ passthrough: true }) res) {
     const { user, accessToken, refreshToken } =
       await this.authService.login(body);
@@ -78,6 +80,7 @@ export class AuthController {
   }
 
   @Post('register')
+  @Throttle({ default: { limit: 5, ttl: 60 * 60_000 } })
   async register(@Body() values: RegisterDto) {
     return await this.authService.register(values);
   }
@@ -117,11 +120,13 @@ export class AuthController {
   }
 
   @Post('send-email-password-recovery')
+  @Throttle({ default: { limit: 3, ttl: 15 * 60_000 } })
   async sendEmailPasswordRecovery(@Body('email') email: string) {
     await this.recoveryPasswordUseCase.execute(email);
   }
 
   @Post('validate-code')
+  @Throttle({ default: { limit: 5, ttl: 15 * 60_000 } })
   async validateCode(
     @Body('email') email: string,
     @Body('code') code: string,

@@ -20,8 +20,13 @@ export class RecoveryPasswordUseCase {
       const code = randomInt(100000, 1000000).toString();
 
       const codeHash = await bcrypt.hash(code, 10);
+      const expiresAt = new Date(Date.now() + 15 * 60_000);
 
-      await this.userRepository.setPasswordCodeRecovery(email, codeHash);
+      await this.userRepository.setPasswordCodeRecovery(
+        email,
+        codeHash,
+        expiresAt,
+      );
 
       await this.authService.sendEmailPasswordRecovery(Number(code), email);
     } catch (error: any) {

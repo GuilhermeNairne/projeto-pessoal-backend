@@ -11,6 +11,20 @@ import { RegisterDto } from '../dto/auth.dto';
 import { MailService } from '../../mail/mail.service';
 import { UserRepository } from '../repositories/user.repository';
 
+function escapeHtml(value: string): string {
+  return value.replace(
+    /[&<>"']/g,
+    (char) =>
+      ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+      })[char]!,
+  );
+}
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -139,6 +153,16 @@ export class AuthService {
       const refreshTokenHash = await bcrypt.hash(refreshToken, 10);
 
       await this.userRepository.updateRefreshToken(user.id, refreshTokenHash);
+
+      try {
+        await this.mailService.sendMail(
+          user.email,
+          'Bem-vindo(a)!',
+          `<h2>Olá, ${escapeHtml(user.name)}!</h2><p>Seja bem-vindo(a) à plataforma. Ficamos felizes em ter você com a gente.</p>`,
+        );
+      } catch (error: any) {
+        console.log(error);
+      }
 
       return {
         user: {

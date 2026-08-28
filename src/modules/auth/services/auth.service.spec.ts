@@ -208,6 +208,7 @@ describe("AuthService", () => {
         .mockReturnValueOnce("access-token")
         .mockReturnValueOnce("refresh-token");
       userRepository.updateRefreshToken.mockResolvedValue(mockUser as any);
+      mailService.sendMail.mockResolvedValue(undefined as any);
 
       const result = await service.register({
         name: mockUser.name,
@@ -222,6 +223,11 @@ describe("AuthService", () => {
         password: "hashed-password",
         profile_picture: "pic.png",
       });
+      expect(mailService.sendMail).toHaveBeenCalledWith(
+        mockUser.email,
+        expect.any(String),
+        expect.stringContaining(mockUser.name),
+      );
       expect(result.accessToken).toBe("access-token");
       expect(result.refreshToken).toBe("refresh-token");
       expect(result.user.id).toBe(mockUser.id);
@@ -238,6 +244,29 @@ describe("AuthService", () => {
         }),
       ).rejects.toBeInstanceOf(HttpException);
       expect(userRepository.registerUser).not.toHaveBeenCalled();
+    });
+
+    it("still returns the created user's tokens when the welcome e-mail fails to send", async () => {
+      userRepository.findByEmail.mockResolvedValue(null);
+      bcryptHash
+        .mockResolvedValueOnce("hashed-password")
+        .mockResolvedValueOnce("hashed-refresh-token");
+      userRepository.registerUser.mockResolvedValue(mockUser as any);
+      jwtService.sign
+        .mockReturnValueOnce("access-token")
+        .mockReturnValueOnce("refresh-token");
+      userRepository.updateRefreshToken.mockResolvedValue(mockUser as any);
+      mailService.sendMail.mockRejectedValue(new Error("smtp down"));
+
+      const result = await service.register({
+        name: mockUser.name,
+        email: mockUser.email,
+        password: "plain-password",
+        profile_picture: "pic.png",
+      });
+
+      expect(result.accessToken).toBe("access-token");
+      expect(result.user.id).toBe(mockUser.id);
     });
   });
 

@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { RegisterDto } from '../dto/auth.dto';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 
+const DEFAULT_USER_ROLES = ['Financeiro', 'Notificações', 'Tarefas'];
+
 @Injectable()
 export class UserRepository {
   constructor(private readonly prisma: PrismaService) {}
@@ -33,7 +35,15 @@ export class UserRepository {
 
   async registerUser(values: RegisterDto) {
     return this.prisma.user.create({
-      data: values,
+      data: {
+        ...values,
+        roles: {
+          connectOrCreate: DEFAULT_USER_ROLES.map((name) => ({
+            where: { name },
+            create: { name },
+          })),
+        },
+      },
       include: { roles: true },
     });
   }

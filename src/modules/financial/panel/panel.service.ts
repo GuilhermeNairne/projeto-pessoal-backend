@@ -1,9 +1,5 @@
 import { PanelDTO } from './panel.dto';
-import {
-  ForbiddenException,
-  HttpException,
-  Injectable,
-} from '@nestjs/common';
+import { ForbiddenException, HttpException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 
 @Injectable()
@@ -231,6 +227,52 @@ export class PanelService {
       if (error instanceof HttpException) throw error;
       console.log(error);
       throw new HttpException('Erro ao listar gráfico de gastos', error.status);
+    }
+  }
+
+  async totalSalary(id: number, month: number, year: number, user_id: string) {
+    try {
+      await this.assertPanelOwnership(id, user_id);
+
+      const startDate = new Date(year, month - 1, 1);
+      const endDate = new Date(year, month, 1);
+
+      const categories = await this.prisma.categories.findMany({
+        where: {
+          painel_id: id,
+          name: {
+            equals: 'Salário',
+            mode: 'insensitive',
+          },
+        },
+        include: {
+          movements: {
+            where: {
+              movement_type: 'IN',
+              date: {
+                gte: startDate,
+                lt: endDate,
+              },
+            },
+            select: {
+              value: true,
+            },
+          },
+        },
+      });
+
+      const total_salary = Number(
+        categories
+          .flatMap((category) => category.movements)
+          .reduce((acc, mov) => acc + Number(mov.value), 0)
+          .toFixed(2),
+      );
+
+      return { total_salary };
+    } catch (error: any) {
+      if (error instanceof HttpException) throw error;
+      console.log(error);
+      throw new HttpException('Erro ao calcular salário do mês', error.status);
     }
   }
 }

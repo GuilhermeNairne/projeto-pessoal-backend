@@ -67,4 +67,14 @@ export class PanelFinancialController {
   ) {
     return this.panelService.expensesGraphics(id, month, year, req.user.id);
   }
+
+  @Get('salary/:id')
+  async totalSalary(
+    @Param('id') id: number,
+    @Query('month') month: number,
+    @Query('year') year: number,
+    @Req() req,
+  ) {
+    return this.panelService.totalSalary(id, month, year, req.user.id);
+  }
 }

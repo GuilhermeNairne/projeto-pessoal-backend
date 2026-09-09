@@ -1,21 +1,48 @@
 import { LoginDto } from '../dto/login.dto';
 import { RegisterDto } from '../dto/auth.dto';
+import { UpdateNameDto } from '../dto/update-name.dto';
+import { ChangePasswordDto } from '../dto/change-password.dto';
+import { DeleteAccountDto } from '../dto/delete-account.dto';
 import { AuthService } from '../services/auth.service';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { RecoveryPasswordUseCase } from '../useCases/recoveryPassword.useCase';
 import {
+  ArgumentsHost,
   Body,
+  Catch,
   Controller,
   Delete,
+  ExceptionFilter,
   Get,
   Param,
   Patch,
   Post,
   Req,
   Res,
+  UnsupportedMediaTypeException,
+  UseFilters,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
+  PayloadTooLargeException,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 import { Throttle } from '@nestjs/throttler';
+
+const MAX_PROFILE_PICTURE_SIZE = 5 * 1024 * 1024;
+
+@Catch(PayloadTooLargeException)
+class ProfilePictureTooLargeFilter implements ExceptionFilter {
+  catch(exception: PayloadTooLargeException, host: ArgumentsHost) {
+    const res = host.switchToHttp().getResponse();
+    res.status(413).json({
+      statusCode: 413,
+      error: 'Payload Too Large',
+      message: `A imagem deve ter no máximo ${MAX_PROFILE_PICTURE_SIZE / (1024 * 1024)}MB`,
+    });
+  }
+}
 
 export interface RegisterTpye {
   name: string;
@@ -89,6 +116,71 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   me(@Req() req) {
     return { user: req.user };
+  }
+
+  @Patch('me')
+  @UseGuards(JwtAuthGuard)
+  async updateMe(@Req() req, @Body() body: UpdateNameDto) {
+    const updated = await this.authService.updateName(req.user.id, body.name);
+
+    return { user: { ...req.user, ...updated } };
+  }
+
+  @Post('change-password')
+  @UseGuards(JwtAuthGuard)
+  @Throttle({ default: { limit: 5, ttl: 15 * 60_000 } })
+  async changePassword(@Req() req, @Body() body: ChangePasswordDto) {
+    return await this.authService.changePassword(
+      req.user.id,
+      body.currentPassword,
+      body.newPassword,
+    );
+  }
+
+  @Post('me/picture')
+  @UseGuards(JwtAuthGuard)
+  @UseFilters(ProfilePictureTooLargeFilter)
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: memoryStorage(),
+      limits: { fileSize: MAX_PROFILE_PICTURE_SIZE },
+    }),
+  )
+  async uploadProfilePicture(
+    @Req() req,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new UnsupportedMediaTypeException('Nenhum arquivo enviado');
+    }
+
+    if (!file.mimetype?.startsWith('image/')) {
+      throw new UnsupportedMediaTypeException(
+        'O arquivo enviado deve ser uma imagem',
+      );
+    }
+
+    const dataUri = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
+
+    return await this.authService.uploadProfilePicture(req.user.id, dataUri);
+  }
+
+  @Delete('me')
+  @UseGuards(JwtAuthGuard)
+  async deleteMe(
+    @Req() req,
+    @Body() body: DeleteAccountDto,
+    @Res({ passthrough: true }) res,
+  ) {
+    const result = await this.authService.deleteAccount(
+      req.user.id,
+      body.currentPassword,
+    );
+
+    res.clearCookie('accessToken', this.accessTokenCookieOptions);
+    res.clearCookie('refreshToken', this.refreshTokenCookieOptions);
+
+    return result;
   }
 
   @Get('list')

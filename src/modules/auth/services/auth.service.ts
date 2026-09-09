@@ -67,6 +67,7 @@ export class AuthService {
           id: user.id,
           name: user.name,
           email: user.email,
+          profilePicture: user.profilePicture,
           roles: user.roles,
         },
         accessToken,
@@ -111,6 +112,7 @@ export class AuthService {
           id: user?.id,
           name: user?.name,
           email: user?.email,
+          profilePicture: user?.profilePicture,
           roles: user?.roles,
         },
         accessToken,
@@ -214,6 +216,105 @@ export class AuthService {
         error ?? 'Erro ao atualizar usuário',
         error.status,
       );
+    }
+  }
+
+  async updateName(id: string, name: string) {
+    try {
+      const user = await this.userRepository.updateUser(id, { name });
+
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        profilePicture: user.profilePicture,
+      };
+    } catch (error: any) {
+      console.log(error);
+      if (error instanceof HttpException) throw error;
+      throw new HttpException(
+        'Erro ao atualizar nome de usuário',
+        error.status ?? 500,
+      );
+    }
+  }
+
+  async changePassword(
+    id: string,
+    currentPassword: string,
+    newPassword: string,
+  ) {
+    try {
+      const user = await this.userRepository.findUserById(id);
+
+      if (!user) {
+        throw new UnauthorizedException();
+      }
+
+      const passwordMatch = await bcrypt.compare(
+        currentPassword,
+        user.password,
+      );
+
+      if (!passwordMatch) {
+        throw new UnauthorizedException('Senha atual incorreta');
+      }
+
+      const passwordHash = await bcrypt.hash(newPassword, 10);
+
+      await this.userRepository.updateUser(id, { password: passwordHash });
+      await this.userRepository.updateRefreshToken(id, null);
+
+      return { message: 'Senha alterada com sucesso' };
+    } catch (error: any) {
+      console.log(error);
+      if (error instanceof HttpException) throw error;
+      throw new HttpException('Erro ao alterar senha', error.status ?? 500);
+    }
+  }
+
+  async uploadProfilePicture(id: string, dataUri: string) {
+    try {
+      const user = await this.userRepository.updateProfilePicture(
+        id,
+        dataUri,
+      );
+
+      return { profilePicture: user.profilePicture };
+    } catch (error: any) {
+      console.log(error);
+      if (error instanceof HttpException) throw error;
+      throw new HttpException(
+        'Erro ao atualizar foto de perfil',
+        error.status ?? 500,
+      );
+    }
+  }
+
+  async deleteAccount(id: string, currentPassword: string) {
+    try {
+      const user = await this.userRepository.findUserById(id);
+
+      if (!user) {
+        throw new UnauthorizedException();
+      }
+
+      const passwordMatch = await bcrypt.compare(
+        currentPassword,
+        user.password,
+      );
+
+      if (!passwordMatch) {
+        throw new UnauthorizedException('Senha incorreta');
+      }
+
+      await this.userRepository.deleteAccountCascade(id);
+
+      return { message: 'Conta excluída com sucesso' };
+    } catch (error: any) {
+      console.log(error);
+      if (error instanceof HttpException) throw error;
+      throw new HttpException('Erro ao excluir conta', error.status ?? 500);
     }
   }
 

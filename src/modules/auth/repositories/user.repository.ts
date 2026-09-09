@@ -87,4 +87,21 @@ export class UserRepository {
       include: { roles: true },
     });
   }
+
+  async updateProfilePicture(id: string, profilePicture: string | null) {
+    return this.prisma.user.update({
+      where: { id },
+      data: { profilePicture },
+    });
+  }
+
+  async deleteAccountCascade(id: string) {
+    return this.prisma.$transaction([
+      this.prisma.tarefas.deleteMany({ where: { userId: id } }),
+      this.prisma.categorias_tarefa.deleteMany({ where: { user_id: id } }),
+      this.prisma.panels.deleteMany({ where: { user_id: id } }),
+      this.prisma.notifications.deleteMany({ where: { userId: id } }),
+      this.prisma.user.delete({ where: { id } }),
+    ]);
+  }
 }

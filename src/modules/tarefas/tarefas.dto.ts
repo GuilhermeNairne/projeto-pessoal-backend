@@ -19,8 +19,8 @@ export class TarefasDTO {
   status = 'Pendente';
 
   @IsString()
-  @IsNotEmpty()
-  descricao!: string;
+  @IsOptional()
+  descricao?: string;
 
   @IsString()
   @IsNotEmpty()
@@ -32,8 +32,8 @@ export class TarefasDTO {
   categoriaId!: number;
 
   @IsNumber()
-  @IsNotEmpty()
-  tempo!: number;
+  @IsOptional()
+  tempo = 0;
 
   @Type(() => Date)
   @IsDate()

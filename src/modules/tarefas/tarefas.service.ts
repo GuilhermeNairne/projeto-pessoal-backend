@@ -142,7 +142,11 @@ export class TarefasService {
     }
   }
 
-  async listTarefaSemana(primeiroDia: string, ultimoDia: string) {
+  async listTarefaSemana(
+    primeiroDia: string,
+    ultimoDia: string,
+    user_id: string,
+  ) {
     try {
       const [day1, month1, year1] = primeiroDia.split('/');
       const [day2, month2, year2] = ultimoDia.split('/');
@@ -153,6 +157,7 @@ export class TarefasService {
 
       const result = await this.prisma.tarefas.findMany({
         where: {
+          userId: user_id,
           data: {
             gte: dataInicio,
             lte: dataFim,

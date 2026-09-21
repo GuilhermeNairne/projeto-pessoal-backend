@@ -36,8 +36,13 @@ export class TarefasController {
   async listTarefaSemana(
     @Query('primeiroDia') primeiroDia: string,
     @Query('ultimoDia') ultimoDia: string,
+    @Query('user_id') user_id: string,
   ) {
-    return await this.tarefasService.listTarefaSemana(primeiroDia, ultimoDia);
+    return await this.tarefasService.listTarefaSemana(
+      primeiroDia,
+      ultimoDia,
+      user_id,
+    );
   }
 
   @Delete('/:id')

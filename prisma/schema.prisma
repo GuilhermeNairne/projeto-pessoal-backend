@@ -84,6 +84,7 @@ model tarefas {
   id          Int                @id @default(autoincrement())
   categoriaId Int?
   categoria   categorias_tarefa? @relation(fields: [categoriaId], references: [id])
+  notificacao notifications?
 }
 
 enum NotificationMethod {
@@ -99,7 +100,10 @@ model notifications {
   description String
   date        DateTime
   isCurrent   Boolean            @default(true)
+  recurring   Boolean            @default(true)
   method      NotificationMethod
+  tarefaId    Int?               @unique
+  tarefa      tarefas?           @relation(fields: [tarefaId], references: [id], onDelete: Cascade)
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
 }

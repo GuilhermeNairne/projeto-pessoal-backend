@@ -1,8 +1,26 @@
-import { HttpException, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { NotificationDTO } from './notification.dto';
+import { NotificationDTO, NotificationMethod } from './notification.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { MailService } from '../mail/mail.service';
+import type { Prisma } from 'src/generated/prisma/client';
+
+type DbClient = PrismaService | Prisma.TransactionClient;
+
+export type TarefaNotificationSource = {
+  id: number;
+  userId: string;
+  nome: string;
+  descricao: string | null;
+  status: string | null;
+};
+
+const dayKey = (date: Date) => date.toISOString().slice(0, 10);
 
 function escapeHtml(value: string): string {
   return value.replace(
@@ -97,6 +115,98 @@ export class NotificationService {
     }
   }
 
+  private taskNotificationContent(tarefa: TarefaNotificationSource) {
+    return {
+      title: tarefa.nome,
+      description: tarefa.descricao || `Lembrete da tarefa "${tarefa.nome}"`,
+    };
+  }
+
+  /**
+   * Creates or updates the one-shot e-mail notification linked to a task.
+   * A new date (re)arms the notification; keeping the same day leaves its
+   * sent/pending state untouched. Completed tasks never stay armed.
+   */
+  async upsertForTask(
+    tarefa: TarefaNotificationSource,
+    dataAviso: Date,
+    client: DbClient = this.prisma,
+  ) {
+    const concluida = tarefa.status === 'Concluida';
+    const existing = await client.notifications.findUnique({
+      where: { tarefaId: tarefa.id },
+    });
+    const dateChanged = !existing || dayKey(existing.date) !== dayKey(dataAviso);
+
+    if (dateChanged) {
+      const today = new Date();
+      const startOfToday = new Date(
+        Date.UTC(
+          today.getUTCFullYear(),
+          today.getUTCMonth(),
+          today.getUTCDate(),
+        ),
+      );
+      if (dataAviso < startOfToday) {
+        throw new BadRequestException(
+          'A data do aviso deve ser hoje ou posterior',
+        );
+      }
+    }
+
+    const content = this.taskNotificationContent(tarefa);
+
+    if (!existing) {
+      return await client.notifications.create({
+        data: {
+          ...content,
+          userId: tarefa.userId,
+          date: dataAviso,
+          method: NotificationMethod.EMAIL,
+          recurring: false,
+          isCurrent: !concluida,
+          tarefaId: tarefa.id,
+        },
+      });
+    }
+
+    return await client.notifications.update({
+      where: { id: existing.id },
+      data: {
+        ...content,
+        ...(dateChanged ? { date: dataAviso, isCurrent: !concluida } : {}),
+        ...(concluida ? { isCurrent: false } : {}),
+      },
+    });
+  }
+
+  /**
+   * Keeps an existing task notification in sync when the task changes without
+   * an explicit notice instruction (rename, completion, ...). No-op when the
+   * task has no notification.
+   */
+  async refreshForTask(
+    tarefa: TarefaNotificationSource,
+    client: DbClient = this.prisma,
+  ) {
+    const existing = await client.notifications.findUnique({
+      where: { tarefaId: tarefa.id },
+    });
+    if (!existing) return null;
+
+    return await client.notifications.update({
+      where: { id: existing.id },
+      data: {
+        ...this.taskNotificationContent(tarefa),
+        ...(tarefa.status === 'Concluida' ? { isCurrent: false } : {}),
+      },
+    });
+  }
+
+  async removeForTask(tarefaId: number, client: DbClient = this.prisma) {
+    return await client.notifications.deleteMany({ where: { tarefaId } });
+  }
+
   async sendTestEmail(to: string) {
     try {
       await this.mailService.sendMail(
@@ -175,7 +285,7 @@ export class NotificationService {
           `<h2>${escapeHtml(notification.title)}</h2><p>${escapeHtml(notification.description)}</p>`,
         );
 
-        if (notification.isCurrent) {
+        if (notification.recurring) {
           const nextDate = new Date(notification.date);
           nextDate.setMonth(nextDate.getMonth() + 1);
           await this.prisma.notifications.update({

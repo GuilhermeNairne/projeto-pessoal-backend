@@ -1136,7 +1136,9 @@ export const NotificationsScalarFieldEnum = {
   description: 'description',
   date: 'date',
   isCurrent: 'isCurrent',
+  recurring: 'recurring',
   method: 'method',
+  tarefaId: 'tarefaId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

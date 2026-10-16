@@ -265,6 +265,7 @@ export type tarefasWhereInput = {
   id?: Prisma.IntFilter<"tarefas"> | number
   categoriaId?: Prisma.IntNullableFilter<"tarefas"> | number | null
   categoria?: Prisma.XOR<Prisma.Categorias_tarefaNullableScalarRelationFilter, Prisma.categorias_tarefaWhereInput> | null
+  notificacao?: Prisma.XOR<Prisma.NotificationsNullableScalarRelationFilter, Prisma.notificationsWhereInput> | null
 }
 
 export type tarefasOrderByWithRelationInput = {
@@ -279,6 +280,7 @@ export type tarefasOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   categoriaId?: Prisma.SortOrderInput | Prisma.SortOrder
   categoria?: Prisma.categorias_tarefaOrderByWithRelationInput
+  notificacao?: Prisma.notificationsOrderByWithRelationInput
 }
 
 export type tarefasWhereUniqueInput = Prisma.AtLeast<{
@@ -296,6 +298,7 @@ export type tarefasWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"tarefas"> | Date | string
   categoriaId?: Prisma.IntNullableFilter<"tarefas"> | number | null
   categoria?: Prisma.XOR<Prisma.Categorias_tarefaNullableScalarRelationFilter, Prisma.categorias_tarefaWhereInput> | null
+  notificacao?: Prisma.XOR<Prisma.NotificationsNullableScalarRelationFilter, Prisma.notificationsWhereInput> | null
 }, "id">
 
 export type tarefasOrderByWithAggregationInput = {
@@ -342,6 +345,7 @@ export type tarefasCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   categoria?: Prisma.categorias_tarefaCreateNestedOneWithoutTarefasInput
+  notificacao?: Prisma.notificationsCreateNestedOneWithoutTarefaInput
 }
 
 export type tarefasUncheckedCreateInput = {
@@ -355,6 +359,7 @@ export type tarefasUncheckedCreateInput = {
   updatedAt?: Date | string
   id?: number
   categoriaId?: number | null
+  notificacao?: Prisma.notificationsUncheckedCreateNestedOneWithoutTarefaInput
 }
 
 export type tarefasUpdateInput = {
@@ -367,6 +372,7 @@ export type tarefasUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categoria?: Prisma.categorias_tarefaUpdateOneWithoutTarefasNestedInput
+  notificacao?: Prisma.notificationsUpdateOneWithoutTarefaNestedInput
 }
 
 export type tarefasUncheckedUpdateInput = {
@@ -380,6 +386,7 @@ export type tarefasUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   id?: Prisma.IntFieldUpdateOperationsInput | number
   categoriaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  notificacao?: Prisma.notificationsUncheckedUpdateOneWithoutTarefaNestedInput
 }
 
 export type tarefasCreateManyInput = {
@@ -480,6 +487,11 @@ export type tarefasSumOrderByAggregateInput = {
   categoriaId?: Prisma.SortOrder
 }
 
+export type TarefasNullableScalarRelationFilter = {
+  is?: Prisma.tarefasWhereInput | null
+  isNot?: Prisma.tarefasWhereInput | null
+}
+
 export type tarefasCreateNestedManyWithoutCategoriaInput = {
   create?: Prisma.XOR<Prisma.tarefasCreateWithoutCategoriaInput, Prisma.tarefasUncheckedCreateWithoutCategoriaInput> | Prisma.tarefasCreateWithoutCategoriaInput[] | Prisma.tarefasUncheckedCreateWithoutCategoriaInput[]
   connectOrCreate?: Prisma.tarefasCreateOrConnectWithoutCategoriaInput | Prisma.tarefasCreateOrConnectWithoutCategoriaInput[]
@@ -522,6 +534,22 @@ export type tarefasUncheckedUpdateManyWithoutCategoriaNestedInput = {
   deleteMany?: Prisma.tarefasScalarWhereInput | Prisma.tarefasScalarWhereInput[]
 }
 
+export type tarefasCreateNestedOneWithoutNotificacaoInput = {
+  create?: Prisma.XOR<Prisma.tarefasCreateWithoutNotificacaoInput, Prisma.tarefasUncheckedCreateWithoutNotificacaoInput>
+  connectOrCreate?: Prisma.tarefasCreateOrConnectWithoutNotificacaoInput
+  connect?: Prisma.tarefasWhereUniqueInput
+}
+
+export type tarefasUpdateOneWithoutNotificacaoNestedInput = {
+  create?: Prisma.XOR<Prisma.tarefasCreateWithoutNotificacaoInput, Prisma.tarefasUncheckedCreateWithoutNotificacaoInput>
+  connectOrCreate?: Prisma.tarefasCreateOrConnectWithoutNotificacaoInput
+  upsert?: Prisma.tarefasUpsertWithoutNotificacaoInput
+  disconnect?: Prisma.tarefasWhereInput | boolean
+  delete?: Prisma.tarefasWhereInput | boolean
+  connect?: Prisma.tarefasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.tarefasUpdateToOneWithWhereWithoutNotificacaoInput, Prisma.tarefasUpdateWithoutNotificacaoInput>, Prisma.tarefasUncheckedUpdateWithoutNotificacaoInput>
+}
+
 export type tarefasCreateWithoutCategoriaInput = {
   userId: string
   nome: string
@@ -531,6 +559,7 @@ export type tarefasCreateWithoutCategoriaInput = {
   data: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  notificacao?: Prisma.notificationsCreateNestedOneWithoutTarefaInput
 }
 
 export type tarefasUncheckedCreateWithoutCategoriaInput = {
@@ -543,6 +572,7 @@ export type tarefasUncheckedCreateWithoutCategoriaInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   id?: number
+  notificacao?: Prisma.notificationsUncheckedCreateNestedOneWithoutTarefaInput
 }
 
 export type tarefasCreateOrConnectWithoutCategoriaInput = {
@@ -587,6 +617,72 @@ export type tarefasScalarWhereInput = {
   categoriaId?: Prisma.IntNullableFilter<"tarefas"> | number | null
 }
 
+export type tarefasCreateWithoutNotificacaoInput = {
+  userId: string
+  nome: string
+  status?: string | null
+  descricao?: string | null
+  tempo: number
+  data: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  categoria?: Prisma.categorias_tarefaCreateNestedOneWithoutTarefasInput
+}
+
+export type tarefasUncheckedCreateWithoutNotificacaoInput = {
+  userId: string
+  nome: string
+  status?: string | null
+  descricao?: string | null
+  tempo: number
+  data: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  id?: number
+  categoriaId?: number | null
+}
+
+export type tarefasCreateOrConnectWithoutNotificacaoInput = {
+  where: Prisma.tarefasWhereUniqueInput
+  create: Prisma.XOR<Prisma.tarefasCreateWithoutNotificacaoInput, Prisma.tarefasUncheckedCreateWithoutNotificacaoInput>
+}
+
+export type tarefasUpsertWithoutNotificacaoInput = {
+  update: Prisma.XOR<Prisma.tarefasUpdateWithoutNotificacaoInput, Prisma.tarefasUncheckedUpdateWithoutNotificacaoInput>
+  create: Prisma.XOR<Prisma.tarefasCreateWithoutNotificacaoInput, Prisma.tarefasUncheckedCreateWithoutNotificacaoInput>
+  where?: Prisma.tarefasWhereInput
+}
+
+export type tarefasUpdateToOneWithWhereWithoutNotificacaoInput = {
+  where?: Prisma.tarefasWhereInput
+  data: Prisma.XOR<Prisma.tarefasUpdateWithoutNotificacaoInput, Prisma.tarefasUncheckedUpdateWithoutNotificacaoInput>
+}
+
+export type tarefasUpdateWithoutNotificacaoInput = {
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tempo?: Prisma.IntFieldUpdateOperationsInput | number
+  data?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  categoria?: Prisma.categorias_tarefaUpdateOneWithoutTarefasNestedInput
+}
+
+export type tarefasUncheckedUpdateWithoutNotificacaoInput = {
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  descricao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tempo?: Prisma.IntFieldUpdateOperationsInput | number
+  data?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  categoriaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
 export type tarefasCreateManyCategoriaInput = {
   userId: string
   nome: string
@@ -608,6 +704,7 @@ export type tarefasUpdateWithoutCategoriaInput = {
   data?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notificacao?: Prisma.notificationsUpdateOneWithoutTarefaNestedInput
 }
 
 export type tarefasUncheckedUpdateWithoutCategoriaInput = {
@@ -620,6 +717,7 @@ export type tarefasUncheckedUpdateWithoutCategoriaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  notificacao?: Prisma.notificationsUncheckedUpdateOneWithoutTarefaNestedInput
 }
 
 export type tarefasUncheckedUpdateManyWithoutCategoriaInput = {
@@ -648,6 +746,7 @@ export type tarefasSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   categoriaId?: boolean
   categoria?: boolean | Prisma.tarefas$categoriaArgs<ExtArgs>
+  notificacao?: boolean | Prisma.tarefas$notificacaoArgs<ExtArgs>
 }, ExtArgs["result"]["tarefas"]>
 
 export type tarefasSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -694,6 +793,7 @@ export type tarefasSelectScalar = {
 export type tarefasOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "nome" | "status" | "descricao" | "tempo" | "data" | "createdAt" | "updatedAt" | "id" | "categoriaId", ExtArgs["result"]["tarefas"]>
 export type tarefasInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categoria?: boolean | Prisma.tarefas$categoriaArgs<ExtArgs>
+  notificacao?: boolean | Prisma.tarefas$notificacaoArgs<ExtArgs>
 }
 export type tarefasIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categoria?: boolean | Prisma.tarefas$categoriaArgs<ExtArgs>
@@ -706,6 +806,7 @@ export type $tarefasPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "tarefas"
   objects: {
     categoria: Prisma.$categorias_tarefaPayload<ExtArgs> | null
+    notificacao: Prisma.$notificationsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     userId: string
@@ -1113,6 +1214,7 @@ readonly fields: tarefasFieldRefs;
 export interface Prisma__tarefasClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   categoria<T extends Prisma.tarefas$categoriaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tarefas$categoriaArgs<ExtArgs>>): Prisma.Prisma__categorias_tarefaClient<runtime.Types.Result.GetResult<Prisma.$categorias_tarefaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  notificacao<T extends Prisma.tarefas$notificacaoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tarefas$notificacaoArgs<ExtArgs>>): Prisma.Prisma__notificationsClient<runtime.Types.Result.GetResult<Prisma.$notificationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1564,6 +1666,25 @@ export type tarefas$categoriaArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.categorias_tarefaInclude<ExtArgs> | null
   where?: Prisma.categorias_tarefaWhereInput
+}
+
+/**
+ * tarefas.notificacao
+ */
+export type tarefas$notificacaoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the notifications
+   */
+  select?: Prisma.notificationsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the notifications
+   */
+  omit?: Prisma.notificationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notificationsInclude<ExtArgs> | null
+  where?: Prisma.notificationsWhereInput
 }
 
 /**

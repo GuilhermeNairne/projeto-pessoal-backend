@@ -1,17 +1,41 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  Injectable,
+} from '@nestjs/common';
 import { CategoriasTarefaDTO, TarefasDTO } from './tarefas.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { ListTarefasType } from './tarefas.type';
+import { NotificationService } from '../notification/notification.service';
+
+const notificacaoSelect = {
+  select: { id: true, date: true, isCurrent: true },
+};
 
 @Injectable()
 export class TarefasService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private notificationService: NotificationService,
+  ) {}
 
   async createTarefa(body: TarefasDTO) {
     try {
-      const result = await this.prisma.tarefas.create({ data: body });
+      const { enviarAviso, dataAviso, ...tarefaData } = body;
 
-      return result;
+      return await this.prisma.$transaction(async (tx) => {
+        const tarefa = await tx.tarefas.create({ data: tarefaData });
+        const notificacao =
+          enviarAviso && dataAviso
+            ? await this.notificationService.upsertForTask(
+                tarefa,
+                dataAviso,
+                tx,
+              )
+            : null;
+
+        return { ...tarefa, notificacao };
+      });
     } catch (error: any) {
       console.log(error);
       throw new HttpException(
@@ -23,15 +47,41 @@ export class TarefasService {
 
   async patchTarefa(id: number, body: Partial<TarefasDTO>) {
     try {
-      const result = await this.prisma.tarefas.update({
-        where: { id },
-        data: {
-          ...body,
-          categoriaId: Number(body.categoriaId),
-        },
-      });
+      const { enviarAviso, dataAviso, ...tarefaData } = body;
 
-      return result;
+      return await this.prisma.$transaction(async (tx) => {
+        const tarefa = await tx.tarefas.update({
+          where: { id },
+          data: {
+            ...tarefaData,
+            ...(tarefaData.categoriaId != null && {
+              categoriaId: Number(tarefaData.categoriaId),
+            }),
+          },
+        });
+
+        let notificacao: unknown = null;
+        if (enviarAviso === true) {
+          const data = new Date(dataAviso as Date);
+          if (!dataAviso || Number.isNaN(data.getTime())) {
+            throw new BadRequestException('Data do aviso inválida');
+          }
+          notificacao = await this.notificationService.upsertForTask(
+            tarefa,
+            data,
+            tx,
+          );
+        } else if (enviarAviso === false) {
+          await this.notificationService.removeForTask(tarefa.id, tx);
+        } else {
+          notificacao = await this.notificationService.refreshForTask(
+            tarefa,
+            tx,
+          );
+        }
+
+        return { ...tarefa, notificacao };
+      });
     } catch (error: any) {
       console.log(error);
       throw new HttpException(
@@ -80,6 +130,7 @@ export class TarefasService {
               cor: true,
             },
           },
+          notificacao: notificacaoSelect,
         },
       });
 
@@ -163,6 +214,7 @@ export class TarefasService {
             lte: dataFim,
           },
         },
+        include: { notificacao: notificacaoSelect },
       });
 
       const grouped = result.reduce(

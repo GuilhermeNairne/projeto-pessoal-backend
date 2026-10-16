@@ -1,12 +1,14 @@
 import { Type } from 'class-transformer';
 import {
   IsArray,
+  IsBoolean,
   IsDate,
   IsNotEmpty,
   IsNumber,
   IsNumberString,
   IsOptional,
   IsString,
+  ValidateIf,
 } from 'class-validator';
 
 export class TarefasDTO {
@@ -38,6 +40,15 @@ export class TarefasDTO {
   @Type(() => Date)
   @IsDate()
   data!: Date;
+
+  @IsBoolean()
+  @IsOptional()
+  enviarAviso?: boolean;
+
+  @ValidateIf((o: TarefasDTO) => o.enviarAviso === true)
+  @Type(() => Date)
+  @IsDate()
+  dataAviso?: Date;
 }
 
 export class CategoriasTarefaDTO {

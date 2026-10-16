@@ -28,10 +28,12 @@ export type AggregateNotifications = {
 
 export type NotificationsAvgAggregateOutputType = {
   id: number | null
+  tarefaId: number | null
 }
 
 export type NotificationsSumAggregateOutputType = {
   id: number | null
+  tarefaId: number | null
 }
 
 export type NotificationsMinAggregateOutputType = {
@@ -41,7 +43,9 @@ export type NotificationsMinAggregateOutputType = {
   description: string | null
   date: Date | null
   isCurrent: boolean | null
+  recurring: boolean | null
   method: $Enums.NotificationMethod | null
+  tarefaId: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -53,7 +57,9 @@ export type NotificationsMaxAggregateOutputType = {
   description: string | null
   date: Date | null
   isCurrent: boolean | null
+  recurring: boolean | null
   method: $Enums.NotificationMethod | null
+  tarefaId: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -65,7 +71,9 @@ export type NotificationsCountAggregateOutputType = {
   description: number
   date: number
   isCurrent: number
+  recurring: number
   method: number
+  tarefaId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -74,10 +82,12 @@ export type NotificationsCountAggregateOutputType = {
 
 export type NotificationsAvgAggregateInputType = {
   id?: true
+  tarefaId?: true
 }
 
 export type NotificationsSumAggregateInputType = {
   id?: true
+  tarefaId?: true
 }
 
 export type NotificationsMinAggregateInputType = {
@@ -87,7 +97,9 @@ export type NotificationsMinAggregateInputType = {
   description?: true
   date?: true
   isCurrent?: true
+  recurring?: true
   method?: true
+  tarefaId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -99,7 +111,9 @@ export type NotificationsMaxAggregateInputType = {
   description?: true
   date?: true
   isCurrent?: true
+  recurring?: true
   method?: true
+  tarefaId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -111,7 +125,9 @@ export type NotificationsCountAggregateInputType = {
   description?: true
   date?: true
   isCurrent?: true
+  recurring?: true
   method?: true
+  tarefaId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -210,7 +226,9 @@ export type NotificationsGroupByOutputType = {
   description: string
   date: Date
   isCurrent: boolean
+  recurring: boolean
   method: $Enums.NotificationMethod
+  tarefaId: number | null
   createdAt: Date
   updatedAt: Date
   _count: NotificationsCountAggregateOutputType | null
@@ -245,9 +263,12 @@ export type notificationsWhereInput = {
   description?: Prisma.StringFilter<"notifications"> | string
   date?: Prisma.DateTimeFilter<"notifications"> | Date | string
   isCurrent?: Prisma.BoolFilter<"notifications"> | boolean
+  recurring?: Prisma.BoolFilter<"notifications"> | boolean
   method?: Prisma.EnumNotificationMethodFilter<"notifications"> | $Enums.NotificationMethod
+  tarefaId?: Prisma.IntNullableFilter<"notifications"> | number | null
   createdAt?: Prisma.DateTimeFilter<"notifications"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"notifications"> | Date | string
+  tarefa?: Prisma.XOR<Prisma.TarefasNullableScalarRelationFilter, Prisma.tarefasWhereInput> | null
 }
 
 export type notificationsOrderByWithRelationInput = {
@@ -257,13 +278,17 @@ export type notificationsOrderByWithRelationInput = {
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
   isCurrent?: Prisma.SortOrder
+  recurring?: Prisma.SortOrder
   method?: Prisma.SortOrder
+  tarefaId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  tarefa?: Prisma.tarefasOrderByWithRelationInput
 }
 
 export type notificationsWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  tarefaId?: number
   AND?: Prisma.notificationsWhereInput | Prisma.notificationsWhereInput[]
   OR?: Prisma.notificationsWhereInput[]
   NOT?: Prisma.notificationsWhereInput | Prisma.notificationsWhereInput[]
@@ -272,10 +297,12 @@ export type notificationsWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringFilter<"notifications"> | string
   date?: Prisma.DateTimeFilter<"notifications"> | Date | string
   isCurrent?: Prisma.BoolFilter<"notifications"> | boolean
+  recurring?: Prisma.BoolFilter<"notifications"> | boolean
   method?: Prisma.EnumNotificationMethodFilter<"notifications"> | $Enums.NotificationMethod
   createdAt?: Prisma.DateTimeFilter<"notifications"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"notifications"> | Date | string
-}, "id">
+  tarefa?: Prisma.XOR<Prisma.TarefasNullableScalarRelationFilter, Prisma.tarefasWhereInput> | null
+}, "id" | "tarefaId">
 
 export type notificationsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -284,7 +311,9 @@ export type notificationsOrderByWithAggregationInput = {
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
   isCurrent?: Prisma.SortOrder
+  recurring?: Prisma.SortOrder
   method?: Prisma.SortOrder
+  tarefaId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.notificationsCountOrderByAggregateInput
@@ -304,7 +333,9 @@ export type notificationsScalarWhereWithAggregatesInput = {
   description?: Prisma.StringWithAggregatesFilter<"notifications"> | string
   date?: Prisma.DateTimeWithAggregatesFilter<"notifications"> | Date | string
   isCurrent?: Prisma.BoolWithAggregatesFilter<"notifications"> | boolean
+  recurring?: Prisma.BoolWithAggregatesFilter<"notifications"> | boolean
   method?: Prisma.EnumNotificationMethodWithAggregatesFilter<"notifications"> | $Enums.NotificationMethod
+  tarefaId?: Prisma.IntNullableWithAggregatesFilter<"notifications"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"notifications"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"notifications"> | Date | string
 }
@@ -315,9 +346,11 @@ export type notificationsCreateInput = {
   description: string
   date: Date | string
   isCurrent?: boolean
+  recurring?: boolean
   method: $Enums.NotificationMethod
   createdAt?: Date | string
   updatedAt?: Date | string
+  tarefa?: Prisma.tarefasCreateNestedOneWithoutNotificacaoInput
 }
 
 export type notificationsUncheckedCreateInput = {
@@ -327,7 +360,9 @@ export type notificationsUncheckedCreateInput = {
   description: string
   date: Date | string
   isCurrent?: boolean
+  recurring?: boolean
   method: $Enums.NotificationMethod
+  tarefaId?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -338,9 +373,11 @@ export type notificationsUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  recurring?: Prisma.BoolFieldUpdateOperationsInput | boolean
   method?: Prisma.EnumNotificationMethodFieldUpdateOperationsInput | $Enums.NotificationMethod
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tarefa?: Prisma.tarefasUpdateOneWithoutNotificacaoNestedInput
 }
 
 export type notificationsUncheckedUpdateInput = {
@@ -350,7 +387,9 @@ export type notificationsUncheckedUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  recurring?: Prisma.BoolFieldUpdateOperationsInput | boolean
   method?: Prisma.EnumNotificationMethodFieldUpdateOperationsInput | $Enums.NotificationMethod
+  tarefaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -362,7 +401,9 @@ export type notificationsCreateManyInput = {
   description: string
   date: Date | string
   isCurrent?: boolean
+  recurring?: boolean
   method: $Enums.NotificationMethod
+  tarefaId?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -373,6 +414,7 @@ export type notificationsUpdateManyMutationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  recurring?: Prisma.BoolFieldUpdateOperationsInput | boolean
   method?: Prisma.EnumNotificationMethodFieldUpdateOperationsInput | $Enums.NotificationMethod
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -385,9 +427,16 @@ export type notificationsUncheckedUpdateManyInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  recurring?: Prisma.BoolFieldUpdateOperationsInput | boolean
   method?: Prisma.EnumNotificationMethodFieldUpdateOperationsInput | $Enums.NotificationMethod
+  tarefaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type NotificationsNullableScalarRelationFilter = {
+  is?: Prisma.notificationsWhereInput | null
+  isNot?: Prisma.notificationsWhereInput | null
 }
 
 export type notificationsCountOrderByAggregateInput = {
@@ -397,13 +446,16 @@ export type notificationsCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
   isCurrent?: Prisma.SortOrder
+  recurring?: Prisma.SortOrder
   method?: Prisma.SortOrder
+  tarefaId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type notificationsAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tarefaId?: Prisma.SortOrder
 }
 
 export type notificationsMaxOrderByAggregateInput = {
@@ -413,7 +465,9 @@ export type notificationsMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
   isCurrent?: Prisma.SortOrder
+  recurring?: Prisma.SortOrder
   method?: Prisma.SortOrder
+  tarefaId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -425,13 +479,48 @@ export type notificationsMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
   isCurrent?: Prisma.SortOrder
+  recurring?: Prisma.SortOrder
   method?: Prisma.SortOrder
+  tarefaId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type notificationsSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tarefaId?: Prisma.SortOrder
+}
+
+export type notificationsCreateNestedOneWithoutTarefaInput = {
+  create?: Prisma.XOR<Prisma.notificationsCreateWithoutTarefaInput, Prisma.notificationsUncheckedCreateWithoutTarefaInput>
+  connectOrCreate?: Prisma.notificationsCreateOrConnectWithoutTarefaInput
+  connect?: Prisma.notificationsWhereUniqueInput
+}
+
+export type notificationsUncheckedCreateNestedOneWithoutTarefaInput = {
+  create?: Prisma.XOR<Prisma.notificationsCreateWithoutTarefaInput, Prisma.notificationsUncheckedCreateWithoutTarefaInput>
+  connectOrCreate?: Prisma.notificationsCreateOrConnectWithoutTarefaInput
+  connect?: Prisma.notificationsWhereUniqueInput
+}
+
+export type notificationsUpdateOneWithoutTarefaNestedInput = {
+  create?: Prisma.XOR<Prisma.notificationsCreateWithoutTarefaInput, Prisma.notificationsUncheckedCreateWithoutTarefaInput>
+  connectOrCreate?: Prisma.notificationsCreateOrConnectWithoutTarefaInput
+  upsert?: Prisma.notificationsUpsertWithoutTarefaInput
+  disconnect?: Prisma.notificationsWhereInput | boolean
+  delete?: Prisma.notificationsWhereInput | boolean
+  connect?: Prisma.notificationsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.notificationsUpdateToOneWithWhereWithoutTarefaInput, Prisma.notificationsUpdateWithoutTarefaInput>, Prisma.notificationsUncheckedUpdateWithoutTarefaInput>
+}
+
+export type notificationsUncheckedUpdateOneWithoutTarefaNestedInput = {
+  create?: Prisma.XOR<Prisma.notificationsCreateWithoutTarefaInput, Prisma.notificationsUncheckedCreateWithoutTarefaInput>
+  connectOrCreate?: Prisma.notificationsCreateOrConnectWithoutTarefaInput
+  upsert?: Prisma.notificationsUpsertWithoutTarefaInput
+  disconnect?: Prisma.notificationsWhereInput | boolean
+  delete?: Prisma.notificationsWhereInput | boolean
+  connect?: Prisma.notificationsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.notificationsUpdateToOneWithWhereWithoutTarefaInput, Prisma.notificationsUpdateWithoutTarefaInput>, Prisma.notificationsUncheckedUpdateWithoutTarefaInput>
 }
 
 export type BoolFieldUpdateOperationsInput = {
@@ -440,6 +529,72 @@ export type BoolFieldUpdateOperationsInput = {
 
 export type EnumNotificationMethodFieldUpdateOperationsInput = {
   set?: $Enums.NotificationMethod
+}
+
+export type notificationsCreateWithoutTarefaInput = {
+  userId: string
+  title: string
+  description: string
+  date: Date | string
+  isCurrent?: boolean
+  recurring?: boolean
+  method: $Enums.NotificationMethod
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type notificationsUncheckedCreateWithoutTarefaInput = {
+  id?: number
+  userId: string
+  title: string
+  description: string
+  date: Date | string
+  isCurrent?: boolean
+  recurring?: boolean
+  method: $Enums.NotificationMethod
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type notificationsCreateOrConnectWithoutTarefaInput = {
+  where: Prisma.notificationsWhereUniqueInput
+  create: Prisma.XOR<Prisma.notificationsCreateWithoutTarefaInput, Prisma.notificationsUncheckedCreateWithoutTarefaInput>
+}
+
+export type notificationsUpsertWithoutTarefaInput = {
+  update: Prisma.XOR<Prisma.notificationsUpdateWithoutTarefaInput, Prisma.notificationsUncheckedUpdateWithoutTarefaInput>
+  create: Prisma.XOR<Prisma.notificationsCreateWithoutTarefaInput, Prisma.notificationsUncheckedCreateWithoutTarefaInput>
+  where?: Prisma.notificationsWhereInput
+}
+
+export type notificationsUpdateToOneWithWhereWithoutTarefaInput = {
+  where?: Prisma.notificationsWhereInput
+  data: Prisma.XOR<Prisma.notificationsUpdateWithoutTarefaInput, Prisma.notificationsUncheckedUpdateWithoutTarefaInput>
+}
+
+export type notificationsUpdateWithoutTarefaInput = {
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  recurring?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  method?: Prisma.EnumNotificationMethodFieldUpdateOperationsInput | $Enums.NotificationMethod
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type notificationsUncheckedUpdateWithoutTarefaInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  recurring?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  method?: Prisma.EnumNotificationMethodFieldUpdateOperationsInput | $Enums.NotificationMethod
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -451,9 +606,12 @@ export type notificationsSelect<ExtArgs extends runtime.Types.Extensions.Interna
   description?: boolean
   date?: boolean
   isCurrent?: boolean
+  recurring?: boolean
   method?: boolean
+  tarefaId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  tarefa?: boolean | Prisma.notifications$tarefaArgs<ExtArgs>
 }, ExtArgs["result"]["notifications"]>
 
 export type notificationsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -463,9 +621,12 @@ export type notificationsSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   description?: boolean
   date?: boolean
   isCurrent?: boolean
+  recurring?: boolean
   method?: boolean
+  tarefaId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  tarefa?: boolean | Prisma.notifications$tarefaArgs<ExtArgs>
 }, ExtArgs["result"]["notifications"]>
 
 export type notificationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -475,9 +636,12 @@ export type notificationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   description?: boolean
   date?: boolean
   isCurrent?: boolean
+  recurring?: boolean
   method?: boolean
+  tarefaId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  tarefa?: boolean | Prisma.notifications$tarefaArgs<ExtArgs>
 }, ExtArgs["result"]["notifications"]>
 
 export type notificationsSelectScalar = {
@@ -487,16 +651,29 @@ export type notificationsSelectScalar = {
   description?: boolean
   date?: boolean
   isCurrent?: boolean
+  recurring?: boolean
   method?: boolean
+  tarefaId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type notificationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "date" | "isCurrent" | "method" | "createdAt" | "updatedAt", ExtArgs["result"]["notifications"]>
+export type notificationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "date" | "isCurrent" | "recurring" | "method" | "tarefaId" | "createdAt" | "updatedAt", ExtArgs["result"]["notifications"]>
+export type notificationsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tarefa?: boolean | Prisma.notifications$tarefaArgs<ExtArgs>
+}
+export type notificationsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tarefa?: boolean | Prisma.notifications$tarefaArgs<ExtArgs>
+}
+export type notificationsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tarefa?: boolean | Prisma.notifications$tarefaArgs<ExtArgs>
+}
 
 export type $notificationsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "notifications"
-  objects: {}
+  objects: {
+    tarefa: Prisma.$tarefasPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     userId: string
@@ -504,7 +681,9 @@ export type $notificationsPayload<ExtArgs extends runtime.Types.Extensions.Inter
     description: string
     date: Date
     isCurrent: boolean
+    recurring: boolean
     method: $Enums.NotificationMethod
+    tarefaId: number | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["notifications"]>
@@ -901,6 +1080,7 @@ readonly fields: notificationsFieldRefs;
  */
 export interface Prisma__notificationsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  tarefa<T extends Prisma.notifications$tarefaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.notifications$tarefaArgs<ExtArgs>>): Prisma.Prisma__tarefasClient<runtime.Types.Result.GetResult<Prisma.$tarefasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -936,7 +1116,9 @@ export interface notificationsFieldRefs {
   readonly description: Prisma.FieldRef<"notifications", 'String'>
   readonly date: Prisma.FieldRef<"notifications", 'DateTime'>
   readonly isCurrent: Prisma.FieldRef<"notifications", 'Boolean'>
+  readonly recurring: Prisma.FieldRef<"notifications", 'Boolean'>
   readonly method: Prisma.FieldRef<"notifications", 'NotificationMethod'>
+  readonly tarefaId: Prisma.FieldRef<"notifications", 'Int'>
   readonly createdAt: Prisma.FieldRef<"notifications", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"notifications", 'DateTime'>
 }
@@ -956,6 +1138,10 @@ export type notificationsFindUniqueArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.notificationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notificationsInclude<ExtArgs> | null
+  /**
    * Filter, which notifications to fetch.
    */
   where: Prisma.notificationsWhereUniqueInput
@@ -974,6 +1160,10 @@ export type notificationsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.notificationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notificationsInclude<ExtArgs> | null
+  /**
    * Filter, which notifications to fetch.
    */
   where: Prisma.notificationsWhereUniqueInput
@@ -991,6 +1181,10 @@ export type notificationsFindFirstArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the notifications
    */
   omit?: Prisma.notificationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notificationsInclude<ExtArgs> | null
   /**
    * Filter, which notifications to fetch.
    */
@@ -1040,6 +1234,10 @@ export type notificationsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.notificationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notificationsInclude<ExtArgs> | null
+  /**
    * Filter, which notifications to fetch.
    */
   where?: Prisma.notificationsWhereInput
@@ -1088,6 +1286,10 @@ export type notificationsFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.notificationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notificationsInclude<ExtArgs> | null
+  /**
    * Filter, which notifications to fetch.
    */
   where?: Prisma.notificationsWhereInput
@@ -1131,6 +1333,10 @@ export type notificationsCreateArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.notificationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notificationsInclude<ExtArgs> | null
+  /**
    * The data needed to create a notifications.
    */
   data: Prisma.XOR<Prisma.notificationsCreateInput, Prisma.notificationsUncheckedCreateInput>
@@ -1164,6 +1370,10 @@ export type notificationsCreateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    */
   data: Prisma.notificationsCreateManyInput | Prisma.notificationsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notificationsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1178,6 +1388,10 @@ export type notificationsUpdateArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the notifications
    */
   omit?: Prisma.notificationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notificationsInclude<ExtArgs> | null
   /**
    * The data needed to update a notifications.
    */
@@ -1230,6 +1444,10 @@ export type notificationsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    * Limit how many notifications to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notificationsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1244,6 +1462,10 @@ export type notificationsUpsertArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the notifications
    */
   omit?: Prisma.notificationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notificationsInclude<ExtArgs> | null
   /**
    * The filter to search for the notifications to update in case it exists.
    */
@@ -1271,6 +1493,10 @@ export type notificationsDeleteArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.notificationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notificationsInclude<ExtArgs> | null
+  /**
    * Filter which notifications to delete.
    */
   where: Prisma.notificationsWhereUniqueInput
@@ -1291,6 +1517,25 @@ export type notificationsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
+ * notifications.tarefa
+ */
+export type notifications$tarefaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tarefas
+   */
+  select?: Prisma.tarefasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tarefas
+   */
+  omit?: Prisma.tarefasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tarefasInclude<ExtArgs> | null
+  where?: Prisma.tarefasWhereInput
+}
+
+/**
  * notifications without action
  */
 export type notificationsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1302,4 +1547,8 @@ export type notificationsDefaultArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the notifications
    */
   omit?: Prisma.notificationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notificationsInclude<ExtArgs> | null
 }

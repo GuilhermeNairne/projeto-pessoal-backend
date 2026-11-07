@@ -2,10 +2,12 @@ import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsDate,
+  IsEmail,
   IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
+  MaxLength,
 } from 'class-validator';
 
 export enum NotificationMethod {
@@ -38,4 +40,12 @@ export class NotificationDTO {
   @IsEnum(NotificationMethod)
   @IsNotEmpty()
   method!: NotificationMethod;
+}
+
+export class UpdateContactDTO {
+  // null/ausente limpa o campo e volta a usar o e-mail de login
+  @IsOptional()
+  @IsEmail()
+  @MaxLength(255)
+  notificationEmail?: string | null;
 }

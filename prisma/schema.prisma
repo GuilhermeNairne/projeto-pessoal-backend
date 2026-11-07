@@ -45,6 +45,7 @@ model User {
   id             String   @id @default(uuid())
   name           String
   email          String   @unique
+  notificationEmail String?
   password       String
   profilePicture String?
   createdAt      DateTime @default(now())

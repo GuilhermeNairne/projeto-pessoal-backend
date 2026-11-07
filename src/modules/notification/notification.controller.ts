@@ -4,12 +4,14 @@ import {
   Post,
   Param,
   Patch,
+  Put,
+  Req,
   Delete,
   Controller,
   UseGuards,
 } from '@nestjs/common';
 import { NotificationService } from './notification.service';
-import { NotificationDTO } from './notification.dto';
+import { NotificationDTO, UpdateContactDTO } from './notification.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
@@ -38,6 +40,19 @@ export class NotificationController {
   @Get('debug')
   async debugNotifications() {
     return await this.notificationService.debugNotifications();
+  }
+
+  @Get('contact')
+  async getContact(@Req() req) {
+    return await this.notificationService.getContact(req.user.id);
+  }
+
+  @Put('contact')
+  async updateContact(@Req() req, @Body() body: UpdateContactDTO) {
+    return await this.notificationService.updateContact(
+      req.user.id,
+      body.notificationEmail ?? null,
+    );
   }
 
   @Get(':userId')

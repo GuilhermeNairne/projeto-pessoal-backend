@@ -3,6 +3,7 @@ import {
   HttpException,
   Injectable,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { NotificationDTO, NotificationMethod } from './notification.dto';
@@ -50,6 +51,51 @@ export class NotificationService {
     this.logger.log('Executando envio diário de notificações...');
     const result = await this.sendDueNotifications();
     this.logger.log(result.message);
+  }
+
+  async getContact(userId: string) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { email: true, notificationEmail: true },
+      });
+
+      if (!user) throw new NotFoundException('Usuário não encontrado');
+
+      return {
+        notificationEmail: user.notificationEmail,
+        loginEmail: user.email,
+      };
+    } catch (error: any) {
+      console.log(error);
+      if (error instanceof HttpException) throw error;
+      throw new HttpException(
+        'Erro ao buscar dados de contato',
+        error.status ?? 500,
+      );
+    }
+  }
+
+  async updateContact(userId: string, notificationEmail: string | null) {
+    try {
+      const user = await this.prisma.user.update({
+        where: { id: userId },
+        data: { notificationEmail },
+        select: { email: true, notificationEmail: true },
+      });
+
+      return {
+        notificationEmail: user.notificationEmail,
+        loginEmail: user.email,
+      };
+    } catch (error: any) {
+      console.log(error);
+      if (error instanceof HttpException) throw error;
+      throw new HttpException(
+        'Erro ao salvar dados de contato',
+        error.status ?? 500,
+      );
+    }
   }
 
   async create(body: NotificationDTO) {
@@ -270,7 +316,7 @@ export class NotificationService {
       const userIds = [...new Set(notifications.map((n) => n.userId))];
       const users = await this.prisma.user.findMany({
         where: { id: { in: userIds } },
-        select: { id: true, email: true, name: true },
+        select: { id: true, email: true, notificationEmail: true, name: true },
       });
       const usersMap = new Map(users.map((u) => [u.id, u]));
 
@@ -280,7 +326,7 @@ export class NotificationService {
         if (!user) continue;
 
         await this.mailService.sendMail(
-          user.email,
+          user.notificationEmail ?? user.email,
           notification.title,
           `<h2>${escapeHtml(notification.title)}</h2><p>${escapeHtml(notification.description)}</p>`,
         );
